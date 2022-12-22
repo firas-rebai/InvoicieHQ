@@ -1,0 +1,12 @@
+<mat-dialog-content>
+    <span class="fa-stack">
+        <i class="fa fa-square fa-stack-2x"></i>
+        <i class="fa-light fa-circle-question"></i>
+    </span>
+  {{message}}
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" mat-raised-button class="btn btn-danger pull-right">Confirmer</button>
+</mat-dialog-actions>
