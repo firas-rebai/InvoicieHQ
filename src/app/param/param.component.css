@@ -1,0 +1,14 @@
+.param-container {
+  width: 30vw;
+  height: 30vh;
+  background-color: lightslategrey;
+  padding: 3% 10% 3% 3%;
+  border-radius: 2vh;
+}
+
+.main-container {
+  height: 90vh;
+  width: 100vw;
+  padding: 2%;
+  background-color: #2a2828;
+}

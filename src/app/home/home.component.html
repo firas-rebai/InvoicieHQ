@@ -1,0 +1,12 @@
+<mat-menu #Documents="matMenu">
+  <button mat-menu-item>Factures</button>
+  <button mat-menu-item>Commandes</button>
+  <button mat-menu-item>BL</button>
+  <button mat-menu-item>BL Facturé</button>
+</mat-menu>
+<button class="button-menu" mat-raised-button color="primary" [matMenuTriggerFor]="Documents">Documents</button>
+<button class="button-menu" routerLink="/client" mat-raised-button color="primary">Clients</button>
+<button class="button-menu" mat-raised-button color="primary">Fournisseur</button>
+
+
+<router-outlet></router-outlet>

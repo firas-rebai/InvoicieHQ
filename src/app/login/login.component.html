@@ -1,0 +1,26 @@
+<div class="card-container">
+  <div class="card">
+    <div class="row">
+      <mat-form-field appearance="fill">
+
+        <input matInput type="text" placeholder="Nom d'utilisateur" [value]="form.username" required>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="Mot de passe" [value]="form.password" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" class="button">Connecter</button>
+    </div>
+  </div>
+</div>
+
+
+

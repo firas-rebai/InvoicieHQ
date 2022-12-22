@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="clients">
+
+          <ng-container matColumnDef="ID">
+            <th mat-header-cell *matHeaderCellDef> ID</th>
+            <td mat-cell *matCellDef="let client"> {{client.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="raison">
+            <th mat-header-cell *matHeaderCellDef> Raison Social</th>
+            <td mat-cell *matCellDef="let client"> {{client.raisonSocial}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email</th>
+            <td mat-cell *matCellDef="let client"> {{client.email}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="adresse">
+            <th mat-header-cell *matHeaderCellDef> Adresse</th>
+            <td mat-cell *matCellDef="let client"> {{client.adresse}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="assujetti">
+            <th mat-header-cell *matHeaderCellDef> Assujetti</th>
+            <td mat-cell *matCellDef="let client"> {{client.assujetti.type}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fax">
+            <th mat-header-cell *matHeaderCellDef> Fax</th>
+            <td mat-cell *matCellDef="let client"> {{client.position}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="telephone">
+            <th mat-header-cell *matHeaderCellDef> Telephone</th>
+            <td mat-cell *matCellDef="let client"> {{client.telephone}} </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                       showFirstLastButtons
+                       aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1">
+      <div class="row">
+        <button>hello</button>
+      </div>
+      <div class="row">
+        <button>hello</button>
+      </div>
+      <div class="row">
+        <button>hello</button>
+      </div>
+      <div class="row">
+        <button>hello</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

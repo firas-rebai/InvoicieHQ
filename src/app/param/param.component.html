@@ -1,0 +1,121 @@
+<div class="main-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="param-container">
+          <div class="row">
+            <div class="col-md-11">
+              <table mat-table [dataSource]="assujettis">
+
+                <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef> Type</th>
+                  <td mat-cell *matCellDef="let assujetti"> {{assujetti.type}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="coef">
+                  <th mat-header-cell *matHeaderCellDef> Coefficient TVA</th>
+                  <td mat-cell *matCellDef="let assujetti"> {{assujetti.coefficient_tva}} %</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let assujetti">
+                    <button (click)="deleteAssujetti(assujetti.id, assujetti.type)" mat-mini-fab>
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="assujettiColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: assujettiColumns;"></tr>
+
+              </table>
+            </div>
+            <div class="col-md-1">
+              <button mat-fab color="primary">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="param-container">
+          <div class="row">
+            <div class="col-md-11">
+              <table mat-table [dataSource]="tvas">
+
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ID</th>
+                  <td mat-cell *matCellDef="let tva"> {{tva.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="base">
+                  <th mat-header-cell *matHeaderCellDef> Base TVA</th>
+                  <td mat-cell *matCellDef="let tva"> {{tva.base}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let tva">
+                    <button (click)="deleteTVA(tva.id,tva.base)" mat-raised-button>delete</button>
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="TVAColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: TVAColumns;"></tr>
+
+              </table>
+            </div>
+            <div class="col-md-1">
+              <button mat-fab color="primary">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="param-container">
+          <div class="row">
+            <div class="col-md-11">
+              <table mat-table [dataSource]="unites">
+
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ID</th>
+                  <td mat-cell *matCellDef="let unite"> {{unite.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="unite">
+                  <th mat-header-cell *matHeaderCellDef> Unite</th>
+                  <td mat-cell *matCellDef="let unite"> {{unite.unite}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let unite">
+                    <button (click)="deleteUnite(unite.id,unite.unite)" mat-raised-button>delete</button>
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="uniteColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: uniteColumns;"></tr>
+
+              </table>
+            </div>
+            <div class="col-md-1">
+              <button mat-fab color="primary">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
