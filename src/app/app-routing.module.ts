@@ -5,11 +5,13 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import {ClientComponent} from "./client/client.component";
 import {ParamComponent} from "./param/param.component";
+import {FournisseurComponent} from "./fournisseur/fournisseur.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'client', component: ClientComponent },
+  { path: 'fournisseur', component: FournisseurComponent },
   { path: 'param', component: ParamComponent }
 ];
 

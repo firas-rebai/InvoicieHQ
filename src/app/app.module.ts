@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
@@ -25,6 +25,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { ParamComponent } from './param/param.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { AddClientComponent } from './add-client/add-client.component';
+import { FournisseurComponent } from './fournisseur/fournisseur.component';
+import { AddFournisseurComponent } from './add-fournisseur/add-fournisseur.component';
 
 @NgModule({
   declarations: [
@@ -35,27 +38,31 @@ import {MatDialogModule} from "@angular/material/dialog";
     FactureComponent,
     ClientComponent,
     ParamComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    AddClientComponent,
+    FournisseurComponent,
+    AddFournisseurComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressBarModule,
-    MatSelectModule,
-    MatBadgeModule,
-    HttpClientModule,
-    MatButtonToggleModule,
-    MatMenuModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatDialogModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatProgressBarModule,
+        MatSelectModule,
+        MatBadgeModule,
+        HttpClientModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,72 @@
+<h2 mat-dialog-title>
+  Ajouter un client
+</h2>
+
+<mat-dialog-content class="content">
+  <form [formGroup]="clientForm">
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Raison Social</mat-label>
+        <input matInput formControlName="raison_social" placeholder="Raison Social" type="text">
+        <mat-error
+          *ngIf="raison_social.invalid && (raison_social.dirty || raison_social.touched) && raison_social.errors?.['required']">
+          ce champ est obligatoire
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Assujetti</mat-label>
+        <mat-select [(ngModel)]="this.selectedAssujetti" >
+          <ng-container *ngFor="let assujetti of assujettis">
+            <mat-option [value]="assujetti.toString()">{{assujetti.type}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Code TVA</mat-label>
+        <mat-select [(ngModel)]="this.selectedTVA" >
+          <ng-container *ngFor="let tva of tvas">
+            <mat-option [value]="tva.toString()">{{tva.base}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email" placeholder="E-mail" type="text">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Telephone</mat-label>
+        <input matInput formControlName="telephone" placeholder="Telephone" type="text">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Fax</mat-label>
+        <input matInput formControlName="fax" placeholder="Fax" type="text">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Adresse</mat-label>
+        <input matInput formControlName="adresse" placeholder="Adresse" type="text">
+      </mat-form-field>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close="false">Annuler</button>
+  <button mat-raised-button color="primary" (click)="add(clientForm)" [disabled]="clientForm.invalid" type="submit">
+    Ajouter
+  </button>
+</mat-dialog-actions>

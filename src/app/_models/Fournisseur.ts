@@ -1,7 +1,23 @@
 import {Assujetti} from "./Assujetti";
 import {TVA} from "./TVA";
 
-export class Client {
+export class Fournisseur {
+  get ht_ttc(): string {
+    return this._ht_ttc;
+  }
+
+  set ht_ttc(value: string) {
+    this._ht_ttc = value;
+  }
+
+  get fodec(): boolean {
+    return this._fodec;
+  }
+
+  set fodec(value: boolean) {
+    this._fodec = value;
+  }
+
   get tva(): TVA {
     return this._tva;
   }
@@ -9,6 +25,7 @@ export class Client {
   set tva(value: TVA) {
     this._tva = value;
   }
+
   get adresse(): string {
     return this._adresse;
   }
@@ -16,6 +33,7 @@ export class Client {
   set adresse(value: string) {
     this._adresse = value;
   }
+
   get telephone(): string {
     return this._telephone;
   }
@@ -23,6 +41,7 @@ export class Client {
   set telephone(value: string) {
     this._telephone = value;
   }
+
   get fax(): string {
     return this._fax;
   }
@@ -30,6 +49,7 @@ export class Client {
   set fax(value: string) {
     this._fax = value;
   }
+
   get email(): string {
     return this._email;
   }
@@ -37,6 +57,7 @@ export class Client {
   set email(value: string) {
     this._email = value;
   }
+
   get raisonSocial(): string {
     return this._raisonSocial;
   }
@@ -44,28 +65,24 @@ export class Client {
   set raisonSocial(value: string) {
     this._raisonSocial = value;
   }
-  get assujetti(): Assujetti {
-    return this._assujetti;
-  }
 
-  set assujetti(value: Assujetti) {
-    this._assujetti = value;
-  }
   private _id!: bigint;
 
-  private _assujetti!: Assujetti;
+  private _fodec: boolean;
 
   private _raisonSocial!: string;
 
   private _email!: string;
 
-  private _fax! : string;
+  private _fax!: string;
 
   private _telephone!: string;
 
-  private _adresse! : string;
+  private _adresse!: string;
 
-  private _tva : TVA;
+  private _tva: TVA;
+
+  private _ht_ttc: string;
 
   get id(): bigint {
     return this._id;
@@ -74,7 +91,6 @@ export class Client {
   set id(value: bigint) {
     this._id = value;
   }
-
 
 
 }
