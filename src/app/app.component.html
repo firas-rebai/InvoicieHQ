@@ -7,7 +7,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <button class="button-menu" mat-raised-button color="primary" [matMenuTriggerFor]="Documents">Documents</button>
+          <button class="button-menu" mat-raised-button color="primary" [matMenuTriggerFor]="DocumentsAchat">Achat</button>
+        </li>
+        <li class="nav-item active">
+          <button class="button-menu" mat-raised-button color="primary" [matMenuTriggerFor]="DocumentsVente">Vente</button>
         </li>
         <li class="nav-item">
           <button class="button-menu" routerLink="/client" mat-raised-button color="primary">Clients</button>
@@ -21,12 +24,19 @@
       </ul>
     </div>
   </nav>
-    <mat-menu #Documents="matMenu">
-      <button mat-menu-item>Devis</button>
-      <button mat-menu-item>Factures</button>
-      <button mat-menu-item>Commandes</button>
-      <button mat-menu-item>BL</button>
-      <button mat-menu-item>BL Facturé</button>
+    <mat-menu #DocumentsAchat="matMenu">
+      <button mat-menu-item (click)="openMenu('devis','achat')">Devis</button>
+      <button mat-menu-item (click)="openMenu('facture','achat')">Factures</button>
+      <button mat-menu-item (click)="openMenu('commande','achat')">Commandes</button>
+      <button mat-menu-item (click)="openMenu('bl','achat')">BL</button>
+      <button mat-menu-item (click)="openMenu('bl_facture','achat')">BL Facturé</button>
     </mat-menu>
+  <mat-menu #DocumentsVente="matMenu">
+    <button mat-menu-item (click)="openMenu('devis','vente')">Devis</button>
+    <button mat-menu-item (click)="openMenu('facture','vente')">Factures</button>
+    <button mat-menu-item (click)="openMenu('commande','vente')">Commandes</button>
+    <button mat-menu-item (click)="openMenu('bl','vente')">BL</button>
+    <button mat-menu-item (click)="openMenu('bl_facture','vente')">BL Facturé</button>
+  </mat-menu>
   <router-outlet></router-outlet>
 </div>

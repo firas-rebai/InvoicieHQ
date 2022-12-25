@@ -24,6 +24,7 @@ export class AddClientComponent implements OnInit{
       raison_social : new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9\' ]{2,30}$')]),
       adresse : new FormControl('', []),
       telephone : new FormControl('', []),
+      mobile : new FormControl('', []),
       fax : new FormControl('', []),
       email : new FormControl('',[])
     }
@@ -42,7 +43,16 @@ export class AddClientComponent implements OnInit{
   public add(addForm: FormGroup): void {
     if (addForm.invalid) return;
     this.client = addForm.value;
+    this.client.assujetti = this.selectedAssujetti;
+    this.client.tva = this.selectedTVA
 
+    this.clientService.addClient(this.client).subscribe(
+      (response :Client) => {
+        console.log(response);
+      }, (error) => {
+        console.log("error : " + error.message);
+      }
+    )
   }
 
   public getAssujettis(): void {

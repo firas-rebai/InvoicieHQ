@@ -2,6 +2,13 @@ import {Assujetti} from "./Assujetti";
 import {TVA} from "./TVA";
 
 export class Client {
+  get mobile(): string {
+    return this._mobile;
+  }
+
+  set mobile(value: string) {
+    this._mobile = value;
+  }
   get tva(): TVA {
     return this._tva;
   }
@@ -62,6 +69,8 @@ export class Client {
   private _fax! : string;
 
   private _telephone!: string;
+
+  private _mobile!: string;
 
   private _adresse! : string;
 

@@ -2,6 +2,13 @@ import {Assujetti} from "./Assujetti";
 import {TVA} from "./TVA";
 
 export class Fournisseur {
+  get mobile(): string {
+    return this._mobile;
+  }
+
+  set mobile(value: string) {
+    this._mobile = value;
+  }
   get ht_ttc(): string {
     return this._ht_ttc;
   }
@@ -77,6 +84,8 @@ export class Fournisseur {
   private _fax!: string;
 
   private _telephone!: string;
+
+  private _mobile!: string;
 
   private _adresse!: string;
 

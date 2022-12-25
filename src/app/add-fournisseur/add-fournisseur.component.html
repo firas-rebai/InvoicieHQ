@@ -1,9 +1,9 @@
 <h2 mat-dialog-title>
-  Ajouter un client
+  Ajouter un fournisseur
 </h2>
-
+<mat-divider></mat-divider>
 <mat-dialog-content class="content">
-  <form [formGroup]="clientForm">
+  <form [formGroup]="fournisseurForm">
     <div class="row">
       <mat-form-field>
         <mat-label>Raison Social</mat-label>
@@ -14,26 +14,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="row">
-      <mat-form-field>
-        <mat-label>Assujetti</mat-label>
-        <mat-select [(ngModel)]="this.selectedAssujetti" >
-          <ng-container *ngFor="let assujetti of assujettis">
-            <mat-option [value]="assujetti.toString()">{{assujetti.type}}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="row">
-      <mat-form-field>
-        <mat-label>Code TVA</mat-label>
-        <mat-select [(ngModel)]="this.selectedTVA" >
-          <ng-container *ngFor="let tva of tvas">
-            <mat-option [value]="tva.toString()">{{tva.base}}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-    </div>
+
     <div class="row">
       <mat-form-field>
         <mat-label>E-mail</mat-label>
@@ -44,6 +25,12 @@
       <mat-form-field>
         <mat-label>Telephone</mat-label>
         <input matInput formControlName="telephone" placeholder="Telephone" type="text">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Mobile</mat-label>
+        <input matInput formControlName="mobile" placeholder="Mobile" type="text">
       </mat-form-field>
     </div>
     <div class="row">
@@ -59,14 +46,35 @@
       </mat-form-field>
     </div>
 
+
   </form>
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Code TVA</mat-label>
+      <mat-select [(ngModel)]="this.selectedTVA">
+        <ng-container *ngFor="let tva of tvas">
+          <mat-option [value]="tva.toString()">{{tva.base}}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-checkbox [(ngModel)]="fodec">Fodec</mat-checkbox>
+  </div>
+  <div class="row">
+    <mat-radio-group [(ngModel)]="ht_ttc">
+      <mat-radio-button value="HT">HT</mat-radio-button>
+      <mat-radio-button value="TTC">TTC</mat-radio-button>
+    </mat-radio-group>
+  </div>
 
 </mat-dialog-content>
 
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close="false">Annuler</button>
-  <button mat-raised-button color="primary" (click)="add(clientForm)" [disabled]="clientForm.invalid" type="submit">
+  <button mat-raised-button color="primary" (click)="add(fournisseurForm)" [disabled]="fournisseurForm.invalid"
+          type="submit">
     Ajouter
   </button>
 </mat-dialog-actions>

@@ -28,6 +28,10 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { AddClientComponent } from './add-client/add-client.component';
 import { FournisseurComponent } from './fournisseur/fournisseur.component';
 import { AddFournisseurComponent } from './add-fournisseur/add-fournisseur.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatDividerModule} from "@angular/material/divider";
+import { DocumentComponent } from './document/document.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,8 @@ import { AddFournisseurComponent } from './add-fournisseur/add-fournisseur.compo
     ConfirmModalComponent,
     AddClientComponent,
     FournisseurComponent,
-    AddFournisseurComponent
+    AddFournisseurComponent,
+    DocumentComponent
   ],
     imports: [
         BrowserModule,
@@ -61,7 +66,10 @@ import { AddFournisseurComponent } from './add-fournisseur/add-fournisseur.compo
         MatTableModule,
         MatPaginatorModule,
         MatDialogModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        MatDividerModule
     ],
   providers: [],
   bootstrap: [AppComponent]

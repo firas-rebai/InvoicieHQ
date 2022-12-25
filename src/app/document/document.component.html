@@ -2,67 +2,50 @@
   <div class="row">
     <div class="col-md-9">
       <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="fournisseurs">
+        <table mat-table [dataSource]="documents">
 
           <ng-container matColumnDef="ID">
             <th mat-header-cell *matHeaderCellDef> ID</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.id}} </td>
+            <td mat-cell *matCellDef="let client"> {{client.id}} </td>
           </ng-container>
 
           <ng-container matColumnDef="raison">
             <th mat-header-cell *matHeaderCellDef> Raison Social</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.raisonSocial}} </td>
+            <td mat-cell *matCellDef="let client"> {{client.raisonSocial}} </td>
           </ng-container>
 
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef> Email</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.email}} </td>
+            <td mat-cell *matCellDef="let client"> {{client.email}} </td>
           </ng-container>
 
           <ng-container matColumnDef="adresse">
             <th mat-header-cell *matHeaderCellDef> Adresse</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.adresse}} </td>
+            <td mat-cell *matCellDef="let client"> {{client.adresse}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="assujetti">
+            <th mat-header-cell *matHeaderCellDef> Assujetti</th>
+            <td mat-cell *matCellDef="let client"> {{client.assujetti.type}} </td>
+          </ng-container>
 
           <ng-container matColumnDef="fax">
             <th mat-header-cell *matHeaderCellDef> Fax</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.fax}} </td>
+            <td mat-cell *matCellDef="let client"> {{client.position}} </td>
           </ng-container>
 
           <ng-container matColumnDef="telephone">
             <th mat-header-cell *matHeaderCellDef> Telephone</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.telephone}} </td>
+            <td mat-cell *matCellDef="let client"> {{client.telephone}} </td>
           </ng-container>
-
-          <ng-container matColumnDef="mobile">
-            <th mat-header-cell *matHeaderCellDef> Mobile</th>
-            <td mat-cell *matCellDef="let fournisseur"> {{fournisseur.mobile}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="fodec">
-            <th mat-header-cell *matHeaderCellDef> Fodec</th>
-            <td mat-cell *matCellDef="let fournisseur">
-              <ng-container *ngIf="fournisseur.fodec">Oui</ng-container>
-              <ng-container *ngIf="!fournisseur.fodec">Non</ng-container>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="HT/TTC">
-            <th mat-header-cell *matHeaderCellDef> HT/TTC</th>
-            <td mat-cell *matCellDef="let fournisseur">
-              {{fournisseur.ht_ttc}}
-            </td>
-          </ng-container>
-
 
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef></th>
+            <th mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let client">
-              <button mat-mini-fab>
+              <button  mat-mini-fab>
                 <mat-icon>delete</mat-icon>
               </button>
-              <button mat-mini-fab>
+              <button  mat-mini-fab>
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
@@ -84,7 +67,6 @@
     <div class="col-md-1"></div>
     <div class="col-md-1">
       <div class="row">
-        <button mat-raised-button color="primary" (click)="AddDialog()">Ajouter</button>
       </div>
       <div class="col-md-1"></div>
     </div>
