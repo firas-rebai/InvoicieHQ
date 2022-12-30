@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ClientService} from "../_services/client.service";
-import {Client} from "../_models/Client";
-import {Assujetti} from "../_models/Assujetti";
-import {ParamService} from "../_services/param.service";
+import {ClientService} from "../../_services/client.service";
+import {Client} from "../../_models/Client";
+import {Assujetti} from "../../_models/Assujetti";
+import {ParamService} from "../../_services/param.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {TVA} from "../_models/TVA";
+import {TVA} from "../../_models/TVA";
 
 @Component({
   selector: 'app-add-client',

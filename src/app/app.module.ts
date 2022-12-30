@@ -17,36 +17,39 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatMenuModule} from "@angular/material/menu";
-import { ListComponent } from './list/list.component';
-import { FactureComponent } from './facture/facture.component';
-import { ClientComponent } from './client/client.component';
+import { ClientComponent } from './client-components/client/client.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { ParamComponent } from './param/param.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { AddClientComponent } from './add-client/add-client.component';
-import { FournisseurComponent } from './fournisseur/fournisseur.component';
-import { AddFournisseurComponent } from './add-fournisseur/add-fournisseur.component';
+import { AddClientComponent } from './client-components/add-client/add-client.component';
+import { FournisseurComponent } from './fournisseur-components/fournisseur/fournisseur.component';
+import { AddFournisseurComponent } from './fournisseur-components/add-fournisseur/add-fournisseur.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatDividerModule} from "@angular/material/divider";
-import { DocumentComponent } from './document/document.component';
+import { DocumentComponent } from './document-components/document/document.component';
+import {MatSortModule} from "@angular/material/sort";
+import { AddDocumentComponent } from './document-components/add-document/add-document.component';
+import { ArticleComponent } from './article-components/article/article.component';
+import { AddArticleComponent } from './article-components/add-article/add-article.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ListComponent,
-    FactureComponent,
     ClientComponent,
     ParamComponent,
     ConfirmModalComponent,
     AddClientComponent,
     FournisseurComponent,
     AddFournisseurComponent,
-    DocumentComponent
+    DocumentComponent,
+    AddDocumentComponent,
+    ArticleComponent,
+    AddArticleComponent
   ],
     imports: [
         BrowserModule,
@@ -69,7 +72,8 @@ import { DocumentComponent } from './document/document.component';
         ReactiveFormsModule,
         MatRadioModule,
         MatCheckboxModule,
-        MatDividerModule
+        MatDividerModule,
+        MatSortModule
     ],
   providers: [],
   bootstrap: [AppComponent]

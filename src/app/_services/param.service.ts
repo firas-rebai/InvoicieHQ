@@ -6,6 +6,7 @@ import {Client} from "../_models/Client";
 import {Unite} from "../_models/Unite";
 import {TVA} from "../_models/TVA";
 import {Assujetti} from "../_models/Assujetti";
+import {FamilleArticle} from "../_models/FamilleArticle";
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,21 @@ export class ParamService {
 
   public getUniteId(id: number): Observable<Unite> {
     return this.http.get<Unite>(this.apiUrl + "/unite/" + id)
+  }
+
+  public getFamilles(): Observable<FamilleArticle[]> {
+    return this.http.get<FamilleArticle[]>(this.apiUrl + "/famille");
+  }
+
+  public addFamille(famille: Assujetti): Observable<FamilleArticle> {
+    return this.http.post<FamilleArticle>(this.apiUrl + "/famille/add", famille);
+  }
+
+  public deleteFamille(id: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl + "/famille/delete/" + id);
+  }
+
+  public getFamilleId(id: number): Observable<FamilleArticle> {
+    return this.http.get<FamilleArticle>(this.apiUrl + "/famille/" + id)
   }
 }

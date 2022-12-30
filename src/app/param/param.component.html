@@ -60,7 +60,9 @@
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef></th>
                   <td mat-cell *matCellDef="let tva">
-                    <button (click)="deleteTVA(tva.id,tva.base)" mat-raised-button>delete</button>
+                    <button (click)="deleteTVA(tva.id,tva.base)" mat-mini-fab>
+                      <mat-icon>delete</mat-icon>
+                    </button>
                   </td>
                 </ng-container>
 
@@ -98,7 +100,9 @@
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef></th>
                   <td mat-cell *matCellDef="let unite">
-                    <button (click)="deleteUnite(unite.id,unite.unite)" mat-raised-button>delete</button>
+                    <button (click)="deleteUnite(unite.id,unite.unite)" mat-mini-fab>
+                      <mat-icon>delete</mat-icon>
+                    </button>
                   </td>
                 </ng-container>
 

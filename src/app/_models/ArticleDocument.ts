@@ -1,10 +1,10 @@
 import {Unite} from "./Unite";
 import {TVA} from "./TVA";
+import {Article} from "./Article";
 
 export class ArticleDocument {
   private _id : number;
-  private _designation : string;
-  private _unite: Unite;
+  private _article: Article;
   private _quantite : number;
   private _puht : number;
   private _puttc : number;
@@ -20,20 +20,13 @@ export class ArticleDocument {
     this._id = value;
   }
 
-  get designation(): string {
-    return this._designation;
+
+  get article(): Article {
+    return this._article;
   }
 
-  set designation(value: string) {
-    this._designation = value;
-  }
-
-  get unite(): Unite {
-    return this._unite;
-  }
-
-  set unite(value: Unite) {
-    this._unite = value;
+  set article(value: Article) {
+    this._article = value;
   }
 
   get quantite(): number {

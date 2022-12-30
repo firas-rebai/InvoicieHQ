@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ClientService} from "../_services/client.service";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {ClientService} from "../../_services/client.service";
 import {Router} from "@angular/router";
-import {Client} from "../_models/Client";
+import {Client} from "../../_models/Client";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -13,7 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.css']
 })
-export class ClientComponent implements OnInit{
+export class ClientComponent implements OnInit, AfterViewInit{
 
   clients: MatTableDataSource<Client>;
 

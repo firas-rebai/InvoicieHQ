@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import {Client} from "../_models/Client";
-import {Assujetti} from "../_models/Assujetti";
-import {TVA} from "../_models/TVA";
+import {Client} from "../../_models/Client";
+import {Assujetti} from "../../_models/Assujetti";
+import {TVA} from "../../_models/TVA";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ClientService} from "../_services/client.service";
-import {ParamService} from "../_services/param.service";
+import {ClientService} from "../../_services/client.service";
+import {ParamService} from "../../_services/param.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Fournisseur} from "../_models/Fournisseur";
+import {Fournisseur} from "../../_models/Fournisseur";
 
 @Component({
   selector: 'app-add-fournisseur',

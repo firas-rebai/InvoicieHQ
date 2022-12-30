@@ -15,7 +15,7 @@ export class DocumentService {
   }
 
   public getDocuments(type: string | null, trans: string | null): Observable<Document[]> {
-    return this.http.get<Document[]>(this.apiUrl + "/document/type=" + type + "&trans=" + trans);
+    return this.http.get<Document[]>(this.apiUrl + "/document?type=" + type + "&trans=" + trans);
   }
 
   public addDocument(document: Document): Observable<Document> {

@@ -13,7 +13,8 @@ export class AppComponent {
   }
 
   openMenu(type: string, trans: string) {
-    this.router.navigate(['/document', type, trans]);
+
+    window.location.href = window.location.protocol + '//' + window.location.host + '/document/' + trans + "/" + type;
   }
 
 
