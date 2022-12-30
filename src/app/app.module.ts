@@ -75,7 +75,7 @@ import { AddArticleComponent } from './article-components/add-article/add-articl
         MatDividerModule,
         MatSortModule
     ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
