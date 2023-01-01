@@ -17,14 +17,14 @@ import {AddArticleComponent} from "../add-article/add-article.component";
   styleUrls: ['./article.component.css']
 })
 export class ArticleComponent implements OnInit, AfterViewInit {
-  articles: MatTableDataSource<Article>;
+  articles: MatTableDataSource<Article> = new MatTableDataSource<Article>();
 
   displayedColumns: string[] = ['ID', 'designation', 'stock', 'unite', 'date', 'PAHT', 'PVHT', 'famille', 'fournisseur', 'TVA', 'action'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
-    this.articles.paginator = this.paginator;
+
   }
 
   constructor(private articleService: ArticleService, private router: Router, public dialog: MatDialog) {
@@ -42,6 +42,7 @@ export class ArticleComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getArticles();
+    this.articles.paginator = this.paginator;
   }
 
   AddDialog() {

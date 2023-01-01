@@ -1,6 +1,6 @@
-<div id="app">
+<div class="app">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#"><img src="favicon.ico" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,9 +19,23 @@
           <button class="button-menu" routerLink="/fournisseur"  mat-raised-button color="primary">Fournisseurs</button>
         </li>
         <li class="nav-item">
-          <button class="button-menu" routerLink="/param"  mat-raised-button color="primary">Parameteres</button>
+          <button class="button-menu" routerLink="/article"  mat-raised-button color="primary">Articles</button>
         </li>
+        <li class="nav-item">
+          <button class="button-menu" routerLink="/param"  mat-raised-button color="primary">Parametrages</button>
+        </li>
+        <li class="nav-item">
+          <button class="button-menu" routerLink="/add-document"  mat-raised-button color="warn">Ajouter un document</button>
+        </li>
+
       </ul>
+
+    </div>
+    <div class="d-flex input-group w-auto">
+      <button mat-mini-fab color="primary" (click)="openParam()"><mat-icon>settings</mat-icon></button>
+    </div>
+    <div class="d-flex input-group w-auto">
+      <button mat-mini-fab color="primary" ><mat-icon>person</mat-icon></button>
     </div>
   </nav>
     <mat-menu #DocumentsAchat="matMenu">
@@ -38,5 +52,9 @@
     <button mat-menu-item (click)="openMenu('bl','vente')">BL</button>
     <button mat-menu-item (click)="openMenu('bl_facture','vente')">BL Facturé</button>
   </mat-menu>
-  <router-outlet></router-outlet>
+  <div class="router-container">
+    <router-outlet></router-outlet>
+  </div>
+
+
 </div>

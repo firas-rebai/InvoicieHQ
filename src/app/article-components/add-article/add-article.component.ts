@@ -30,11 +30,15 @@ export class AddArticleComponent {
 
   public articleForm = new FormGroup(
     {
-      designation : new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9\' ]{2,30}$')]),
+      designation : new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9\' ]{2,1000}$')]),
       stock : new FormControl('', []),
       date : new FormControl('', []),
       pvht : new FormControl('', []),
-      paht : new FormControl('', [])
+      paht : new FormControl('', []),
+      tva : new FormControl('' , []),
+      famille : new FormControl('' , []),
+      fournisseur : new FormControl('' , []),
+      unite : new FormControl('' , []),
     }
   )
 
@@ -76,5 +80,17 @@ export class AddArticleComponent {
 
   ngOnInit(): void {
     this.getTVAs();
+  }
+
+  openAddUnite() {
+
+  }
+
+  openAddTVA() {
+
+  }
+
+  openAddFournisseur() {
+
   }
 }

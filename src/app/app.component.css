@@ -5,3 +5,17 @@
 .component-container {
 
 }
+
+.d-flex {
+  margin-right: 20px;
+}
+
+
+.app {
+  background-color: #131313;
+  height: 100vh;
+}
+
+.router-container {
+  padding-top: 5vh ;
+}

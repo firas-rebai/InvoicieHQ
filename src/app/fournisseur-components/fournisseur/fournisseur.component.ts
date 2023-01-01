@@ -17,7 +17,7 @@ import {AddFournisseurComponent} from "../add-fournisseur/add-fournisseur.compon
   styleUrls: ['./fournisseur.component.css']
 })
 export class FournisseurComponent {
-  fournisseurs: MatTableDataSource<Fournisseur>;
+  fournisseurs: MatTableDataSource<Fournisseur> = new MatTableDataSource<Fournisseur>();
 
   displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'HT/TTC', 'action'];
 

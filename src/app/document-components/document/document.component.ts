@@ -16,7 +16,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   trans: string;
   typeShow: string;
   transShow: string;
-  documents: MatTableDataSource<Document>;
+  documents: MatTableDataSource<Document> = new MatTableDataSource<Document>();
   displayedColumns: string[] = [];
   selectedRowIndex = -1;
 

@@ -15,7 +15,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ClientComponent implements OnInit, AfterViewInit{
 
-  clients: MatTableDataSource<Client>;
+  clients: MatTableDataSource<Client> = new MatTableDataSource<Client>();
 
   displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'assujetti', 'fax', 'telephone', 'action'];
 
@@ -24,6 +24,7 @@ export class ClientComponent implements OnInit, AfterViewInit{
   ngAfterViewInit() {
     this.clients.paginator = this.paginator;
   }
+
   constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
   }
 

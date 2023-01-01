@@ -34,6 +34,10 @@ import {MatSortModule} from "@angular/material/sort";
 import { AddDocumentComponent } from './document-components/add-document/add-document.component';
 import { ArticleComponent } from './article-components/article/article.component';
 import { AddArticleComponent } from './article-components/add-article/add-article.component';
+import { ParameterDialogComponent } from './parameter-dialog/parameter-dialog.component';
+import {MatFileUploadModule} from "angular-material-fileupload";
+import { AddArticleDocumentComponent } from './add-article-document/add-article-document.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -49,7 +53,9 @@ import { AddArticleComponent } from './article-components/add-article/add-articl
     DocumentComponent,
     AddDocumentComponent,
     ArticleComponent,
-    AddArticleComponent
+    AddArticleComponent,
+    ParameterDialogComponent,
+    AddArticleDocumentComponent
   ],
     imports: [
         BrowserModule,
@@ -73,7 +79,9 @@ import { AddArticleComponent } from './article-components/add-article/add-articl
         MatRadioModule,
         MatCheckboxModule,
         MatDividerModule,
-        MatSortModule
+        MatSortModule,
+        MatFileUploadModule,
+        MatCardModule
     ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

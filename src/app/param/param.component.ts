@@ -38,7 +38,7 @@ export class ParamComponent implements OnInit {
       (response: TVA[]) => {
         this.tvas = new MatTableDataSource<TVA>(response);
       }, (error: HttpErrorResponse) => {
-        alert(error.message)
+        console.log(error.message)
       }
     )
   }
@@ -48,7 +48,7 @@ export class ParamComponent implements OnInit {
       (response: Unite[]) => {
         this.unites = new MatTableDataSource<Unite>(response);
       }, (error: HttpErrorResponse) => {
-        alert(error.message)
+        console.log(error.message)
       }
     )
   }
@@ -58,7 +58,7 @@ export class ParamComponent implements OnInit {
       (response: Assujetti[]) => {
         this.assujettis = new MatTableDataSource<Assujetti>(response);
       }, (error: HttpErrorResponse) => {
-        alert(error.message)
+        console.log(error.message)
       }
     )
   }
@@ -74,7 +74,7 @@ export class ParamComponent implements OnInit {
             this.getAssujettis();
           },
           (error: HttpErrorResponse) => {
-            alert(error.message);
+            // alert(error.message);
           }
         )
       }
@@ -92,7 +92,7 @@ export class ParamComponent implements OnInit {
             this.getAssujettis();
           },
           (error: HttpErrorResponse) => {
-            alert(error.message);
+            // alert(error.message);
           }
         )
       }
@@ -110,7 +110,7 @@ export class ParamComponent implements OnInit {
             this.getAssujettis();
           },
           (error: HttpErrorResponse) => {
-            alert(error.message);
+            // alert(error.message);
           }
         )
       }

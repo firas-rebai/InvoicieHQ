@@ -1,0 +1,127 @@
+<h2 mat-dialog-title>
+  Ajouter un client
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="content">
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Raison Social</mat-label>
+          <input matInput placeholder="Raison Social" [(ngModel)]="param.raisonSocial" type="text">
+
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>E-mail</mat-label>
+          <input matInput placeholder="E-mail" [(ngModel)]="param.email" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Telephone</mat-label>
+          <input matInput placeholder="Telephone" [(ngModel)]="param.telephone" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Mobile</mat-label>
+          <input matInput placeholder="Mobile" [(ngModel)]="param.mobile" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Fax</mat-label>
+          <input matInput placeholder="Fax" [(ngModel)]="param.fax" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Adresse</mat-label>
+          <input matInput placeholder="Adresse" [(ngModel)]="param.adresse" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Compte Facebook</mat-label>
+          <input matInput placeholder="Lien" [(ngModel)]="param.fb_acc" type="text">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Retenue a la source</mat-label>
+          <input matInput placeholder="0.00" [(ngModel)]="param.retenue_source" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Fodec</mat-label>
+          <input matInput placeholder="0.0%" [(ngModel)]="param.fodec" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Registre Commerce</mat-label>
+          <input matInput placeholder="Registe Commerce" [(ngModel)]="param.registre_commerce" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Timbre</mat-label>
+          <input matInput placeholder="0.000" [(ngModel)]="param.timbre" type="text">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="col-sm-10">
+          <mat-form-field>
+            <mat-label>Code TVA</mat-label>
+            <mat-select [(ngModel)]="param.tva">
+              <ng-container *ngFor="let tva of tvas">
+                <mat-option [value]="tva.toString()">{{tva.base}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-2">
+          <button (click)="openAddTVA()" mat-mini-fab color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10">
+          <mat-form-field>
+            <mat-label>Assujetti</mat-label>
+            <mat-select [(ngModel)]="param.assujetti">
+              <ng-container *ngFor="let assujetti of assujettis">
+                <mat-option>{{assujetti.type}} {{assujetti.coefficient_tva}}%</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-2">
+          <button (click)="openAddAssujetti()" mat-mini-fab color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <input type="file">
+
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close="false">Annuler</button>
+  <button mat-raised-button color="primary" (click)="update(paramForm)" type="submit">
+    Sauvegarder
+  </button>
+</mat-dialog-actions>
