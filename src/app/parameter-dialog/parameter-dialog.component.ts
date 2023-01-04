@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Assujetti} from "../_models/Assujetti";
 import {TVA} from "../_models/TVA";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -12,7 +12,7 @@ import {Settings} from "../_models/Settings";
   templateUrl: './parameter-dialog.component.html',
   styleUrls: ['./parameter-dialog.component.css']
 })
-export class ParameterDialogComponent implements OnInit {
+export class ParameterDialogComponent implements OnInit , AfterViewInit{
   param: Settings;
   selectedAssujetti: Assujetti;
   selectedTVA: TVA;
@@ -33,7 +33,6 @@ export class ParameterDialogComponent implements OnInit {
   public update(addForm: FormGroup): void {
     if (addForm.invalid) return;
     this.param = addForm.value;
-
 
   }
 
@@ -58,8 +57,6 @@ export class ParameterDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAssujettis();
-    this.getTVAs();
     this.param = new Settings();
     this.settingsService.getSettings().subscribe(
       (settings: Settings) => {
@@ -96,5 +93,10 @@ export class ParameterDialogComponent implements OnInit {
 
   openAddTVA() {
 
+  }
+
+  ngAfterViewInit(): void {
+    this.getAssujettis();
+    this.getTVAs();
   }
 }

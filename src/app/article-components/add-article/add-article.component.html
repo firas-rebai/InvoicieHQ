@@ -18,7 +18,7 @@
     <div class="row">
       <mat-form-field>
         <mat-label>Stock Initial</mat-label>
-        <input matInput formControlName="stock" placeholder="0.00" type="text">
+        <input matInput formControlName="stock_initial" placeholder="0.000" type="text">
       </mat-form-field>
     </div>
 
@@ -28,7 +28,7 @@
           <mat-label>Unité</mat-label>
           <mat-select formControlName="unite" [(ngModel)]="this.selectedUnite">
             <ng-container *ngFor="let unite of unites">
-              <mat-option>{{unite.unite}}</mat-option>
+              <mat-option [value]="unite">{{unite.unite}}</mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
@@ -43,7 +43,7 @@
     <div class="row">
       <mat-form-field>
         <mat-label>Date Stock Initial</mat-label>
-        <input matInput formControlName="date" type="datetime-local">
+        <input matInput formControlName="date_stock_initial" type="datetime-local">
       </mat-form-field>
     </div>
 
@@ -51,9 +51,9 @@
       <div class="col-sm-10">
       <mat-form-field>
         <mat-label>Famille d'article</mat-label>
-        <mat-select formControlName="famille" [(ngModel)]="this.selectedFamille">
+        <mat-select formControlName="famille_article" [(ngModel)]="this.selectedFamille">
           <ng-container *ngFor="let famille of familles">
-            <mat-option>{{famille.famille}}</mat-option>
+            <mat-option [value]="famille">{{famille.famille}}</mat-option>
           </ng-container>
         </mat-select>
       </mat-form-field>
@@ -71,7 +71,7 @@
         <mat-label>Fournisseur</mat-label>
         <mat-select formControlName="fournisseur" [(ngModel)]="this.selectedFournisseur">
           <ng-container *ngFor="let fournisseur of fournisseurs">
-            <mat-option>{{fournisseur.raisonSocial}}</mat-option>
+            <mat-option [value]="fournisseur">{{fournisseur.raison_social}}</mat-option>
           </ng-container>
         </mat-select>
       </mat-form-field>
@@ -89,7 +89,7 @@
         <mat-label>Code TVA</mat-label>
         <mat-select formControlName="tva" [(ngModel)]="this.selectedTVA">
           <ng-container *ngFor="let tva of tvas">
-            <mat-option [value]="tva.toString()">{{tva.base}}</mat-option>
+            <mat-option [value]="tva">{{tva.base}}</mat-option>
           </ng-container>
         </mat-select>
       </mat-form-field>
@@ -105,13 +105,13 @@
     <div class="row">
       <mat-form-field>
         <mat-label>PVHT</mat-label>
-        <input matInput formControlName="pvht" placeholder="0.00" type="text">
+        <input matInput formControlName="pvht" placeholder="0.000" type="text">
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field>
         <mat-label>PAHT</mat-label>
-        <input matInput formControlName="paht" placeholder="0.00" type="text">
+        <input matInput formControlName="paht" placeholder="0.000" type="text">
       </mat-form-field>
     </div>
 
@@ -124,7 +124,7 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close="false">Annuler</button>
-  <button mat-raised-button color="primary" (click)="add(articleForm)" [disabled]="articleForm.invalid" type="submit">
+  <button mat-raised-button color="primary" [mat-dialog-close]="articleForm" (click)="add(articleForm)" [disabled]="articleForm.invalid" type="submit">
     Ajouter
   </button>
 </mat-dialog-actions>

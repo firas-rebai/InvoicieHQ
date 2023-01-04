@@ -1,0 +1,22 @@
+<mat-dialog-content *ngIf="two">
+	<mat-form-field>
+		<label>{{message}}</label>
+		<input matInput [(ngModel)]="param"  type="text">
+	</mat-form-field>
+	<mat-form-field>
+		<label>{{message2}}</label>
+		<input matInput [(ngModel)]="param2"  type="text">
+	</mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="!two">
+	<mat-form-field>
+		<label>{{message}}</label>
+		<input matInput  [(ngModel)]="param" type="text">
+	</mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+	<button mat-button [mat-dialog-close]="false">Annuler</button>
+	<button mat-button [mat-dialog-close]="param+ '_' +param2"  mat-raised-button>Ajouter</button>
+</mat-dialog-actions>

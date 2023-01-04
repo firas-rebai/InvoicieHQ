@@ -71,7 +71,7 @@ export class ParamService {
     return this.http.get<FamilleArticle[]>(this.apiUrl + "/famille");
   }
 
-  public addFamille(famille: Assujetti): Observable<FamilleArticle> {
+  public addFamille(famille: FamilleArticle): Observable<FamilleArticle> {
     return this.http.post<FamilleArticle>(this.apiUrl + "/famille/add", famille);
   }
 

@@ -9,7 +9,7 @@ export class Article {
   private _unite: Unite;
   private _stock_intial : number;
   private _date_stock_initial : number;
-  private _famille: FamilleArticle;
+  private _famille_article: FamilleArticle;
   private _pvht : number;
   private _paht : number;
   private _tva : TVA;
@@ -55,12 +55,12 @@ export class Article {
     this._date_stock_initial = value;
   }
 
-  get famille(): FamilleArticle {
-    return this._famille;
+  get famille_article(): FamilleArticle {
+    return this._famille_article;
   }
 
-  set famille(value: FamilleArticle) {
-    this._famille = value;
+  set famille_article(value: FamilleArticle) {
+    this._famille_article = value;
   }
 
   get pvht(): number {

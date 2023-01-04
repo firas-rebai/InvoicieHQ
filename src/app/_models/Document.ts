@@ -1,69 +1,72 @@
 import {Client} from "./Client";
 import {Fournisseur} from "./Fournisseur";
 import {ArticleDocument} from "./ArticleDocument";
+import {User} from "./User";
 
 export class Document {
-  private _id : bigint;
-  private _client : Client;
-  private _founisseur : Fournisseur;
-  private _date_vente : Date;
-  private _type : string;
-  private _transaction: string;
-  private _articles : ArticleDocument[];
+	get client(): Client | null {
+		return this._client;
+	}
 
-  get id(): bigint {
-    return this._id;
-  }
+	set client(value: Client | null) {
+		this._client = value;
+	}
 
-  set id(value: bigint) {
-    this._id = value;
-  }
+	get fournisseur(): Fournisseur | null {
+		return this._fournisseur;
+	}
 
-  get client(): Client {
-    return this._client;
-  }
+	set fournisseur(value: Fournisseur | null) {
+		this._fournisseur = value;
+	}
 
-  set client(value: Client) {
-    this._client = value;
-  }
+	private _id: bigint;
+	private _client: Client | null;
+	private _fournisseur: Fournisseur | null;
+	private _date_vente: Date;
+	private _type: string;
+	private _transaction: string;
+	private _articles: ArticleDocument[];
+	private _user: User;
 
-  get founisseur(): Fournisseur {
-    return this._founisseur;
-  }
+	get id(): bigint {
+		return this._id;
+	}
 
-  set founisseur(value: Fournisseur) {
-    this._founisseur = value;
-  }
+	set id(value: bigint) {
+		this._id = value;
+	}
 
-  get date_vente(): Date {
-    return this._date_vente;
-  }
 
-  set date_vente(value: Date) {
-    this._date_vente = value;
-  }
+	get date_vente(): Date {
+		return this._date_vente;
+	}
 
-  get type(): string {
-    return this._type;
-  }
+	set date_vente(value: Date) {
+		this._date_vente = value;
+	}
 
-  set type(value: string) {
-    this._type = value;
-  }
+	get type(): string {
+		return this._type;
+	}
 
-  get transaction(): string {
-    return this._transaction;
-  }
+	set type(value: string) {
+		this._type = value;
+	}
 
-  set transaction(value: string) {
-    this._transaction = value;
-  }
+	get transaction(): string {
+		return this._transaction;
+	}
 
-  get articles(): ArticleDocument[] {
-    return this._articles;
-  }
+	set transaction(value: string) {
+		this._transaction = value;
+	}
 
-  set articles(value: ArticleDocument[]) {
-    this._articles = value;
-  }
+	get articles(): ArticleDocument[] {
+		return this._articles;
+	}
+
+	set articles(value: ArticleDocument[]) {
+		this._articles = value;
+	}
 }

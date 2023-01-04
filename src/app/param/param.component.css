@@ -12,3 +12,16 @@
   padding: 2%;
   background-color: #2a2828;
 }
+
+.row {
+	padding-bottom: 5%;
+}
+
+table {
+	width: 100%;
+}
+.table-container {
+	height: 27vh;
+	max-width: 100%;
+	overflow: auto;
+}

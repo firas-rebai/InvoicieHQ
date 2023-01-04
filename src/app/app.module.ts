@@ -38,6 +38,8 @@ import { ParameterDialogComponent } from './parameter-dialog/parameter-dialog.co
 import {MatFileUploadModule} from "angular-material-fileupload";
 import { AddArticleDocumentComponent } from './add-article-document/add-article-document.component';
 import {MatCardModule} from "@angular/material/card";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import { AddParamComponent } from './add-param/add-param.component';
 
 @NgModule({
   declarations: [
@@ -55,34 +57,36 @@ import {MatCardModule} from "@angular/material/card";
     ArticleComponent,
     AddArticleComponent,
     ParameterDialogComponent,
-    AddArticleDocumentComponent
+    AddArticleDocumentComponent,
+    AddParamComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        FormsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressBarModule,
-        MatSelectModule,
-        MatBadgeModule,
-        HttpClientModule,
-        MatButtonToggleModule,
-        MatMenuModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatCheckboxModule,
-        MatDividerModule,
-        MatSortModule,
-        MatFileUploadModule,
-        MatCardModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    MatBadgeModule,
+    HttpClientModule,
+    MatButtonToggleModule,
+    MatMenuModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatSortModule,
+    MatFileUploadModule,
+    MatCardModule,
+    MatDatepickerModule
+  ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })

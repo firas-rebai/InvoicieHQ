@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Article} from "../_models/Article";
 import {TVA} from "../_models/TVA";
 import {FamilleArticle} from "../_models/FamilleArticle";
 import {Unite} from "../_models/Unite";
 import {Fournisseur} from "../_models/Fournisseur";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ArticleService} from "../_services/article.service";
 import {ParamService} from "../_services/param.service";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -12,16 +11,17 @@ import {ArticleDocument} from "../_models/ArticleDocument";
 import {MatDialog} from "@angular/material/dialog";
 import {ArticleComponent} from "../article-components/article/article.component";
 import {AddArticleComponent} from "../article-components/add-article/add-article.component";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-add-article-document',
   templateUrl: './add-article-document.component.html',
   styleUrls: ['./add-article-document.component.css']
 })
-export class AddArticleDocumentComponent {
-  article : ArticleDocument;
+export class AddArticleDocumentComponent implements OnInit, AfterViewInit{
+  article: ArticleDocument;
   selectedTVA: TVA;
-  selectedFamille : FamilleArticle;
+  selectedFamille: FamilleArticle;
   selectedUnite: Unite;
   selectedFournisseur: Fournisseur;
   tvas: TVA[];
@@ -30,22 +30,20 @@ export class AddArticleDocumentComponent {
   unites: Unite[];
 
 
-
-
-
-
   constructor(private articleService: ArticleService, private paramService: ParamService, public dialog: MatDialog) {
   }
 
+  ngAfterViewInit(): void {
+    this.getTVAs();
+    }
 
 
-  public add(article : ArticleDocument): void {
+  public add(article: ArticleDocument): void {
     this.article = article;
     this.article.tva = this.selectedTVA
 
 
   }
-
 
 
   public getTVAs(): void {
@@ -59,7 +57,7 @@ export class AddArticleDocumentComponent {
   }
 
   ngOnInit(): void {
-    this.getTVAs();
+
     this.article = new ArticleDocument()
     this.article.article = new Article()
   }
@@ -99,8 +97,8 @@ export class AddArticleDocumentComponent {
   openAddArticle() {
     const dialogRef = this.dialog.open(AddArticleComponent);
 
-    dialogRef.afterClosed().subscribe((result: Article) => {
-        this.article.article = result
+    dialogRef.afterClosed().subscribe((result: FormGroup) => {
+      this.article.article = result.value;
     });
   }
 }

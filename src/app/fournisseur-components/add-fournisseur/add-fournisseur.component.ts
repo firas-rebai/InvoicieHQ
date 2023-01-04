@@ -7,6 +7,7 @@ import {ClientService} from "../../_services/client.service";
 import {ParamService} from "../../_services/param.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Fournisseur} from "../../_models/Fournisseur";
+import {FournisseurService} from "../../_services/fournisseur.service";
 
 @Component({
   selector: 'app-add-fournisseur',
@@ -37,7 +38,7 @@ export class AddFournisseurComponent {
     return this.fournisseurForm.controls['raison_social']
   }
 
-  constructor(private clientService: ClientService, private paramService: ParamService) {
+  constructor(private fournisseurService: FournisseurService, private paramService: ParamService) {
   }
 
 
@@ -48,6 +49,13 @@ export class AddFournisseurComponent {
     this.fournisseur.tva = this.selectedTVA;
     this.fournisseur.fodec = this.fodec
     this.fournisseur.ht_ttc = this.ht_ttc;
+	this.fournisseurService.addFournisseur(this.fournisseur).subscribe(
+		(result: Fournisseur) => {
+			console.log(result)
+		}, (error) => {
+			console.error(error.message)
+		}
+	)
     console.log(this.fournisseur)
   }
 

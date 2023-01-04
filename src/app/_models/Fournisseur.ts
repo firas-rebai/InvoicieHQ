@@ -65,19 +65,19 @@ export class Fournisseur {
     this._email = value;
   }
 
-  get raisonSocial(): string {
-    return this._raisonSocial;
+  get raison_social(): string {
+    return this._raison_social;
   }
 
-  set raisonSocial(value: string) {
-    this._raisonSocial = value;
+  set raison_social(value: string) {
+    this._raison_social = value;
   }
 
   private _id!: bigint;
 
   private _fodec: boolean;
 
-  private _raisonSocial!: string;
+  private _raison_social!: string;
 
   private _email!: string;
 

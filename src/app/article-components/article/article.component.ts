@@ -34,6 +34,7 @@ export class ArticleComponent implements OnInit, AfterViewInit {
     this.articleService.getArticles().subscribe(
       (response: Article[]) => {
         this.articles = new MatTableDataSource<Article>(response);
+		console.log(response)
       }, (error: HttpErrorResponse) => {
         // alert(error.message)
       }

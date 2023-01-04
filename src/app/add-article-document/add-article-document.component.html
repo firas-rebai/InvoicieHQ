@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  Ajouter un client
+  Ajouter un article
 </h2>
 <mat-divider></mat-divider>
 <mat-dialog-content class="content">
@@ -14,7 +14,7 @@
   <div class="row">
     <mat-form-field>
       <mat-label>Designation</mat-label>
-      <input matInput [(ngModel)]="article.article.designation" placeholder="Designation" type="text">
+      <textarea matInput [(ngModel)]="article.article.designation" placeholder="Designation" type="text"></textarea>
     </mat-form-field>
   </div>
   <div class="row">
