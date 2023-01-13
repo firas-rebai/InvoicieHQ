@@ -18,7 +18,7 @@ export class AddParamComponent {
 	param2: string = "";
 	param : string = "";
 
-	constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string },public dialogRef: MatDialogRef<AddParamComponent>,) {
+	constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string },public dialogRef: MatDialogRef<AddParamComponent>) {
 	}
 
 	ngOnInit(): void {

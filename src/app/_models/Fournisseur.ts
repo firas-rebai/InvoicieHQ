@@ -2,104 +2,25 @@ import {Assujetti} from "./Assujetti";
 import {TVA} from "./TVA";
 
 export class Fournisseur {
-  get mobile(): string {
-    return this._mobile;
-  }
+	constructor() {
+	}
+	id: bigint;
 
-  set mobile(value: string) {
-    this._mobile = value;
-  }
-  get ht_ttc(): string {
-    return this._ht_ttc;
-  }
+	fodec: boolean;
 
-  set ht_ttc(value: string) {
-    this._ht_ttc = value;
-  }
+	raison_social: string;
 
-  get fodec(): boolean {
-    return this._fodec;
-  }
+	email: string;
 
-  set fodec(value: boolean) {
-    this._fodec = value;
-  }
+	fax: string;
 
-  get tva(): TVA {
-    return this._tva;
-  }
+	telephone: string;
 
-  set tva(value: TVA) {
-    this._tva = value;
-  }
+	mobile: string;
 
-  get adresse(): string {
-    return this._adresse;
-  }
+	adresse: string;
+	tva: TVA;
 
-  set adresse(value: string) {
-    this._adresse = value;
-  }
-
-  get telephone(): string {
-    return this._telephone;
-  }
-
-  set telephone(value: string) {
-    this._telephone = value;
-  }
-
-  get fax(): string {
-    return this._fax;
-  }
-
-  set fax(value: string) {
-    this._fax = value;
-  }
-
-  get email(): string {
-    return this._email;
-  }
-
-  set email(value: string) {
-    this._email = value;
-  }
-
-  get raison_social(): string {
-    return this._raison_social;
-  }
-
-  set raison_social(value: string) {
-    this._raison_social = value;
-  }
-
-  private _id!: bigint;
-
-  private _fodec: boolean;
-
-  private _raison_social!: string;
-
-  private _email!: string;
-
-  private _fax!: string;
-
-  private _telephone!: string;
-
-  private _mobile!: string;
-
-  private _adresse!: string;
-
-  private _tva: TVA;
-
-  private _ht_ttc: string;
-
-  get id(): bigint {
-    return this._id;
-  }
-
-  set id(value: bigint) {
-    this._id = value;
-  }
-
+	ht_ttc: string;
 
 }

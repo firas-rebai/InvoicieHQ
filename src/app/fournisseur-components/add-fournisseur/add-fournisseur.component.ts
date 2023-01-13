@@ -8,6 +8,7 @@ import {ParamService} from "../../_services/param.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Fournisseur} from "../../_models/Fournisseur";
 import {FournisseurService} from "../../_services/fournisseur.service";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-add-fournisseur',
@@ -38,7 +39,7 @@ export class AddFournisseurComponent {
     return this.fournisseurForm.controls['raison_social']
   }
 
-  constructor(private fournisseurService: FournisseurService, private paramService: ParamService) {
+  constructor(private fournisseurService: FournisseurService, private paramService: ParamService,public dialogRef: MatDialogRef<AddFournisseurComponent>) {
   }
 
 
@@ -51,12 +52,11 @@ export class AddFournisseurComponent {
     this.fournisseur.ht_ttc = this.ht_ttc;
 	this.fournisseurService.addFournisseur(this.fournisseur).subscribe(
 		(result: Fournisseur) => {
-			console.log(result)
+			this.dialogRef.close(result);
 		}, (error) => {
 			console.error(error.message)
 		}
 	)
-    console.log(this.fournisseur)
   }
 
 

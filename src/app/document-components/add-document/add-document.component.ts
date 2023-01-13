@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
+import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ArticleService} from "../../_services/article.service";
 import {Router} from "@angular/router";
@@ -15,6 +15,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AddFournisseurComponent} from "../../fournisseur-components/add-fournisseur/add-fournisseur.component";
 import {AddClientComponent} from "../../client-components/add-client/add-client.component";
 import {TokenStorageService} from "../../_services/token-storage.service";
+import {DocumentService} from "../../_services/document.service";
 
 @Component({
 	selector: 'app-add-document',
@@ -22,26 +23,43 @@ import {TokenStorageService} from "../../_services/token-storage.service";
 	styleUrls: ['./add-document.component.css']
 })
 export class AddDocumentComponent implements OnInit, AfterViewInit {
-	articleDocument: MatTableDataSource<ArticleDocument> = new MatTableDataSource<ArticleDocument>();
+	// articleDocument: MatTableDataSource<ArticleDocument> = new MatTableDataSource<ArticleDocument>();
+	articleDocument: ArticleDocument[] = [];
 	document: Document = new Document();
-	displayedColumns: string[] = ['ID', 'designation', 'quantite', 'unite', 'puht', 'tva', 'puttc', 'remise', 'pu_reel', 'montant', 'action'];
+	displayedColumns: string[] = ['designation', 'quantite', 'unite', 'puht', 'tva', 'puttc', 'remise', 'pu_reel', 'montant', 'action'];
 	fournisseurs: Fournisseur[];
 	clients: Client[];
 
+	@ViewChild(MatTable) table: MatTable<ArticleDocument>;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	montant_total: number = 10;
 
 	ngAfterViewInit() {
-		this.articleDocument.paginator = this.paginator;
+		// this.articleDocument.paginator = this.paginator;
 	}
 
 	constructor(private articleService: ArticleService,
 				private clientService: ClientService,
 				private fournisseurService: FournisseurService,
+				private documentService: DocumentService,
 				private router: Router,
 				public dialog: MatDialog,
 				private tokenStorage: TokenStorageService) {
 	}
+
+	submit() {
+		this.document.articleDocument = this.articleDocument;
+		this.document.user = this.tokenStorage.getUser();
+		this.documentService.addDocument(this.document).subscribe(
+			result => {
+				console.log(this.document)
+			}, error => {
+				console.log(error)
+			}
+		)
+	}
+
+
 
 	calculate() {
 		this.montant_total = 12
@@ -73,10 +91,13 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 
 	AddDialog() {
 		const dialogRef = this.dialog.open(AddArticleDocumentComponent);
-
 		dialogRef.afterClosed().subscribe((result: ArticleDocument) => {
-			this.articleDocument.data.push(result);
-			this.calculate();
+			if (result){
+				// this.articleDocument.data.push(result);
+				this.articleDocument.push(result)
+				this.table.renderRows();
+				this.calculate();
+			}
 		});
 	}
 
@@ -85,7 +106,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 
 		dialogRef.afterClosed().subscribe((result: Client) => {
 			this.document.client = result;
-			this.document.fournisseur = null;
+			this.getData();
 		});
 	}
 
@@ -93,9 +114,8 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		const dialogRef = this.dialog.open(AddFournisseurComponent);
 
 		dialogRef.afterClosed().subscribe((result: Fournisseur) => {
-			this.document.fournisseur = result;
-			this.document.client = null;
-
+			this.document.fournisseur = result
+			this.getData();
 		});
 	}
 }

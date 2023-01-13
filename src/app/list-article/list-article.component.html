@@ -1,0 +1,14 @@
+<mat-dialog-content >
+	<mat-selection-list #article [multiple]="false">
+		<mat-list-option *ngFor="let article of articles" [value]="article">
+			{{article.designation}}
+		</mat-list-option>
+	</mat-selection-list>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+	<button mat-button [mat-dialog-close]="false">Annuler</button>
+	<button mat-raised-button color="primary" [disabled]="!article.selectedOptions.hasValue()" [mat-dialog-close]="article.selectedOptions.hasValue() ? article.selectedOptions.selected[0].value : false" >Confirmer</button>
+
+</mat-dialog-actions>

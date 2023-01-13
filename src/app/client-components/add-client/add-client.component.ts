@@ -6,6 +6,7 @@ import {Assujetti} from "../../_models/Assujetti";
 import {ParamService} from "../../_services/param.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {TVA} from "../../_models/TVA";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-add-client',
@@ -35,7 +36,7 @@ export class AddClientComponent implements OnInit{
     return this.clientForm.controls['raison_social']
   }
 
-  constructor(private clientService: ClientService, private paramService: ParamService) {
+  constructor(private clientService: ClientService, private paramService: ParamService,public dialogRef: MatDialogRef<AddClientComponent>) {
   }
 
 
@@ -48,7 +49,7 @@ export class AddClientComponent implements OnInit{
 
     this.clientService.addClient(this.client).subscribe(
       (response :Client) => {
-        console.log(response);
+		this.dialogRef.close(response);
       }, (error) => {
         console.log("error : " + error.message);
       }
@@ -59,6 +60,7 @@ export class AddClientComponent implements OnInit{
     this.paramService.getAssujettis().subscribe(
       (response: Assujetti[]) => {
         this.assujettis = response;
+
       }, (error: HttpErrorResponse) => {
         console.log(error.message)
       }

@@ -11,11 +11,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatBadgeModule} from "@angular/material/badge";
 import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatMenuModule} from "@angular/material/menu";
 import { ClientComponent } from './client-components/client/client.component';
 import {MatTableModule} from "@angular/material/table";
@@ -35,11 +32,13 @@ import { AddDocumentComponent } from './document-components/add-document/add-doc
 import { ArticleComponent } from './article-components/article/article.component';
 import { AddArticleComponent } from './article-components/add-article/add-article.component';
 import { ParameterDialogComponent } from './parameter-dialog/parameter-dialog.component';
-import {MatFileUploadModule} from "angular-material-fileupload";
 import { AddArticleDocumentComponent } from './add-article-document/add-article-document.component';
 import {MatCardModule} from "@angular/material/card";
-import {MatDatepickerModule} from "@angular/material/datepicker";
 import { AddParamComponent } from './add-param/add-param.component';
+import { ListArticleComponent } from './list-article/list-article.component';
+import {MatListModule} from "@angular/material/list";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -58,35 +57,34 @@ import { AddParamComponent } from './add-param/add-param.component';
     AddArticleComponent,
     ParameterDialogComponent,
     AddArticleDocumentComponent,
-    AddParamComponent
+    AddParamComponent,
+    ListArticleComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressBarModule,
-    MatSelectModule,
-    MatBadgeModule,
-    HttpClientModule,
-    MatButtonToggleModule,
-    MatMenuModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatDividerModule,
-    MatSortModule,
-    MatFileUploadModule,
-    MatCardModule,
-    MatDatepickerModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSelectModule,
+        HttpClientModule,
+        MatMenuModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        MatDividerModule,
+        MatSortModule,
+        MatCardModule,
+        MatListModule,
+        MatDatepickerModule,
+		MatNativeDateModule
+    ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })

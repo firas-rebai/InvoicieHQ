@@ -2,152 +2,50 @@ import {Assujetti} from "./Assujetti";
 import {TVA} from "./TVA";
 
 export class Settings {
-  get fb_acc(): string {
-    return this._fb_acc;
-  }
+	constructor(assujetti: Assujetti, raison_social: string, email: string, fax: string, telephone: string, mobile: string, adresse: string, tva: TVA, registre_commerce: string, fodec: number, logo: string, retenue_source: number, timbre: number, fb_acc: string) {
+		this.assujetti = assujetti;
+		this.raison_social = raison_social;
+		this.email = email;
+		this.fax = fax;
+		this.telephone = telephone;
+		this.mobile = mobile;
+		this.adresse = adresse;
+		this.tva = tva;
+		this.registre_commerce = registre_commerce;
+		this.fodec = fodec;
+		this.logo = logo;
+		this.retenue_source = retenue_source;
+		this.timbre = timbre;
+		this.fb_acc = fb_acc;
+	}
 
-  set fb_acc(value: string) {
-    this._fb_acc = value;
-  }
-  private _id!: bigint;
+	id: bigint;
 
-  private _assujetti!: Assujetti;
+	assujetti: Assujetti;
 
-  private _raisonSocial!: string;
+	raison_social: string;
 
-  private _email!: string;
+	email: string;
 
-  get id(): bigint {
-    return this._id;
-  }
+	fax: string;
 
-  set id(value: bigint) {
-    this._id = value;
-  }
+	telephone: string;
 
-  get assujetti(): Assujetti {
-    return this._assujetti;
-  }
+	mobile: string;
 
-  set assujetti(value: Assujetti) {
-    this._assujetti = value;
-  }
+	adresse: string;
 
-  get raisonSocial(): string {
-    return this._raisonSocial;
-  }
+	tva: TVA;
 
-  set raisonSocial(value: string) {
-    this._raisonSocial = value;
-  }
+	registre_commerce: string;
 
-  get email(): string {
-    return this._email;
-  }
+	fodec: number;
 
-  set email(value: string) {
-    this._email = value;
-  }
+	logo: string;
 
-  get fax(): string {
-    return this._fax;
-  }
+	retenue_source: number;
 
-  set fax(value: string) {
-    this._fax = value;
-  }
+	timbre: number;
 
-  get telephone(): string {
-    return this._telephone;
-  }
-
-  set telephone(value: string) {
-    this._telephone = value;
-  }
-
-  get mobile(): string {
-    return this._mobile;
-  }
-
-  set mobile(value: string) {
-    this._mobile = value;
-  }
-
-  get adresse(): string {
-    return this._adresse;
-  }
-
-  set adresse(value: string) {
-    this._adresse = value;
-  }
-
-  get tva(): TVA {
-    return this._tva;
-  }
-
-  set tva(value: TVA) {
-    this._tva = value;
-  }
-
-  get registre_commerce(): string {
-    return this._registre_commerce;
-  }
-
-  set registre_commerce(value: string) {
-    this._registre_commerce = value;
-  }
-
-  get fodec(): number {
-    return this._fodec;
-  }
-
-  set fodec(value: number) {
-    this._fodec = value;
-  }
-
-  get logo(): string {
-    return this._logo;
-  }
-
-  set logo(value: string) {
-    this._logo = value;
-  }
-
-  get retenue_source(): number {
-    return this._retenue_source;
-  }
-
-  set retenue_source(value: number) {
-    this._retenue_source = value;
-  }
-
-  get timbre(): number {
-    return this._timbre;
-  }
-
-  set timbre(value: number) {
-    this._timbre = value;
-  }
-
-  private _fax!: string;
-
-  private _telephone!: string;
-
-  private _mobile!: string;
-
-  private _adresse!: string;
-
-  private _tva: TVA;
-
-  private _registre_commerce: string;
-
-  private _fodec: number;
-
-  private _logo: string;
-
-  private _retenue_source: number;
-
-  private _timbre: number;
-
-  private _fb_acc: string;
+	fb_acc: string;
 }

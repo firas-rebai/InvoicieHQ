@@ -9,44 +9,45 @@ import {AddClientComponent} from "../add-client/add-client.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.css']
+	selector: 'app-client',
+	templateUrl: './client.component.html',
+	styleUrls: ['./client.component.css']
 })
-export class ClientComponent implements OnInit, AfterViewInit{
+export class ClientComponent implements OnInit, AfterViewInit {
 
-  clients: MatTableDataSource<Client> = new MatTableDataSource<Client>();
+	clients: MatTableDataSource<Client>;
 
-  displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'assujetti', 'fax', 'telephone', 'action'];
+	displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'assujetti', 'fax', 'telephone', 'action'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.clients.paginator = this.paginator;
-  }
+	ngAfterViewInit() {
+		this.getClients();
+	}
 
-  constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
-  }
+	constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
+	}
 
-  public getClients(): void {
-    this.clientService.getClients().subscribe(
-      (response: Client[]) => {
-        this.clients = new MatTableDataSource<Client>(response);
-      }, (error: HttpErrorResponse) => {
-        // alert(error.message)
-      }
-    )
-  }
+	public getClients(): void {
+		this.clientService.getClients().subscribe(
+			(response: Client[]) => {
+				this.clients = new MatTableDataSource<Client>(response);
+				this.clients.paginator = this.paginator;
+			}, (error: HttpErrorResponse) => {
+				// alert(error.message)
+			}
+		)
+	}
 
-  ngOnInit(): void {
-    this.getClients();
-  }
+	ngOnInit(): void {
 
-  AddDialog() {
-    const dialogRef = this.dialog.open(AddClientComponent);
+	}
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.getClients()
-    });
-  }
+	AddDialog() {
+		const dialogRef = this.dialog.open(AddClientComponent);
+
+		dialogRef.afterClosed().subscribe(result => {
+			this.getClients()
+		});
+	}
 }

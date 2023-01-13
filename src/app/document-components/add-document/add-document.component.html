@@ -1,12 +1,23 @@
 <div class="container-fluid">
 	<div class="row">
+		<div class="col-md-2">
+			<mat-form-field class="options">
+				<mat-label>Choisir une date</mat-label>
+				<input [(ngModel)]="document.date" matInput [matDatepicker]="picker">
+				<mat-hint>MM/JJ/YYYY</mat-hint>
+				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+
+		</div>
 		<div class="col-md-3">
 			<div class="options">
-				<mat-radio-group [(ngModel)]="this.document.transaction">
+				<mat-radio-group [(ngModel)]="this.document.transaction"
+								 (change)="this.document.client = null; this.document.fournisseur = null">
 					<mat-radio-button color="primary" value="vente">Vente</mat-radio-button>
 					<mat-radio-button color="primary" value="achat">Achat</mat-radio-button>
 				</mat-radio-group>
-				<mat-form-field>
+				<mat-form-field style="margin-right: 10px">
 					<mat-label>Type document</mat-label>
 					<mat-select [(value)]="this.document.type">
 
@@ -25,15 +36,14 @@
 				<div class="options">
 					<mat-form-field>
 						<mat-label>Fournisseur</mat-label>
-						<mat-select [(ngModel)]="this.document.fournisseur">
+						<mat-select [(ngModel)]="this.document.fournisseur"
+									(selectionChange)="this.document.client = null">
 							<ng-container *ngFor="let fournisseur of fournisseurs">
-								<mat-option>{{fournisseur.raison_social}}</mat-option>
+								<mat-option [value]="fournisseur">{{fournisseur.raison_social}}</mat-option>
 							</ng-container>
 						</mat-select>
 					</mat-form-field>
-				</div>
-				<div class="col-sm-2">
-					<button (click)="AddFournisseur()" mat-mini-fab>
+					<button color="primary" (click)="AddFournisseur()" mat-mini-fab>
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
@@ -44,27 +54,20 @@
 				<div class="options">
 					<mat-form-field>
 						<mat-label>Client</mat-label>
-						<mat-select [(ngModel)]="this.document.client">
+						<mat-select [(ngModel)]="this.document.client" (valueChange)="this.document.fournisseur = null">
 							<ng-container *ngFor="let client of clients">
-								<mat-option>{{client.raison_social}}</mat-option>
+								<mat-option [value]="client">{{client.raison_social}}</mat-option>
 							</ng-container>
 						</mat-select>
+
 					</mat-form-field>
-				</div>
-				<div class="col-sm-2">
-					<button (click)="AddClient()" mat-mini-fab>
+					<button color="primary" (click)="AddClient()" mat-mini-fab>
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
 			</div>
 		</ng-container>
-		<div class="col">
-			<mat-form-field class="options">
-				<input matInput placeholder="Date limite" type="datetime-local">
 
-			</mat-form-field>
-
-		</div>
 		<br>
 	</div>
 	<div class="row">
@@ -72,15 +75,9 @@
 			<div class="row">
 				<div class="mat-elevation-z8">
 					<table mat-table [dataSource]="articleDocument">
-
-						<ng-container matColumnDef="ID">
-							<th mat-header-cell *matHeaderCellDef> ID</th>
-							<td mat-cell *matCellDef="let article"> {{article.id}} </td>
-						</ng-container>
-
 						<ng-container matColumnDef="designation">
 							<th mat-header-cell *matHeaderCellDef> Designation</th>
-							<td mat-cell *matCellDef="let article"> {{article.designation}} </td>
+							<td mat-cell *matCellDef="let article"> {{article.article.designation}} </td>
 						</ng-container>
 
 						<ng-container matColumnDef="quantite">
@@ -127,10 +124,7 @@
 						<ng-container matColumnDef="action">
 							<th mat-header-cell *matHeaderCellDef></th>
 							<td mat-cell *matCellDef="let article">
-								<button mat-mini-fab>
-									<mat-icon>delete</mat-icon>
-								</button>
-								<button mat-mini-fab>
+								<button color="warn" mat-mini-fab>
 									<mat-icon>delete</mat-icon>
 								</button>
 							</td>
@@ -165,6 +159,8 @@
 		</div>
 		<div class="col-md-2">
 			<button mat-raised-button color="primary" (click)="AddDialog()">Ajouter un article</button>
+
+			<button mat-raised-button color="primary" (click)="submit()">submit</button>
 		</div>
 	</div>
 </div>

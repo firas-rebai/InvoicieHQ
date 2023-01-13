@@ -12,43 +12,45 @@ import {FournisseurService} from "../../_services/fournisseur.service";
 import {AddFournisseurComponent} from "../add-fournisseur/add-fournisseur.component";
 
 @Component({
-  selector: 'app-fournisseur',
-  templateUrl: './fournisseur.component.html',
-  styleUrls: ['./fournisseur.component.css']
+	selector: 'app-fournisseur',
+	templateUrl: './fournisseur.component.html',
+	styleUrls: ['./fournisseur.component.css']
 })
 export class FournisseurComponent {
-  fournisseurs: MatTableDataSource<Fournisseur> = new MatTableDataSource<Fournisseur>();
+	fournisseurs: MatTableDataSource<Fournisseur> = new MatTableDataSource<Fournisseur>();
 
-  displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'HT/TTC', 'action'];
+	displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'HT/TTC', 'action'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.fournisseurs.paginator = this.paginator;
-  }
+	ngAfterViewInit() {
+		this.getFournisseurs();
 
-  constructor(private fournisseurService: FournisseurService, private router: Router, public dialog: MatDialog) {
-  }
+	}
 
-  public getClients(): void {
-    this.fournisseurService.getFournisseurs().subscribe(
-      (response: Fournisseur[]) => {
-        this.fournisseurs = new MatTableDataSource<Fournisseur>(response);
-      }, (error: HttpErrorResponse) => {
-        // alert(error.message)
-      }
-    )
-  }
+	constructor(private fournisseurService: FournisseurService, private router: Router, public dialog: MatDialog) {
+	}
 
-  ngOnInit(): void {
-    this.getClients();
-  }
+	public getFournisseurs(): void {
+		this.fournisseurService.getFournisseurs().subscribe(
+			(response: Fournisseur[]) => {
+				this.fournisseurs = new MatTableDataSource<Fournisseur>(response);
+				this.fournisseurs.paginator = this.paginator;
+			}, (error: HttpErrorResponse) => {
+				// alert(error.message)
+			}
+		)
+	}
 
-  AddDialog() {
-    const dialogRef = this.dialog.open(AddFournisseurComponent);
+	ngOnInit(): void {
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.getClients()
-    });
-  }
+	}
+
+	AddDialog() {
+		const dialogRef = this.dialog.open(AddFournisseurComponent);
+
+		dialogRef.afterClosed().subscribe(result => {
+			this.getFournisseurs();
+		});
+	}
 }

@@ -21,7 +21,7 @@
 
           <ng-container matColumnDef="unite">
             <th mat-header-cell *matHeaderCellDef> Unité</th>
-            <td mat-cell *matCellDef="let article"> {{article.unite.unite}} </td>
+            <td mat-cell *matCellDef="let article"> {{article.unite!= null ? article.unite.unite : "--"}} </td>
           </ng-container>
 
           <ng-container matColumnDef="date">
@@ -41,17 +41,17 @@
 
           <ng-container matColumnDef="famille">
             <th mat-header-cell *matHeaderCellDef> Famille d'article</th>
-            <td mat-cell *matCellDef="let article"> {{article.famille_article.famille}} </td>
+            <td mat-cell *matCellDef="let article"> {{article.famille_article != null ? article.famille_article.famille : "--"}} </td>
           </ng-container>
 
           <ng-container matColumnDef="TVA">
             <th mat-header-cell *matHeaderCellDef> Code TVA</th>
-            <td mat-cell *matCellDef="let article"> {{article.tva.base}} </td>
+            <td mat-cell *matCellDef="let article"> {{article.tva != null ? article.tva.base : "--"}} </td>
           </ng-container>
 
           <ng-container matColumnDef="fournisseur">
             <th mat-header-cell *matHeaderCellDef> Fournisseur</th>
-            <td mat-cell *matCellDef="let article"> {{article.fournisseur.raison_social}} </td>
+            <td mat-cell *matCellDef="let article"> {{article.fournisseur != null ? article.fournisseur.raison_social : "--"}} </td>
           </ng-container>
 
 
