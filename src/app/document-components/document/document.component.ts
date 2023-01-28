@@ -5,9 +5,10 @@ import {Document} from "../../_models/Document";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {AddFournisseurComponent} from "../../fournisseur-components/add-fournisseur/add-fournisseur.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmModalComponent} from "../../confirm-modal/confirm-modal.component";
+import {DocumentViewerComponent} from "../../document-viewer/document-viewer.component";
+import {DataSharingService} from "../../_services/data-sharing.service";
 
 @Component({
 	selector: 'app-document',
@@ -23,7 +24,13 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	displayedColumns: string[] = [];
 	selectedRowIndex = -1;
 
-	constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog) {
+	constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,private dataSharingService: DataSharingService) {
+		this.dataSharingService.trans.subscribe( (value: string) => {
+			this.trans = value;
+			this.getDocuments();
+			if (this.trans == 'vente') this.displayedColumns = ['ID', 'client', 'date', 'montant', 'action'];
+			if (this.trans == 'achat') this.displayedColumns = ['ID', 'fournisseur', 'date', 'montant', 'action'];
+		});
 	}
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,11 +42,20 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	getDocuments() {
-		this.documentService.getDocuments(this.type, this.trans).subscribe(
+		this.documentService.getDocumentsTrans(this.trans).subscribe(
 			(response) => {
 				this.documents = new MatTableDataSource<Document>(response);
 				this.documents.paginator = this.paginator;
 				this.documents.sort = this.sort;
+				this.documents.data.forEach(doc => {
+					let montant: number = 0;
+					doc.articleDocument.forEach( article => {
+							montant += article.montant_ht;
+						}
+					)
+					doc.montant_ht = montant.toString();
+				})
+				console.log(response)
 			}, (error) => {
 				console.log(error);
 			}
@@ -48,19 +64,10 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		// @ts-ignore
-		this.type = this.activatedRoute.snapshot.paramMap.get('type');
-		// @ts-ignore
 		this.trans = this.activatedRoute.snapshot.paramMap.get('trans');
 		if (this.trans == 'vente') this.displayedColumns = ['ID', 'client', 'date', 'montant', 'action'];
 		if (this.trans == 'achat') this.displayedColumns = ['ID', 'fournisseur', 'date', 'montant', 'action'];
 
-
-		if (this.type == 'bl') {
-			this.typeShow = "BL";
-		} else if (this.type == 'bl_facture') {
-			this.typeShow = "BL Facturé";
-		} else this.typeShow = this.type
-		this.transShow = this.trans;
 	}
 
 	applyFilter(event: Event) {
@@ -73,13 +80,39 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 
+	applyTypeFilter() {
+		const type = this.type.toLowerCase();
+		if (type == 'tous') {
+			this.getDocuments();
+			return ;
+		}
+		this.documentService.getDocumentsType(type,this.trans).subscribe(
+			(response) => {
+				this.documents = new MatTableDataSource<Document>(response);
+				this.documents.paginator = this.paginator;
+				this.documents.sort = this.sort;
+				this.documents.data.forEach(doc => {
+					var montant: number = 0;
+					doc.articleDocument.forEach( article => {
+							montant += article.montant_ht;
+						}
+					)
+					doc.montant_ht = montant.toString();
+				})
+				console.log(response)
+			}, (error) => {
+				console.log(error);
+			}
+		)
+	}
+
 	AddDialog() {
 
 	}
 
-	delete(id: number) {
-		const dialogRef = this.dialog.open(ConfirmModalComponent , {
-			data: {message: 'Êtes-vous sûr de vouloir supprimer le document '+ id +' ?'}
+	delete(id: number,reference : string) {
+		const dialogRef = this.dialog.open(ConfirmModalComponent, {
+			data: {message: 'Êtes-vous sûr de vouloir supprimer le document ' + reference + ' ?'}
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
@@ -88,11 +121,23 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 					() => {
 						this.getDocuments();
 					}, (error) => {
-						console.log(error.message)
+						console.log(error.message);
 					}
 				)
 			}
 		});
 	}
 
+	openPDF(id : number) {
+		this.documentService.generatePDF(id).subscribe(
+			(response) => {
+				const file = new Blob([response], { type: 'application/pdf' });
+				const pdf = URL.createObjectURL(file);
+				// this.pdf = 'data:application/pdf;base64,' + file.text;
+				window.open(pdf);
+			}, (error) => {
+				console.log(error);
+			}
+		)
+	}
 }

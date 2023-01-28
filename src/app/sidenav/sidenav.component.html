@@ -1,0 +1,31 @@
+<mat-nav-list>
+	<div class="logo py-4">
+		<img src="./assets/logo.svg" alt="Company Logo" />
+	</div>
+	<mat-divider></mat-divider>
+
+	<a mat-list-item routerLinkActive="list-item-active" routerLink="/home">
+		<mat-icon>home</mat-icon> Home
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" routerLink="/add-document">
+		<mat-icon>dashboard</mat-icon> Ajouter Document
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" routerLink="/client">
+		<mat-icon>dashboard</mat-icon> Clients
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" routerLink="/fournisseur">
+		<mat-icon>dashboard</mat-icon> Fournisseurs
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" routerLink="/article">
+		<mat-icon>dashboard</mat-icon> Articles
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" routerLink="/param">
+		<mat-icon>dashboard</mat-icon> Parametrages
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" (click)="openMenu('vente')" >
+		<mat-icon>dashboard</mat-icon> Vente
+	</a>
+	<a mat-list-item routerLinkActive="list-item-active" (click)="openMenu('achat')" >
+		<mat-icon>dashboard</mat-icon> Achat
+	</a>
+</mat-nav-list>

@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'client', component: ClientComponent },
   { path: 'fournisseur', component: FournisseurComponent },
-  { path: 'document/:trans/:type', component: DocumentComponent },
+  { path: 'document/:trans', component: DocumentComponent },
   { path: 'param', component: ParamComponent },
   { path: 'add-document', component: AddDocumentComponent },
   { path: 'article', component: ArticleComponent }

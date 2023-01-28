@@ -18,8 +18,8 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 	selectedTVA: TVA;
 	assujettis: Assujetti[];
 	tvas: TVA[];
-
-
+	private profilePic: File;
+	private ImageUrl: any;
 
 
 	constructor(private settingsService: ParameterService, private paramService: ParamService) {
@@ -27,6 +27,8 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 
 
 	public update(): void {
+		// this.param.assujetti = this.selectedAssujetti;
+		// this.param.tva = this.selectedTVA;
 		this.settingsService.updateSettings(this.param).subscribe(
 			(result) => {
 				console.log(result);
@@ -98,4 +100,16 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 		this.getAssujettis();
 		this.getTVAs();
 	}
+
+	// selectImage(event: any) {
+	// 	this.profilePic = <File>event.target.files[0];
+	// 	console.log(this.profilePic);
+	// 	this.ImageUrl = event.target.result;
+	// 	let reader = new FileReader();
+	// 	reader.onload = e => {
+	// 		this.ImageUrl = e.target.result;
+	// 	}
+	// 	reader.readAsDataURL(event.target.files[0]);
+	// }
+
 }

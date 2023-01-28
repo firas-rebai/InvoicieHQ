@@ -4,9 +4,7 @@ import {ArticleDocument} from "./ArticleDocument";
 import {User} from "./User";
 
 export class Document {
-
-
-	id: bigint;
+	id: number;
 	client: Client | null;
 	fournisseur: Fournisseur | null;
 	date: Date;
@@ -14,5 +12,6 @@ export class Document {
 	transaction: string;
 	articleDocument: ArticleDocument[];
 	user: User;
-
+	reference: string;
+	montant_ht: string;
 }

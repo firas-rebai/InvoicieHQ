@@ -1,0 +1,92 @@
+/*.nav-item {*/
+/*  padding-left: 10px;*/
+/*}*/
+
+/*.component-container {*/
+
+/*}*/
+
+/*.d-flex {*/
+/*  margin-right: 20px;*/
+/*}*/
+
+
+/*.app {*/
+/*  background-color: #131313;*/
+/*  height: 100vh;*/
+/*}*/
+
+/*.router-container {*/
+/*  padding-top: 5vh ;*/
+/*}*/
+
+/*.nav-link {*/
+/*  font-size: 20px;*/
+/*}*/
+/*.nav-link:hover {*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*:host {*/
+/*	display: flex;*/
+/*	flex-direction: column;*/
+/*	height: 100%;*/
+/*}*/
+
+/*mat-drawer {*/
+/*	width: 260px;*/
+/*}*/
+/*mat-drawer-container {*/
+/*	height: 100%;*/
+/*	background: #2a2828;*/
+/*}*/
+
+/*mat-drawer {*/
+/*	background: #757575;*/
+
+/*}*/
+
+/*mat-drawer-content {*/
+/*	font-weight: bold;*/
+/*}*/
+
+mat-sidenav-container {
+	height: 92vh;
+
+
+}
+
+mat-sidenav {
+	width: 250px;
+	background: rgb(103,58,183);
+	background: linear-gradient(180deg, rgba(103,58,183,1) 24%, rgba(0,212,255,0) 100%);
+}
+
+mat-list {
+	color: white;
+}
+
+.menu-button {
+	background: rgba(0,0,0,0);
+	width: 100%;
+	margin-top: 10px;
+	display: flex;
+	justify-content: flex-start;
+	height: 40px;
+	border: none;
+	padding-top: 7px;
+	mat-icon {
+		margin-right: 20px;
+	}
+	font-size: 18px;
+color: white;
+}
+
+.active-link {
+	border-left: 5px solid #58018d;
+	background: rgb(144, 59, 197);
+}
+
+.spacer {
+	flex: 1 1 auto;
+}

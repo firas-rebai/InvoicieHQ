@@ -1,0 +1,13 @@
+<mat-dialog-content>
+	<pdf-viewer [src]="pdf" [zoom]="zoom" [(page)]="pageVariable" [render-text]="true" [original-size]="false"
+				style="width: 50vw; height: 1200px"
+	>
+
+	</pdf-viewer>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+	<button mat-button>Imprimer</button>
+	<button mat-button mat-dialog-close>Annuler</button>
+	<button mat-button [mat-dialog-close]="true" mat-raised-button class="btn btn-danger pull-right">Confirmer</button>
+</mat-dialog-actions>

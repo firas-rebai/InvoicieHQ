@@ -39,7 +39,12 @@ import { ListArticleComponent } from './list-article/list-article.component';
 import {MatListModule} from "@angular/material/list";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
-
+import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
+import {PdfViewerModule} from 'ng2-pdf-viewer';
+import { HeaderComponent } from './header/header.component';
+import { SidenavComponent } from './sidenav/sidenav.component'
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatSidenavModule} from "@angular/material/sidenav";
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,33 +63,39 @@ import {MatNativeDateModule} from "@angular/material/core";
     ParameterDialogComponent,
     AddArticleDocumentComponent,
     AddParamComponent,
-    ListArticleComponent
+    ListArticleComponent,
+    DocumentViewerComponent,
+    HeaderComponent,
+    SidenavComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        FormsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatSelectModule,
-        HttpClientModule,
-        MatMenuModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatCheckboxModule,
-        MatDividerModule,
-        MatSortModule,
-        MatCardModule,
-        MatListModule,
-        MatDatepickerModule,
-		MatNativeDateModule
-    ],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		MatFormFieldModule,
+		FormsModule,
+		MatInputModule,
+		MatButtonModule,
+		MatIconModule,
+		MatSelectModule,
+		HttpClientModule,
+		MatMenuModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatDialogModule,
+		ReactiveFormsModule,
+		MatRadioModule,
+		MatCheckboxModule,
+		MatDividerModule,
+		MatSortModule,
+		MatCardModule,
+		MatListModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		PdfViewerModule,
+		MatToolbarModule,
+		MatSidenavModule
+	],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })

@@ -1,10 +1,21 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-9">
-			<h1>{{transShow |titlecase }} > {{typeShow | titlecase }} </h1>
+			<h1>{{transShow |titlecase }}</h1>
 			<mat-form-field>
 				<mat-label>Filter</mat-label>
 				<input matInput (keyup)="applyFilter($event)" #input>
+			</mat-form-field>
+			<mat-form-field style="margin-right: 10px">
+				<mat-label>Type document</mat-label>
+				<mat-select (selectionChange)="applyTypeFilter()" [(value)]="type">
+					<mat-option value="tous">Tous</mat-option>
+					<mat-option value="devis">Devis</mat-option>
+					<mat-option value="commande">Commande</mat-option>
+					<mat-option value="bl">BL</mat-option>
+					<mat-option value="bl_facture">BL Facturé</mat-option>
+					<mat-option value="facture">Facture</mat-option>
+				</mat-select>
 			</mat-form-field>
 			<div class="mat-elevation-z8">
 
@@ -18,14 +29,14 @@
 					<ng-container *ngIf="trans == 'vente'">
 						<ng-container matColumnDef="client">
 							<th mat-header-cell *matHeaderCellDef> Client</th>
-							<td mat-cell *matCellDef="let document"> {{document.client}} </td>
+							<td mat-cell *matCellDef="let document"> {{document.client.raison_social}} </td>
 						</ng-container>
 					</ng-container>
 
 					<ng-container *ngIf="trans == 'achat'">
 						<ng-container matColumnDef="fournisseur">
 							<th mat-header-cell *matHeaderCellDef> Fournisseur</th>
-							<td mat-cell *matCellDef="let document"> {{document.fournisseur}} </td>
+							<td mat-cell *matCellDef="let document"> {{document.fournisseur.raison_social}} </td>
 						</ng-container>
 					</ng-container>
 
@@ -42,11 +53,14 @@
 					<ng-container matColumnDef="action">
 						<th mat-header-cell *matHeaderCellDef></th>
 						<td mat-cell *matCellDef="let document">
-							<button (click)="delete(document.id)" color="warn" mat-mini-fab>
+							<button (click)="delete(document.id,document.reference)" color="warn" mat-mini-fab>
 								<mat-icon>delete</mat-icon>
 							</button>
 							<button color="primary" mat-mini-fab>
 								<mat-icon>edit</mat-icon>
+							</button>
+							<button (click)="openPDF(document.id)" color="primary" mat-mini-fab>
+								<mat-icon>print</mat-icon>
 							</button>
 						</td>
 					</ng-container>

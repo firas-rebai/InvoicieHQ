@@ -48,17 +48,25 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	submit() {
-		this.document.articleDocument = this.articleDocument;
+		const form: FormData = new FormData();
+		//this.document.articleDocument = this.articleDocument;
 		this.document.user = this.tokenStorage.getUser();
 		this.documentService.addDocument(this.document).subscribe(
 			result => {
-				console.log(this.document)
+				console.log(result)
+				form.append("documentId", result.id.toString());
+				this.documentService.saveArticles(this.articleDocument, result.id).subscribe(
+					result_final => {
+						console.log(result_final)
+					},error => {
+						console.log("error")
+					}
+				)
 			}, error => {
 				console.log(error)
 			}
 		)
 	}
-
 
 
 	calculate() {
@@ -92,7 +100,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	AddDialog() {
 		const dialogRef = this.dialog.open(AddArticleDocumentComponent);
 		dialogRef.afterClosed().subscribe((result: ArticleDocument) => {
-			if (result){
+			if (result) {
 				// this.articleDocument.data.push(result);
 				this.articleDocument.push(result)
 				this.table.renderRows();

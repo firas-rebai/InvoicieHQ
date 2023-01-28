@@ -76,8 +76,8 @@
 			<div class="row">
 				<div class="col-sm-10">
 					<mat-form-field>
-						<mat-label>Code TVA</mat-label>
-						<mat-select [(ngModel)]="param.tva">
+						<mat-label>{{param.tva != undefined? param.tva.base : "--"}}</mat-label>
+						<mat-select [(ngModel)]="param.tva" >
 							<ng-container *ngFor="let tva of tvas">
 								<mat-option [value]="tva">{{tva.base}}</mat-option>
 							</ng-container>
@@ -93,8 +93,8 @@
 			<div class="row">
 				<div class="col-sm-10">
 					<mat-form-field>
-						<mat-label>Assujetti</mat-label>
-						<mat-select [(ngModel)]="param.assujetti">
+						<mat-label>{{param.assujetti != undefined? param.assujetti.type : "--"}}</mat-label>
+						<mat-select [(ngModel)]="param.assujetti" >
 							<ng-container *ngFor="let assujetti of assujettis">
 								<mat-option [value]="assujetti">{{assujetti.type}} {{assujetti.coefficient_tva}}%
 								</mat-option>
