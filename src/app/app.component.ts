@@ -4,6 +4,7 @@ import {AddFournisseurComponent} from "./fournisseur-components/add-fournisseur/
 import {MatDialog} from "@angular/material/dialog";
 import {ParameterDialogComponent} from "./parameter-dialog/parameter-dialog.component";
 import {DataSharingService} from "./_services/data-sharing.service";
+import {TokenStorageService} from "./_services/token-storage.service";
 
 @Component({
 	selector: 'app-root',
@@ -15,8 +16,13 @@ export class AppComponent {
 	@Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
 	active_achat: string = 'menu-button';
 	active_vente: string = 'menu-button';
+	showNavbar: boolean = true;
 
-	constructor(private router: Router, public dialog: MatDialog,private dataSharingService: DataSharingService) {
+	constructor(private router: Router, public dialog: MatDialog, private dataSharingService: DataSharingService, private tokenStorage: TokenStorageService) {
+		this.dataSharingService.isUserLoggedIn.subscribe(value => {
+			this.showNavbar = value;
+			console.log(value)
+		})
 	}
 
 	sideBarOpen = true;
@@ -28,11 +34,11 @@ export class AppComponent {
 	openMenu(trans: string) {
 
 		// window.location.href = window.location.protocol + '//' + window.location.host + '/document/' + trans;
-		this.router.navigate(['document',trans]);
-		if (trans == 'vente'){
+		this.router.navigate(['document', trans]);
+		if (trans == 'vente') {
 			this.active_achat = 'menu-button';
 			this.active_vente = 'active-link'
-		}else  {
+		} else {
 			this.active_vente = 'menu-button';
 			this.active_achat = 'active-link'
 		}
@@ -49,4 +55,10 @@ export class AppComponent {
 	}
 
 
+	logout() {
+		this.tokenStorage.signOut();
+		this.dataSharingService.isUserLoggedIn.next(false);
+		this.dataSharingService.userLoggedOut();
+		this.router.navigate(["/login"])
+	}
 }

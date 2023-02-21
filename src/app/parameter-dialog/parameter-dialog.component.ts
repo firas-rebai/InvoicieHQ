@@ -1,16 +1,16 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Assujetti} from "../_models/Assujetti";
-import {TVA} from "../_models/TVA";
-import {FormGroup} from "@angular/forms";
-import {ParamService} from "../_services/param.service";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ParameterService} from "../_services/parameter.service";
-import {Settings} from "../_models/Settings";
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Assujetti } from '../_models/Assujetti';
+import { TVA } from '../_models/TVA';
+import { FormGroup } from '@angular/forms';
+import { ParamService } from '../_services/param.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ParameterService } from '../_services/parameter.service';
+import { Settings } from '../_models/Settings';
 
 @Component({
 	selector: 'app-parameter-dialog',
 	templateUrl: './parameter-dialog.component.html',
-	styleUrls: ['./parameter-dialog.component.css']
+	styleUrls: ['./parameter-dialog.component.css'],
 })
 export class ParameterDialogComponent implements OnInit, AfterViewInit {
 	param: Settings;
@@ -18,51 +18,60 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 	selectedTVA: TVA;
 	assujettis: Assujetti[];
 	tvas: TVA[];
+	logo: any;
 	private profilePic: File;
-	private ImageUrl: any;
+	ImageUrl: string | ArrayBuffer | undefined | null;
 
-
-	constructor(private settingsService: ParameterService, private paramService: ParamService) {
-	}
-
+	constructor(
+		private settingsService: ParameterService,
+		private paramService: ParamService
+	) {}
 
 	public update(): void {
 		// this.param.assujetti = this.selectedAssujetti;
 		// this.param.tva = this.selectedTVA;
+		this.param.logo = this.logo;
+		this.param.logoType = this.profilePic.type;
 		this.settingsService.updateSettings(this.param).subscribe(
 			(result) => {
 				console.log(result);
-			}, (error) => {
+			},
+			(error) => {
 				console.log(error);
 			}
-		)
-
+		);
 	}
 
 	public getAssujettis(): void {
 		this.paramService.getAssujettis().subscribe(
 			(response: Assujetti[]) => {
 				this.assujettis = response;
-			}, (error: HttpErrorResponse) => {
-				console.log(error.message)
+			},
+			(error: HttpErrorResponse) => {
+				console.log(error.message);
 			}
-		)
+		);
 	}
 
 	public getTVAs(): void {
 		this.paramService.getTVAs().subscribe(
 			(response: TVA[]) => {
 				this.tvas = response;
-			}, (error: HttpErrorResponse) => {
-				console.log(error.message)
+			},
+			(error: HttpErrorResponse) => {
+				console.log(error.message);
 			}
-		)
+		);
 	}
 
 	ngOnInit(): void {
 		this.settingsService.getSettings().subscribe(
 			(settings: Settings) => {
 				this.param = settings;
+				console.log('logo', this.logo);
+
+				this.ImageUrl = settings.logoType + ';base64,' + settings.logo;
+				console.log(settings);
 				// this.paramForm = new FormGroup(
 				//   {
 				//     raison_social: new FormControl(settings.raisonSocial, [Validators.required, Validators.pattern('^[a-zA-Z0-9\' ]{2,30}$')]),
@@ -84,32 +93,26 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 			(error: HttpErrorResponse) => {
 				console.log(error);
 			}
-		)
-
+		);
 	}
 
-	openAddAssujetti() {
+	openAddAssujetti() {}
 
-	}
-
-	openAddTVA() {
-
-	}
+	openAddTVA() {}
 
 	ngAfterViewInit(): void {
 		this.getAssujettis();
 		this.getTVAs();
 	}
 
-	// selectImage(event: any) {
-	// 	this.profilePic = <File>event.target.files[0];
-	// 	console.log(this.profilePic);
-	// 	this.ImageUrl = event.target.result;
-	// 	let reader = new FileReader();
-	// 	reader.onload = e => {
-	// 		this.ImageUrl = e.target.result;
-	// 	}
-	// 	reader.readAsDataURL(event.target.files[0]);
-	// }
-
+	onSelectFile(event) {
+		this.profilePic = <File>event.target.files[0];
+		console.log(this.profilePic);
+		this.ImageUrl = event.target.result;
+		let reader = new FileReader();
+		reader.onload = (e) => {
+			this.ImageUrl = e.target?.result;
+		}
+		reader.readAsDataURL(event.target.files[0]);
+	}
 }

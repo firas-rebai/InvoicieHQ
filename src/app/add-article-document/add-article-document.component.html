@@ -28,13 +28,7 @@
 	<div class="row">
 		<mat-form-field>
 			<mat-label>Unité</mat-label>
-			<input matInput disabled [(ngModel)]="article.article.unite.unite" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<mat-form-field>
-			<mat-label>Code TVA</mat-label>
-			<input matInput disabled [(ngModel)]="article.article.tva.base" placeholder="0.00" type="text">
+			<input matInput disabled [value]="article.article.unite != null ? article.article.unite.unite : '--'" placeholder="0.00" type="text">
 		</mat-form-field>
 	</div>
 
@@ -47,26 +41,9 @@
 	</div>
 	<div class="row">
 		<mat-form-field>
-			<mat-label>PUTTC</mat-label>
-			<input matInput [(ngModel)]="article.puttc" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<mat-form-field>
-			<mat-label>PU réel</mat-label>
-			<input matInput [(ngModel)]="article.pu_reel" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<mat-form-field>
-			<mat-label>Montant HT</mat-label>
-			<input matInput [(ngModel)]="article.montant_ht" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<mat-form-field>
 			<mat-label>Remise</mat-label>
 			<input matInput [(ngModel)]="article.remise" placeholder="0.00" type="text">
+			<span matTextSuffix>%</span>
 		</mat-form-field>
 	</div>
 

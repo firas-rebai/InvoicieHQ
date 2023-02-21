@@ -1,3 +1,18 @@
 .content {
   width: 70vh;
 }
+
+.image-container {
+	margin-left: 50px ;
+	margin-bottom: 30px;
+	width: 200px;
+	height: 200px;
+	background: #d5d5d5;
+	border: #a6a6a6 dashed 2px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.spacer {
+	flex: 1 1 auto;
+}

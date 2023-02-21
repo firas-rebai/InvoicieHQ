@@ -14,13 +14,17 @@ import {AddParamComponent} from "../add-param/add-param.component";
 @Component({
 	selector: 'app-param',
 	templateUrl: './param.component.html',
-	styleUrls: ['./param.component.css']
+	styleUrls: ['./param.component.scss']
 })
 export class ParamComponent implements OnInit {
 	assujettis: MatTableDataSource<Assujetti>;
 	unites: MatTableDataSource<Unite>;
 	tvas: MatTableDataSource<TVA>;
 	familles: MatTableDataSource<FamilleArticle>;
+	showFiller = false;
+
+	content: string = 'profil';
+
 
 	assujettiColumns: string[] = ['type', 'coef', 'action'];
 	TVAColumns: string[] = ['ID', 'base', 'action'];

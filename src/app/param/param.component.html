@@ -1,177 +1,215 @@
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-4">
-			<div class="param-container">
-				<div class="row">
-					<div class="col-md-11">
-						<div class="table-container mat-elevation-z8">
-							<table mat-table [dataSource]="assujettis" class="mat-elevation-z8">
+	<mat-sidenav-container>
+		<mat-sidenav opened="true" mode="side">
+			<mat-list>
+				<button [ngClass]="content == 'profil'? 'active' : 'menu-button'" (click)="content = 'profil'" class="menu-button">
+					<mat-icon>account_circle</mat-icon>
+					<span>Profil</span></button>
+				<button [ngClass]="content == 'societe'? 'active' : 'menu-button'" (click)="content = 'societe'" class="menu-button">
+					<mat-icon>people</mat-icon>
+					<span>Societé</span></button>
+				<button [ngClass]="content == 'reglages'? 'active' : 'menu-button'" (click)="content = 'reglages'" class="menu-button">
+					<mat-icon>edit_attributes</mat-icon>
+					<span>Reglages</span></button>
+				<button [ngClass]="content == 'perso'? 'active' : 'menu-button'" (click)="content = 'perso'" class="menu-button">
+					<mat-icon>people</mat-icon>
+					<span>Personnalisation</span></button>
+			</mat-list>
+		</mat-sidenav>
+		<mat-sidenav-content>
+			<ng-container *ngIf="content == 'perso'">
+				<mat-tab-group>
+					<mat-tab label="Unité">
+						<div class="param-container">
+							<div class="row">
+								<div class="col-md-11">
+									<div class="table-container mat-elevation-z8">
 
-								<ng-container matColumnDef="type">
-									<th mat-header-cell *matHeaderCellDef> Type</th>
-									<td mat-cell *matCellDef="let assujetti"> {{assujetti.type}} </td>
-								</ng-container>
+										<table mat-table [dataSource]="unites">
 
-								<ng-container matColumnDef="coef">
-									<th mat-header-cell *matHeaderCellDef> Coefficient TVA</th>
-									<td mat-cell *matCellDef="let assujetti"> {{assujetti.coefficient_tva}} %</td>
-								</ng-container>
+											<ng-container matColumnDef="ID">
+												<th mat-header-cell *matHeaderCellDef> ID</th>
+												<td mat-cell *matCellDef="let unite"> {{unite.id}} </td>
+											</ng-container>
 
-								<ng-container matColumnDef="action">
-									<th mat-header-cell *matHeaderCellDef></th>
-									<td mat-cell *matCellDef="let assujetti">
-										<button color="warn" (click)="deleteAssujetti(assujetti.id, assujetti.type)"
-												mat-mini-fab>
-											<mat-icon>delete</mat-icon>
-										</button>
-									</td>
-								</ng-container>
+											<ng-container matColumnDef="unite">
+												<th mat-header-cell *matHeaderCellDef> Unite</th>
+												<td mat-cell *matCellDef="let unite"> {{unite.unite}} </td>
+											</ng-container>
 
-
-								<tr mat-header-row *matHeaderRowDef="assujettiColumns; sticky : true"></tr>
-								<tr mat-row *matRowDef="let row; columns: assujettiColumns;"></tr>
+											<ng-container matColumnDef="action">
+												<th mat-header-cell *matHeaderCellDef></th>
+												<td mat-cell *matCellDef="let unite">
+													<button color="warn" (click)="deleteUnite(unite.id,unite.unite)"
+															mat-mini-fab>
+														<mat-icon>delete</mat-icon>
+													</button>
+												</td>
+											</ng-container>
 
 
-							</table>
+											<tr mat-header-row *matHeaderRowDef="uniteColumns; sticky : true"></tr>
+											<tr mat-row *matRowDef="let row; columns: uniteColumns;"></tr>
+
+										</table>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<button (click)="addDialog('unite')" mat-fab color="primary">
+										<mat-icon>add</mat-icon>
+									</button>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-1">
-						<button (click)="addDialog('assujetti')" mat-fab color="primary">
-							<mat-icon>add</mat-icon>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+					</mat-tab>
+					<mat-tab label="TVA">
+						<div class="param-container">
+							<div class="row">
+								<div class="col-md-11">
+									<div class="table-container mat-elevation-z8">
+										<table mat-table [dataSource]="tvas" class="mat-elevation-z8">
 
-		<div class="col-sm-4">
-			<div class="param-container">
-				<div class="row">
-					<div class="col-md-11">
-						<div class="table-container mat-elevation-z8">
-							<table mat-table [dataSource]="tvas" class="mat-elevation-z8">
+											<ng-container matColumnDef="ID">
+												<th mat-header-cell *matHeaderCellDef> ID</th>
+												<td mat-cell *matCellDef="let tva"> {{tva.id}} </td>
+											</ng-container>
 
-								<ng-container matColumnDef="ID">
-									<th mat-header-cell *matHeaderCellDef> ID</th>
-									<td mat-cell *matCellDef="let tva"> {{tva.id}} </td>
-								</ng-container>
+											<ng-container matColumnDef="base">
+												<th mat-header-cell *matHeaderCellDef> Base TVA</th>
+												<td mat-cell *matCellDef="let tva"> {{tva.base}} </td>
+											</ng-container>
 
-								<ng-container matColumnDef="base">
-									<th mat-header-cell *matHeaderCellDef> Base TVA</th>
-									<td mat-cell *matCellDef="let tva"> {{tva.base}} </td>
-								</ng-container>
-
-								<ng-container matColumnDef="action">
-									<th mat-header-cell *matHeaderCellDef></th>
-									<td mat-cell *matCellDef="let tva">
-										<button color="warn" (click)="deleteTVA(tva.id,tva.base)" mat-mini-fab>
-											<mat-icon>delete</mat-icon>
-										</button>
-									</td>
-								</ng-container>
+											<ng-container matColumnDef="action">
+												<th mat-header-cell *matHeaderCellDef></th>
+												<td mat-cell *matCellDef="let tva">
+													<button color="warn" (click)="deleteTVA(tva.id,tva.base)"
+															mat-mini-fab>
+														<mat-icon>delete</mat-icon>
+													</button>
+												</td>
+											</ng-container>
 
 
-								<tr mat-header-row *matHeaderRowDef="TVAColumns ; sticky : true"></tr>
-								<tr mat-row *matRowDef="let row; columns: TVAColumns;"></tr>
+											<tr mat-header-row *matHeaderRowDef="TVAColumns ; sticky : true"></tr>
+											<tr mat-row *matRowDef="let row; columns: TVAColumns;"></tr>
 
-							</table>
+										</table>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<button (click)="addDialog('tva')" mat-fab color="primary">
+										<mat-icon>add</mat-icon>
+									</button>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-1">
-						<button (click)="addDialog('tva')" mat-fab color="primary">
-							<mat-icon>add</mat-icon>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+					</mat-tab>
+					<mat-tab label="Assujetti">
+						<div class="param-container">
+							<div class="row">
+								<div class="col-md-11">
+									<div class="table-container mat-elevation-z8">
+										<table mat-table [dataSource]="assujettis" class="mat-elevation-z8">
 
-		<div class="col-sm-4">
-			<div class="param-container">
-				<div class="row">
-					<div class="col-md-11">
-						<div class="table-container mat-elevation-z8">
+											<ng-container matColumnDef="type">
+												<th mat-header-cell *matHeaderCellDef> Type</th>
+												<td mat-cell *matCellDef="let assujetti"> {{assujetti.type}} </td>
+											</ng-container>
 
-							<table mat-table [dataSource]="unites">
+											<ng-container matColumnDef="coef">
+												<th mat-header-cell *matHeaderCellDef> Coefficient TVA</th>
+												<td mat-cell *matCellDef="let assujetti"> {{assujetti.coefficient_tva}}
+													%
+												</td>
+											</ng-container>
 
-								<ng-container matColumnDef="ID">
-									<th mat-header-cell *matHeaderCellDef> ID</th>
-									<td mat-cell *matCellDef="let unite"> {{unite.id}} </td>
-								</ng-container>
-
-								<ng-container matColumnDef="unite">
-									<th mat-header-cell *matHeaderCellDef> Unite</th>
-									<td mat-cell *matCellDef="let unite"> {{unite.unite}} </td>
-								</ng-container>
-
-								<ng-container matColumnDef="action">
-									<th mat-header-cell *matHeaderCellDef></th>
-									<td mat-cell *matCellDef="let unite">
-										<button color="warn" (click)="deleteUnite(unite.id,unite.unite)" mat-mini-fab>
-											<mat-icon>delete</mat-icon>
-										</button>
-									</td>
-								</ng-container>
+											<ng-container matColumnDef="action">
+												<th mat-header-cell *matHeaderCellDef></th>
+												<td mat-cell *matCellDef="let assujetti">
+													<button color="warn"
+															(click)="deleteAssujetti(assujetti.id, assujetti.type)"
+															mat-mini-fab>
+														<mat-icon>delete</mat-icon>
+													</button>
+												</td>
+											</ng-container>
 
 
-								<tr mat-header-row *matHeaderRowDef="uniteColumns; sticky : true"></tr>
-								<tr mat-row *matRowDef="let row; columns: uniteColumns;"></tr>
+											<tr mat-header-row *matHeaderRowDef="assujettiColumns; sticky : true"></tr>
+											<tr mat-row *matRowDef="let row; columns: assujettiColumns;"></tr>
 
-							</table>
+
+										</table>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<button (click)="addDialog('assujetti')" mat-fab color="primary">
+										<mat-icon>add</mat-icon>
+									</button>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-1">
-						<button (click)="addDialog('unite')" mat-fab color="primary">
-							<mat-icon>add</mat-icon>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<div class="param-container">
-				<div class="row">
-					<div class="col-md-11">
-						<div class="table-container mat-elevation-z8">
+					</mat-tab>
+					<mat-tab label="Famille d'article">
+						<div class="param-container">
+							<div class="row">
+								<div class="col-md-11">
+									<div class="table-container mat-elevation-z8">
 
-							<table mat-table [dataSource]="familles">
+										<table mat-table [dataSource]="familles">
 
-								<ng-container matColumnDef="ID">
-									<th mat-header-cell *matHeaderCellDef> ID</th>
-									<td mat-cell *matCellDef="let famille"> {{famille.id}} </td>
-								</ng-container>
+											<ng-container matColumnDef="ID">
+												<th mat-header-cell *matHeaderCellDef> ID</th>
+												<td mat-cell *matCellDef="let famille"> {{famille.id}} </td>
+											</ng-container>
 
-								<ng-container matColumnDef="famille">
-									<th mat-header-cell *matHeaderCellDef> Famille d'article</th>
-									<td mat-cell *matCellDef="let famille"> {{famille.famille}}</td>
-								</ng-container>
+											<ng-container matColumnDef="famille">
+												<th mat-header-cell *matHeaderCellDef> Famille d'article</th>
+												<td mat-cell *matCellDef="let famille"> {{famille.famille}}</td>
+											</ng-container>
 
-								<ng-container matColumnDef="action">
-									<th mat-header-cell *matHeaderCellDef></th>
-									<td mat-cell *matCellDef="let famille">
-										<button color="warn" (click)="deleteFamille(famille.id, famille.famille)"
-												mat-mini-fab>
-											<mat-icon>delete</mat-icon>
-										</button>
-									</td>
-								</ng-container>
+											<ng-container matColumnDef="action">
+												<th mat-header-cell *matHeaderCellDef></th>
+												<td mat-cell *matCellDef="let famille">
+													<button color="warn"
+															(click)="deleteFamille(famille.id, famille.famille)"
+															mat-mini-fab>
+														<mat-icon>delete</mat-icon>
+													</button>
+												</td>
+											</ng-container>
 
 
-								<tr mat-header-row *matHeaderRowDef="familleColumns; sticky : true"></tr>
-								<tr mat-row *matRowDef="let row; columns: familleColumns;"></tr>
+											<tr mat-header-row *matHeaderRowDef="familleColumns; sticky : true"></tr>
+											<tr mat-row *matRowDef="let row; columns: familleColumns;"></tr>
 
-							</table>
+										</table>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<button (click)="addDialog('famille')" mat-fab color="primary">
+										<mat-icon>add</mat-icon>
+									</button>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-1">
-						<button (click)="addDialog('famille')" mat-fab color="primary">
-							<mat-icon>add</mat-icon>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+					</mat-tab>
+
+				</mat-tab-group>
+			</ng-container>
+
+			<ng-container *ngIf="content == 'societe'" style="padding: 20px">
+				<app-parameter-dialog></app-parameter-dialog>
+			</ng-container>
+
+			<ng-container *ngIf="content == 'reglages'">
+				reglages
+			</ng-container>
+
+			<ng-container *ngIf="content == 'profil'">
+				profil
+			</ng-container>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
+
 </div>

@@ -14,4 +14,6 @@ export class Document {
 	user: User;
 	reference: string;
 	montant_ht: string;
+	missing_articles: boolean;
+	paid: boolean;
 }

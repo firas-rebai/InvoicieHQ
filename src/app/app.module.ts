@@ -1,3 +1,5 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AddArticleDocumentComponent } from './add-article-document/add-article-document.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -32,19 +34,20 @@ import { AddDocumentComponent } from './document-components/add-document/add-doc
 import { ArticleComponent } from './article-components/article/article.component';
 import { AddArticleComponent } from './article-components/add-article/add-article.component';
 import { ParameterDialogComponent } from './parameter-dialog/parameter-dialog.component';
-import { AddArticleDocumentComponent } from './add-article-document/add-article-document.component';
 import {MatCardModule} from "@angular/material/card";
 import { AddParamComponent } from './add-param/add-param.component';
 import { ListArticleComponent } from './list-article/list-article.component';
 import {MatListModule} from "@angular/material/list";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
 import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component'
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatTabsModule} from "@angular/material/tabs";
+import { NotificationBarComponent } from './notification-bar/notification-bar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,12 +64,14 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     ArticleComponent,
     AddArticleComponent,
     ParameterDialogComponent,
-    AddArticleDocumentComponent,
     AddParamComponent,
     ListArticleComponent,
     DocumentViewerComponent,
     HeaderComponent,
-    SidenavComponent
+    SidenavComponent,
+	AddArticleDocumentComponent,
+ NotificationBarComponent
+
   ],
 	imports: [
 		BrowserModule,
@@ -94,9 +99,11 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 		MatNativeDateModule,
 		PdfViewerModule,
 		MatToolbarModule,
-		MatSidenavModule
+		MatSidenavModule,
+		MatTabsModule,
+		MatRippleModule
 	],
-  providers: [HttpClientModule],
+  providers: [HttpClientModule, MatSnackBar],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

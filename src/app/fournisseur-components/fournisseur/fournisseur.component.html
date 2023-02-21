@@ -1,4 +1,5 @@
 <div class="container-fluid">
+	<h1>Fournisseurs</h1>
 	<div class="row">
 		<div class="col-md-9">
 			<div class="mat-elevation-z8">
@@ -59,7 +60,7 @@
 					<ng-container matColumnDef="action">
 						<th mat-header-cell *matHeaderCellDef></th>
 						<td mat-cell *matCellDef="let client">
-							<button color="warn" mat-mini-fab>
+							<button (click)="delete(client.id,client.raison_social)" color="warn" mat-mini-fab>
 								<mat-icon>delete</mat-icon>
 							</button>
 							<button color="primary" mat-mini-fab>

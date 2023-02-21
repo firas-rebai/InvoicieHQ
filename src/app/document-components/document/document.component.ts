@@ -27,6 +27,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,private dataSharingService: DataSharingService) {
 		this.dataSharingService.trans.subscribe( (value: string) => {
 			this.trans = value;
+			this.transShow = value
 			this.getDocuments();
 			if (this.trans == 'vente') this.displayedColumns = ['ID', 'client', 'date', 'montant', 'action'];
 			if (this.trans == 'achat') this.displayedColumns = ['ID', 'fournisseur', 'date', 'montant', 'action'];
@@ -50,7 +51,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 				this.documents.data.forEach(doc => {
 					let montant: number = 0;
 					doc.articleDocument.forEach( article => {
-							montant += article.montant_ht;
+							montant += article.puht * article.quantite;
 						}
 					)
 					doc.montant_ht = montant.toString();
@@ -65,6 +66,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {
 		// @ts-ignore
 		this.trans = this.activatedRoute.snapshot.paramMap.get('trans');
+		this.transShow = this.trans
 		if (this.trans == 'vente') this.displayedColumns = ['ID', 'client', 'date', 'montant', 'action'];
 		if (this.trans == 'achat') this.displayedColumns = ['ID', 'fournisseur', 'date', 'montant', 'action'];
 
@@ -94,7 +96,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 				this.documents.data.forEach(doc => {
 					var montant: number = 0;
 					doc.articleDocument.forEach( article => {
-							montant += article.montant_ht;
+							montant += article.quantite * article.puht;
 						}
 					)
 					doc.montant_ht = montant.toString();

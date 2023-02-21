@@ -1,5 +1,5 @@
 .param-container {
-	height: 30vh;
+	height: 35vh;
 	width: 50%;
 	margin: 30px;
 }
@@ -20,7 +20,7 @@ table {
 }
 
 .table-container {
-	height: 27vh;
+	height: 28vh;
 	max-width: 100%;
 	overflow: auto;
 }
@@ -34,9 +34,30 @@ mat-sidenav-container {
 
 mat-sidenav {
 	width: 200px;
-	background: rgb(103, 58, 183);
+
 }
 
 mat-list {
-	color: white;
+
+}
+
+
+.menu-button {
+	background: rgba(0, 0, 0, 0);
+	width: 100%;
+	margin-top: 10px;
+	display: flex;
+	justify-content: flex-start;
+	height: 40px;
+	border: none;
+	padding-top: 7px;
+
+	mat-icon {
+		margin-right: 30px;
+	}
+
+}
+
+.active {
+	color: #58018d;
 }

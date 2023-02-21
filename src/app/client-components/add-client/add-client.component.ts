@@ -45,7 +45,6 @@ export class AddClientComponent implements OnInit{
     if (addForm.invalid) return;
     this.client = addForm.value;
     this.client.assujetti = this.selectedAssujetti;
-    this.client.tva = this.selectedTVA
 
     this.clientService.addClient(this.client).subscribe(
       (response :Client) => {

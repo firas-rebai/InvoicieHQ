@@ -56,7 +56,6 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 
 	public add(article: ArticleDocument): void {
 		this.article = article;
-		this.article.tva = this.selectedTVA;
 	}
 
 
@@ -92,7 +91,7 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit(): void {
-		this.article = new ArticleDocument(new Article("", new Unite(''), 0, 0, new FamilleArticle(''), 0, 0, new TVA(''), new Fournisseur()),0,0,0,0,0,0,new TVA(""))
+		this.article = new ArticleDocument(new Article("", new Unite(''), 0, 0, new FamilleArticle(''), 0, 0, new Fournisseur(), new TVA('0')),0,0,0,0,0)
 	}
 
 

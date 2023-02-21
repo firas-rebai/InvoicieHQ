@@ -9,16 +9,17 @@ import {FournisseurComponent} from "./fournisseur-components/fournisseur/fournis
 import {DocumentComponent} from "./document-components/document/document.component";
 import {ArticleComponent} from "./article-components/article/article.component";
 import {AddDocumentComponent} from "./document-components/add-document/add-document.component";
+import {AuthGuard} from "./_services/auth.guard";
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'client', component: ClientComponent },
-  { path: 'fournisseur', component: FournisseurComponent },
-  { path: 'document/:trans', component: DocumentComponent },
-  { path: 'param', component: ParamComponent },
-  { path: 'add-document', component: AddDocumentComponent },
-  { path: 'article', component: ArticleComponent }
+  { path: 'home', component: HomeComponent, canActivate : [AuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate : [AuthGuard] },
+  { path: 'client', component: ClientComponent, canActivate : [AuthGuard] },
+  { path: 'fournisseur', component: FournisseurComponent, canActivate : [AuthGuard] },
+  { path: 'document/:trans', component: DocumentComponent, canActivate : [AuthGuard] },
+  { path: 'param', component: ParamComponent, canActivate : [AuthGuard] },
+  { path: 'add-document', component: AddDocumentComponent, canActivate : [AuthGuard] },
+  { path: 'article', component: ArticleComponent, canActivate : [AuthGuard] }
 ];
 
 @NgModule({

@@ -2,7 +2,7 @@ import {Assujetti} from "./Assujetti";
 import {TVA} from "./TVA";
 
 export class Settings {
-	constructor(assujetti: Assujetti, raison_social: string, email: string, fax: string, telephone: string, mobile: string, adresse: string, tva: TVA, registre_commerce: string, fodec: number, logo: string, retenue_source: number, timbre: number, fb_acc: string) {
+	constructor(assujetti: Assujetti, raison_social: string, email: string, fax: string, telephone: string, mobile: string, adresse: string, tva: TVA, registre_commerce: string, fodec: number, logo: string, retenue_source: number, timbre: number, fb_acc: string, logoType : string) {
 		this.assujetti = assujetti;
 		this.raison_social = raison_social;
 		this.email = email;
@@ -17,6 +17,7 @@ export class Settings {
 		this.retenue_source = retenue_source;
 		this.timbre = timbre;
 		this.fb_acc = fb_acc;
+		this.logoType = logoType;
 	}
 
 	id: bigint;
@@ -48,4 +49,6 @@ export class Settings {
 	timbre: number;
 
 	fb_acc: string;
+
+	logoType : string;
 }

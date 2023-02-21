@@ -1,15 +1,19 @@
-<h2 mat-dialog-title>
-	Ajouter un article
-</h2>
+<h2 mat-dialog-title>Ajouter un article</h2>
 <mat-divider></mat-divider>
 <mat-dialog-content class="content">
 	<form [formGroup]="articleForm">
 		<div class="row">
 			<mat-form-field>
 				<mat-label>Designation</mat-label>
-				<textarea matInput formControlName="designation" placeholder="Designation" type="text"></textarea>
+				<textarea
+					matInput
+					formControlName="designation"
+					placeholder="Designation"
+					type="text"
+				></textarea>
 				<mat-error
-					*ngIf="designation.invalid && (designation.dirty || designation.touched) && designation.errors?.['required']">
+					*ngIf="designation.invalid && (designation.dirty || designation.touched) && designation.errors?.['required']"
+				>
 					ce champ est obligatoire
 				</mat-error>
 			</mat-form-field>
@@ -18,23 +22,33 @@
 		<div class="row">
 			<mat-form-field>
 				<mat-label>Stock Initial</mat-label>
-				<input matInput formControlName="stock_initial" placeholder="0.000" type="text">
+				<input
+					matInput
+					formControlName="stock_initial"
+					placeholder="0.000"
+					type="text"
+				/>
 			</mat-form-field>
 		</div>
 
 		<div class="row">
 			<div class="col-sm-10">
-				<mat-form-field>
+				<mat-form-field style="width: 100%">
 					<mat-label>Unité</mat-label>
-					<mat-select formControlName="unite" [(ngModel)]="this.selectedUnite">
+					<mat-select
+						formControlName="unite"
+						[(ngModel)]="this.selectedUnite"
+					>
 						<ng-container *ngFor="let unite of unites">
-							<mat-option [value]="unite">{{unite.unite}}</mat-option>
+							<mat-option [value]="unite">{{
+								unite.unite
+							}}</mat-option>
 						</ng-container>
 					</mat-select>
 				</mat-form-field>
 			</div>
 			<div class="col-sm-2">
-				<button (click)="openAddUnite()" mat-mini-fab>
+				<button color="primary" (click)="openAddUnite()" mat-mini-fab>
 					<mat-icon>add</mat-icon>
 				</button>
 			</div>
@@ -43,26 +57,38 @@
 		<div class="row">
 			<mat-form-field>
 				<mat-label>Date Stock Initial</mat-label>
-				<input formControlName="date_stock_initial" matInput [matDatepicker]="picker">
+				<input
+					formControlName="date_stock_initial"
+					matInput
+					[matDatepicker]="picker"
+				/>
 				<mat-hint>MM/JJ/YYYY</mat-hint>
-				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker-toggle
+					matIconSuffix
+					[for]="picker"
+				></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
 		</div>
 
 		<div class="row">
 			<div class="col-sm-10">
-				<mat-form-field>
+				<mat-form-field style="width: 100%">
 					<mat-label>Famille d'article</mat-label>
-					<mat-select formControlName="famille_article" [(ngModel)]="this.selectedFamille">
+					<mat-select
+						formControlName="famille_article"
+						[(ngModel)]="this.selectedFamille"
+					>
 						<ng-container *ngFor="let famille of familles">
-							<mat-option [value]="famille">{{famille.famille}}</mat-option>
+							<mat-option [value]="famille">{{
+								famille.famille
+							}}</mat-option>
 						</ng-container>
 					</mat-select>
 				</mat-form-field>
 			</div>
 			<div class="col-sm-2">
-				<button (click)="openAddUnite()" mat-mini-fab>
+				<button color="primary" (click)="openAddFamille()" mat-mini-fab>
 					<mat-icon>add</mat-icon>
 				</button>
 			</div>
@@ -70,65 +96,68 @@
 
 		<div class="row">
 			<div class="col-sm-10">
-				<mat-form-field>
+				<mat-form-field style="width: 100%">
 					<mat-label>Fournisseur</mat-label>
-					<mat-select formControlName="fournisseur" [(ngModel)]="this.selectedFournisseur">
+					<mat-select
+						formControlName="fournisseur"
+						[(ngModel)]="this.selectedFournisseur"
+					>
 						<ng-container *ngFor="let fournisseur of fournisseurs">
-							<mat-option [value]="fournisseur">{{fournisseur.raison_social}}</mat-option>
+							<mat-option [value]="fournisseur">{{
+								fournisseur.raison_social
+							}}</mat-option>
 						</ng-container>
 					</mat-select>
 				</mat-form-field>
 			</div>
 			<div class="col-sm-2">
-				<button (click)="openAddFournisseur()" mat-mini-fab>
+				<button
+					color="primary"
+					(click)="openAddFournisseur()"
+					mat-mini-fab
+				>
 					<mat-icon>add</mat-icon>
 				</button>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-sm-10">
+			<div class="col-sm-6">
 				<mat-form-field>
-					<mat-label>Code TVA</mat-label>
-					<mat-select formControlName="tva" [(ngModel)]="this.selectedTVA">
-						<ng-container *ngFor="let tva of tvas">
-							<mat-option [value]="tva">{{tva.base}}</mat-option>
-						</ng-container>
-					</mat-select>
+					<mat-label>PVHT</mat-label>
+					<input
+						matInput
+						formControlName="pvht"
+						placeholder="0.000"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
-			<div class="col-sm-2">
-				<button (click)="openAddTVA()" mat-mini-fab>
-					<mat-icon>add</mat-icon>
-				</button>
+			<div class="col-sm-6">
+				<mat-form-field>
+					<mat-label>PAHT</mat-label>
+					<input
+						matInput
+						formControlName="paht"
+						placeholder="0.000"
+						type="text"
+					/>
+				</mat-form-field>
 			</div>
 		</div>
-
-
-		<div class="row">
-			<mat-form-field>
-				<mat-label>PVHT</mat-label>
-				<input matInput formControlName="pvht" placeholder="0.000" type="text">
-			</mat-form-field>
-		</div>
-		<div class="row">
-			<mat-form-field>
-				<mat-label>PAHT</mat-label>
-				<input matInput formControlName="paht" placeholder="0.000" type="text">
-			</mat-form-field>
-		</div>
-
-
 	</form>
-
-
 </mat-dialog-content>
-
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close="false">Annuler</button>
-	<button mat-raised-button color="primary" [mat-dialog-close]="articleForm" (click)="add(articleForm)"
-			[disabled]="articleForm.invalid" type="submit">
+	<button
+		mat-raised-button
+		color="primary"
+		[mat-dialog-close]="articleForm"
+		(click)="add(articleForm)"
+		[disabled]="articleForm.invalid"
+		type="submit"
+	>
 		Ajouter
 	</button>
 </mat-dialog-actions>

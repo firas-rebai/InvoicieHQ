@@ -7,20 +7,27 @@ import {DataSharingService} from "./data-sharing.service";
 	providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-	constructor(private dataSharingService: DataSharingService, private router : Router) {
+	constructor(private dataSharingService: DataSharingService, private router: Router) {
 	}
 
 	canActivate(
 		route: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-		// console.log(this.dataSharingService.isUserLoggedIn.value)
-		// if (this.dataSharingService.isUserLoggedIn.value || state.url == '/login') {
-		// 	return true;
-		// } else {
-		// 	this.router.navigate(['/login']);
-		// 	return false;
-		// }
-		return true;
+		console.log(this.dataSharingService.isUserLoggedIn.value)
+		if (state.url == '/login') {
+			if (this.dataSharingService.isUserLoggedIn.value) {
+				this.router.navigate(['/home']);
+				return false;
+			} else
+				return true;
+		} else {
+			if (this.dataSharingService.isUserLoggedIn.value) {
+				return true;
+			} else {
+				this.router.navigate(['/login']);
+				return false;
+			}
+		}
 	}
 
 }

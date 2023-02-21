@@ -10,6 +10,7 @@ import {AddClientComponent} from "../../client-components/add-client/add-client.
 import {Fournisseur} from "../../_models/Fournisseur";
 import {FournisseurService} from "../../_services/fournisseur.service";
 import {AddFournisseurComponent} from "../add-fournisseur/add-fournisseur.component";
+import {ConfirmModalComponent} from "../../confirm-modal/confirm-modal.component";
 
 @Component({
 	selector: 'app-fournisseur',
@@ -51,6 +52,24 @@ export class FournisseurComponent {
 
 		dialogRef.afterClosed().subscribe(result => {
 			this.getFournisseurs();
+		});
+	}
+
+	delete(id: number,reference : string) {
+		const dialogRef = this.dialog.open(ConfirmModalComponent, {
+			data: {message: 'Êtes-vous sûr de vouloir supprimer le fournisseur ' + reference + ' ?'}
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				this.fournisseurService.deleteFournisseur(id).subscribe(
+					() => {
+						this.getFournisseurs();
+					}, (error) => {
+						console.log(error.message);
+					}
+				)
+			}
 		});
 	}
 }

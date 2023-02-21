@@ -60,31 +60,64 @@
 <!--	</nav>-->
 
 
-<mat-toolbar color="primary">
+<mat-toolbar *ngIf="showNavbar" color="primary">
 	<mat-toolbar-row>
-
-		<button mat-icon-button (click)="sideBarOpen=!sideBarOpen"><mat-icon>menu</mat-icon></button>
-			<span class="spacer"></span>
-		<button mat-icon-button style="margin-right: 20px;" (click)="openParam()"><mat-icon>settings</mat-icon></button>
-		<button mat-icon-button (click)="sideBarOpen=!sideBarOpen"><mat-icon>person</mat-icon></button>
-
+		<button mat-icon-button (click)="sideBarOpen=!sideBarOpen">
+			<mat-icon>menu</mat-icon>
+		</button>
+		<span class="spacer"></span>
+		<button mat-icon-button [matMenuTriggerFor]="profil">
+			<mat-icon>person</mat-icon>
+		</button>
 	</mat-toolbar-row>
 
 </mat-toolbar>
 
+<mat-menu #profil>
+	<button (click)="logout()" mat-menu-item>
+		<mat-icon>exit_to_app</mat-icon>
+		Deconnexion
+	</button>
+</mat-menu>
 
-<mat-sidenav-container >
-	<mat-sidenav [(opened)]="sideBarOpen" mode="side" >
-<!--		<img src="./assets/img.png" alt="logo here" width="250">-->
-<!--		<mat-divider style="border: 2px solid #6600d3"></mat-divider>-->
+
+<mat-sidenav-container>
+	<mat-sidenav *ngIf="showNavbar" [(opened)]="sideBarOpen" mode="side">
+		<!--		<img src="./assets/img.png" alt="logo here" width="250">-->
+		<!--		<mat-divider style="border: 2px solid #6600d3"></mat-divider>-->
 		<mat-list>
-			<button  [ngClass]="active_vente" (click)="openMenu('vente')" class="menu-button"><mat-icon >assignment</mat-icon><span>Vente</span></button>
-			<button  [ngClass]="active_achat" (click)="openMenu('achat')" class="menu-button"><mat-icon>assignment</mat-icon><span>Achat</span></button>
+			<button matRipple [ngClass]="active_vente" (click)="openMenu('vente')" class="menu-button">
+				<mat-icon>assignment</mat-icon>
+				<span>Vente</span></button>
+			<button [ngClass]="active_achat" (click)="openMenu('achat')" class="menu-button">
+				<mat-icon>assignment</mat-icon>
+				<span>Achat</span></button>
 
-			<button routerLinkActive="active-link" (click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/client" class="menu-button"><mat-icon>people</mat-icon><span>Clients</span></button>
-			<button routerLinkActive="active-link" (click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/fournisseur" class="menu-button"><mat-icon>people</mat-icon><span>Fournisseurs</span></button>
-			<button routerLinkActive="active-link" (click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/param" class="menu-button"><mat-icon>settings_applications</mat-icon><span>Parametrages</span></button>
-			<button routerLinkActive="active-link" (click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/add-document" class="menu-button"><mat-icon>insert_drive_file</mat-icon><span>Creer un document</span> </button>
+			<button matRipple routerLinkActive="active-link"
+					(click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/client"
+					class="menu-button">
+				<mat-icon>people</mat-icon>
+				<span>Clients</span></button>
+			<button matRipple routerLinkActive="active-link"
+					(click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';"
+					routerLink="/fournisseur" class="menu-button">
+				<mat-icon>people</mat-icon>
+				<span>Fournisseurs</span></button>
+			<button matRipple routerLinkActive="active-link"
+					(click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/article"
+					class="menu-button">
+				<mat-icon>shopping_cart</mat-icon>
+				<span>Articles</span></button>
+			<button matRipple routerLinkActive="active-link"
+					(click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';" routerLink="/param"
+					class="menu-button">
+				<mat-icon>settings_applications</mat-icon>
+				<span>Parametrages</span></button>
+			<button matRipple routerLinkActive="active-link"
+					(click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';"
+					routerLink="/add-document" class="menu-button">
+				<mat-icon>note_add</mat-icon>
+				<span>Creer un document</span></button>
 		</mat-list>
 	</mat-sidenav>
 	<mat-sidenav-content>

@@ -7,6 +7,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {AddClientComponent} from "../add-client/add-client.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ConfirmModalComponent} from "../../confirm-modal/confirm-modal.component";
 
 @Component({
 	selector: 'app-client',
@@ -48,6 +49,23 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
 		dialogRef.afterClosed().subscribe(result => {
 			this.getClients()
+		});
+	}
+	delete(id: number,reference : string) {
+		const dialogRef = this.dialog.open(ConfirmModalComponent, {
+			data: {message: 'Êtes-vous sûr de vouloir supprimer le client ' + reference + ' ?'}
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				this.clientService.deleteClient(id).subscribe(
+					() => {
+						this.getClients();
+					}, (error) => {
+						console.log(error.message);
+					}
+				)
+			}
 		});
 	}
 }

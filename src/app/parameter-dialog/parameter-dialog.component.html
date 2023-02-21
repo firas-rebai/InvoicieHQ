@@ -1,50 +1,91 @@
-<h2 mat-dialog-title>
-	Ajouter un client
-</h2>
-<mat-divider></mat-divider>
-<mat-dialog-content class="content">
+<div style="padding: 30px">
+	<input #image hidden (change)="onSelectFile($event)" type="file" />
+	<div *ngIf="ImageUrl == undefined || ImageUrl == null || ImageUrl == ''" class="row">
+		<div (click)="image.click()" class="image-container">
+			<mat-icon>add</mat-icon>
+		</div>
+
+	</div>
+	<div *ngIf="ImageUrl != undefined || ImageUrl != null" class="image-container" >
+		<img [src]="ImageUrl" width="200" height="200" (click)="image.click()" alt="test"/>
+	</div>
 	<div class="row">
 		<div class="col">
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Raison Social</mat-label>
-					<input matInput placeholder="Raison Social" [(ngModel)]="param.raison_social" type="text">
+					<input
+						matInput
+						placeholder="Raison Social"
+						[(ngModel)]="param.raison_social"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>E-mail</mat-label>
-					<input matInput placeholder="E-mail" [(ngModel)]="param.email" type="text">
+					<input
+						matInput
+						placeholder="E-mail"
+						[(ngModel)]="param.email"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Telephone</mat-label>
-					<input matInput placeholder="Telephone" [(ngModel)]="param.telephone" type="text">
+					<input
+						matInput
+						placeholder="Telephone"
+						[(ngModel)]="param.telephone"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Mobile</mat-label>
-					<input matInput placeholder="Mobile" [(ngModel)]="param.mobile" type="text">
+					<input
+						matInput
+						placeholder="Mobile"
+						[(ngModel)]="param.mobile"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Fax</mat-label>
-					<input matInput placeholder="Fax" [(ngModel)]="param.fax" type="text">
+					<input
+						matInput
+						placeholder="Fax"
+						[(ngModel)]="param.fax"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Adresse</mat-label>
-					<input matInput placeholder="Adresse" [(ngModel)]="param.adresse" type="text">
+					<input
+						matInput
+						placeholder="Adresse"
+						[(ngModel)]="param.adresse"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Compte Facebook</mat-label>
-					<input matInput placeholder="Lien" [(ngModel)]="param.fb_acc" type="text">
+					<input
+						matInput
+						placeholder="Lien"
+						[(ngModel)]="param.fb_acc"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 		</div>
@@ -52,75 +93,111 @@
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Retenue a la source</mat-label>
-					<input matInput placeholder="0.00" [(ngModel)]="param.retenue_source" type="text">
+					<input
+						matInput
+						placeholder="0.00"
+						[(ngModel)]="param.retenue_source"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Fodec</mat-label>
-					<input matInput placeholder="0.0%" [(ngModel)]="param.fodec" type="text">
+					<input
+						matInput
+						placeholder="0.0%"
+						[(ngModel)]="param.fodec"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Registre Commerce</mat-label>
-					<input matInput placeholder="Registre Commerce" [(ngModel)]="param.registre_commerce" type="text">
+					<input
+						matInput
+						placeholder="Registre Commerce"
+						[(ngModel)]="param.registre_commerce"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Timbre</mat-label>
-					<input matInput placeholder="0.000" [(ngModel)]="param.timbre" type="text">
+					<input
+						matInput
+						placeholder="0.000"
+						[(ngModel)]="param.timbre"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<div class="col-sm-10">
-					<mat-form-field>
-						<mat-label>{{param.tva != undefined? param.tva.base : "--"}}</mat-label>
-						<mat-select [(ngModel)]="param.tva" >
+					<mat-form-field style="width: 100%">
+						<mat-label>{{
+							param.tva != undefined ? param.tva.base : "--"
+						}}</mat-label>
+						<mat-select [(ngModel)]="param.tva">
 							<ng-container *ngFor="let tva of tvas">
-								<mat-option [value]="tva">{{tva.base}}</mat-option>
+								<mat-option [value]="tva">{{
+									tva.base
+								}}</mat-option>
 							</ng-container>
 						</mat-select>
 					</mat-form-field>
 				</div>
 				<div class="col-sm-2">
-					<button (click)="openAddTVA()" mat-mini-fab color="primary">
+					<button
+						(click)="openAddTVA()"
+						mat-icon-button
+						color="primary"
+					>
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-10">
-					<mat-form-field>
-						<mat-label>{{param.assujetti != undefined? param.assujetti.type : "--"}}</mat-label>
-						<mat-select [(ngModel)]="param.assujetti" >
+					<mat-form-field style="width: 100%">
+						<mat-label>{{
+							param.assujetti != undefined
+								? param.assujetti.type
+								: "--"
+						}}</mat-label>
+						<mat-select [(ngModel)]="param.assujetti">
 							<ng-container *ngFor="let assujetti of assujettis">
-								<mat-option [value]="assujetti">{{assujetti.type}} {{assujetti.coefficient_tva}}%
+								<mat-option [value]="assujetti"
+									>{{ assujetti.type }}
+									{{ assujetti.coefficient_tva }}%
 								</mat-option>
 							</ng-container>
 						</mat-select>
 					</mat-form-field>
 				</div>
 				<div class="col-sm-2">
-					<button (click)="openAddAssujetti()" mat-mini-fab color="primary">
+					<button
+						(click)="openAddAssujetti()"
+						mat-icon-button
+						color="primary"
+					>
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<input type="file">
-
-
-</mat-dialog-content>
-
-
-<mat-dialog-actions align="end">
-	<button mat-button mat-dialog-close="false">Annuler</button>
-	<button mat-raised-button color="primary" (click)="update()" type="submit">
-		Sauvegarder
-	</button>
-</mat-dialog-actions>
+	<div class="row">
+		<span class="spacer"></span>
+		<button
+			mat-raised-button
+			color="primary"
+			(click)="update()"
+			type="submit"
+		>
+			Sauvegarder
+		</button>
+	</div>
+</div>

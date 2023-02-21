@@ -1,22 +1,39 @@
+
+<div class="container">
 <mat-dialog-content *ngIf="two">
-	<mat-form-field>
-		<label>{{message}}</label>
-		<input matInput [(ngModel)]="param"  type="text">
-	</mat-form-field>
-	<mat-form-field>
-		<label>{{message2}}</label>
-		<input matInput [(ngModel)]="param2"  type="text">
-	</mat-form-field>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>{{ message }}</mat-label>
+			<input matInput [(ngModel)]="param" type="text" />
+		</mat-form-field>
+	</div>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>{{ message2 }}</mat-label>
+			<input matInput [(ngModel)]="param2" type="text" />
+			<span matTextSuffix>%</span>
+		</mat-form-field>
+	</div>
 </mat-dialog-content>
 
 <mat-dialog-content *ngIf="!two">
 	<mat-form-field>
-		<label>{{message}}</label>
-		<input matInput  [(ngModel)]="param" type="text">
+		<mat-label>{{ message }}</mat-label>
+		<input matInput [(ngModel)]="param" type="text" />
+
 	</mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
 	<button mat-button [mat-dialog-close]="false">Annuler</button>
-	<button mat-button [mat-dialog-close]="param+ '_' +param2"  mat-raised-button>Ajouter</button>
+	<!-- mat-dialog-close returns two parameters then gets split back at the parent -->
+	<button
+		mat-raised-button
+		color="primary"
+		[mat-dialog-close]="param + '_' + param2"
+		mat-raised-button
+	>
+		Ajouter
+	</button>
 </mat-dialog-actions>
+</div>
