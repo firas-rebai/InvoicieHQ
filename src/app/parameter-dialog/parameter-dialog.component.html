@@ -1,14 +1,10 @@
 <div style="padding: 30px">
 	<input #image hidden (change)="onSelectFile($event)" type="file" />
-	<div *ngIf="ImageUrl == undefined || ImageUrl == null || ImageUrl == ''" class="row">
-		<div (click)="image.click()" class="image-container">
-			<mat-icon>add</mat-icon>
-		</div>
-
-	</div>
 	<div *ngIf="ImageUrl != undefined || ImageUrl != null" class="image-container" >
-		<img [src]="ImageUrl" width="200" height="200" (click)="image.click()" alt="test"/>
+		<img [src]="ImageUrl"  height="200"  alt="test"/>
 	</div>
+	<button mat-icon-button (click)="image.click()"><mat-icon>edit</mat-icon></button>
+
 	<div class="row">
 		<div class="col">
 			<div class="row">
@@ -144,7 +140,7 @@
 							<ng-container *ngFor="let tva of tvas">
 								<mat-option [value]="tva">{{
 									tva.base
-								}}</mat-option>
+								}} %</mat-option>
 							</ng-container>
 						</mat-select>
 					</mat-form-field>

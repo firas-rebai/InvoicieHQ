@@ -40,14 +40,11 @@ import { ListArticleComponent } from './list-article/list-article.component';
 import {MatListModule} from "@angular/material/list";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
-import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
-import {PdfViewerModule} from 'ng2-pdf-viewer';
-import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component'
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatTabsModule} from "@angular/material/tabs";
-import { NotificationBarComponent } from './notification-bar/notification-bar.component';
+import { DocumentDetailsComponent } from './document-details/document-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,11 +63,9 @@ import { NotificationBarComponent } from './notification-bar/notification-bar.co
     ParameterDialogComponent,
     AddParamComponent,
     ListArticleComponent,
-    DocumentViewerComponent,
-    HeaderComponent,
     SidenavComponent,
 	AddArticleDocumentComponent,
- NotificationBarComponent
+ DocumentDetailsComponent,
 
   ],
 	imports: [
@@ -97,7 +92,6 @@ import { NotificationBarComponent } from './notification-bar/notification-bar.co
 		MatListModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		PdfViewerModule,
 		MatToolbarModule,
 		MatSidenavModule,
 		MatTabsModule,

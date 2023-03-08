@@ -73,6 +73,7 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 				this.snackBar.open(response.designation + ' est ajouté', '', {
 					duration : 5 * 1000,
 				});
+				console.log(response)
 			},
 			(error) => {
 				console.log('error : ' + error.message);
@@ -164,4 +165,9 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 			this.getData();
 		});
 	}
+	numberOnly(event): boolean {
+		const charCode = (event.which) ? event.which : event.keyCode;
+		return (charCode > 47 && charCode < 58) || charCode == 46
+
+	  }
 }

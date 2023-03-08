@@ -6,6 +6,8 @@ import { ParamService } from '../_services/param.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ParameterService } from '../_services/parameter.service';
 import { Settings } from '../_models/Settings';
+import { MatDialog } from '@angular/material/dialog';
+import { AddParamComponent } from '../add-param/add-param.component';
 
 @Component({
 	selector: 'app-parameter-dialog',
@@ -24,22 +26,39 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private settingsService: ParameterService,
-		private paramService: ParamService
+		private paramService: ParamService,
+		private dialog: MatDialog
 	) {}
 
 	public update(): void {
-		// this.param.assujetti = this.selectedAssujetti;
-		// this.param.tva = this.selectedTVA;
 		this.param.logo = this.logo;
-		this.param.logoType = this.profilePic.type;
-		this.settingsService.updateSettings(this.param).subscribe(
-			(result) => {
-				console.log(result);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+
+		if (this.profilePic != undefined) {
+			this.param.logoType = this.profilePic.type;
+
+			this.settingsService.updateSettings(this.param).subscribe(
+				(result) => {
+					const formData = new FormData();
+					formData.append('file', this.profilePic);
+					this.settingsService
+						.updateLogo(formData)
+						.subscribe((result) => {
+						});
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		} else {
+			this.settingsService.updateSettings(this.param).subscribe(
+				(result) => {
+
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		}
 	}
 
 	public getAssujettis(): void {
@@ -68,27 +87,9 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 		this.settingsService.getSettings().subscribe(
 			(settings: Settings) => {
 				this.param = settings;
-				console.log('logo', this.logo);
-
-				this.ImageUrl = settings.logoType + ';base64,' + settings.logo;
 				console.log(settings);
-				// this.paramForm = new FormGroup(
-				//   {
-				//     raison_social: new FormControl(settings.raisonSocial, [Validators.required, Validators.pattern('^[a-zA-Z0-9\' ]{2,30}$')]),
-				//     adresse: new FormControl(settings.adresse, []),
-				//     telephone: new FormControl(settings.telephone, []),
-				//     mobile: new FormControl(settings.mobile, []),
-				//     fax: new FormControl(settings.fax, []),
-				//     email: new FormControl(settings.email, []),
-				//     fb_acc: new FormControl(settings.fb_acc, []),
-				//     retenue_cource: new FormControl(settings.retenue_source, []),
-				//     registre_commerce: new FormControl(settings.registre_commerce, []),
-				//     timbre: new FormControl(settings.timbre, []),
-				//     fodec: new FormControl(settings.fodec, []),
-				//     tva: new FormControl(settings.tva, []),
-				//     assujetti: new FormControl(settings.assujetti, []),
-				//   }
-				// )
+				this.ImageUrl =
+					'data:' + settings.logoType + ';base64,' + settings.logo;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error);
@@ -96,9 +97,45 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	openAddAssujetti() {}
+	openAddAssujetti() {
+		const dialogRef = this.dialog.open(AddParamComponent, {
+			data: { message: 'assujetti' },
+		});
+		dialogRef.afterClosed().subscribe((result: string) => {
+			let type = result.split('_')[0];
+			let coef = result.split('_')[1];
+			// @ts-ignore
+			let assujetti: Assujetti = {id: null,type: type,coefficient_tva: coef,};
+			this.paramService.addAssujetti(assujetti).subscribe(
+				(result) => {
+					this.getAssujettis();
+				},
+				(error: HttpErrorResponse) => {
+					// alert(error.message);
+				}
+			);
+		});
+	}
 
-	openAddTVA() {}
+	openAddTVA() {
+		const dialogRef = this.dialog.open(AddParamComponent, {
+			data: { message: 'tva' },
+		});
+		dialogRef.afterClosed().subscribe((result: string) => {
+			result = result.replaceAll('_', ' ');
+			result = result.trim();
+			// @ts-ignore
+			let tva: TVA = { id: null, base: result };
+			this.paramService.addTVA(tva).subscribe(
+				(result) => {
+					this.getTVAs();
+				},
+				(error: HttpErrorResponse) => {
+					// alert(error.message);
+				}
+			);
+		});
+	}
 
 	ngAfterViewInit(): void {
 		this.getAssujettis();
@@ -107,12 +144,11 @@ export class ParameterDialogComponent implements OnInit, AfterViewInit {
 
 	onSelectFile(event) {
 		this.profilePic = <File>event.target.files[0];
-		console.log(this.profilePic);
 		this.ImageUrl = event.target.result;
 		let reader = new FileReader();
 		reader.onload = (e) => {
 			this.ImageUrl = e.target?.result;
-		}
+		};
 		reader.readAsDataURL(event.target.files[0]);
 	}
 }

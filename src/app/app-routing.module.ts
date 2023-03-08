@@ -1,3 +1,4 @@
+import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -17,9 +18,11 @@ const routes: Routes = [
   { path: 'client', component: ClientComponent, canActivate : [AuthGuard] },
   { path: 'fournisseur', component: FournisseurComponent, canActivate : [AuthGuard] },
   { path: 'document/:trans', component: DocumentComponent, canActivate : [AuthGuard] },
+  { path: 'document/details/:id', component: DocumentDetailsComponent, canActivate : [AuthGuard] },
   { path: 'param', component: ParamComponent, canActivate : [AuthGuard] },
   { path: 'add-document', component: AddDocumentComponent, canActivate : [AuthGuard] },
-  { path: 'article', component: ArticleComponent, canActivate : [AuthGuard] }
+  { path: 'article', component: ArticleComponent, canActivate : [AuthGuard] },
+  { path: '**', component: HomeComponent , canActivate : [AuthGuard] },
 ];
 
 @NgModule({

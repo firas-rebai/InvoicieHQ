@@ -14,6 +14,8 @@ export class Document {
 	user: User;
 	reference: string;
 	montant_ht: string;
+	montant_ttc: string;
+	net_payer: string;
 	missing_articles: boolean;
 	paid: boolean;
 }

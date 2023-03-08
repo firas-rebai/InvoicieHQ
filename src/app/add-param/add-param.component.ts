@@ -45,4 +45,10 @@ export class AddParamComponent {
 		}
 		this.dialogRef.close();
 	}
+
+	numberOnly(event): boolean {
+		const charCode = (event.which) ? event.which : event.keyCode;
+		return (charCode > 47	 && charCode < 58) || charCode == 46
+
+	  }
 }

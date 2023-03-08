@@ -1,9 +1,16 @@
-import {Unite} from "./Unite";
-import {TVA} from "./TVA";
-import {Article} from "./Article";
+import { Unite } from './Unite';
+import { TVA } from './TVA';
+import { Article } from './Article';
 
 export class ArticleDocument {
-	constructor(article: Article, quantite: number, puht: number, puttc: number, remise: number, montant_ht: number) {
+	constructor(
+		article: Article,
+		quantite: number,
+		puht: number,
+		puttc: number,
+		remise: number,
+		montant_ht: number
+	) {
 		this.article = article;
 		this.quantite = quantite;
 		this.puht = puht;
@@ -19,4 +26,5 @@ export class ArticleDocument {
 	puttc: number;
 	remise: number;
 	montant_ht: number;
+	tva: TVA;
 }

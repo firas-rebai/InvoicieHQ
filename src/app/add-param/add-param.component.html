@@ -17,10 +17,15 @@
 </mat-dialog-content>
 
 <mat-dialog-content *ngIf="!two">
-	<mat-form-field>
+	<mat-form-field *ngIf="message != 'Base TVA'">
 		<mat-label>{{ message }}</mat-label>
 		<input matInput [(ngModel)]="param" type="text" />
 
+	</mat-form-field>
+	<mat-form-field *ngIf="message == 'Base TVA'">
+		<mat-label>{{ message }}</mat-label>
+		<input (keypress)="numberOnly($event)" matInput [(ngModel)]="param" type="text" />
+		<span matTextSuffix>%</span>
 	</mat-form-field>
 </mat-dialog-content>
 

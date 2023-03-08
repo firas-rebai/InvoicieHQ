@@ -23,6 +23,7 @@
 			<mat-form-field>
 				<mat-label>Stock Initial</mat-label>
 				<input
+					(keypress)="numberOnly($event)"
 					matInput
 					formControlName="stock_initial"
 					placeholder="0.000"
@@ -126,6 +127,7 @@
 				<mat-form-field>
 					<mat-label>PVHT</mat-label>
 					<input
+						(keypress)="numberOnly($event)"
 						matInput
 						formControlName="pvht"
 						placeholder="0.000"
@@ -137,6 +139,7 @@
 				<mat-form-field>
 					<mat-label>PAHT</mat-label>
 					<input
+						(keypress)="numberOnly($event)"
 						matInput
 						formControlName="paht"
 						placeholder="0.000"

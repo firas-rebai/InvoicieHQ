@@ -18,10 +18,13 @@ export class AppComponent {
 	active_vente: string = 'menu-button';
 	showNavbar: boolean = true;
 
-	constructor(private router: Router, public dialog: MatDialog, private dataSharingService: DataSharingService, private tokenStorage: TokenStorageService) {
+	constructor(private router: Router,
+			public dialog: MatDialog,
+			private dataSharingService: DataSharingService,
+			private tokenStorage: TokenStorageService) {
 		this.dataSharingService.isUserLoggedIn.subscribe(value => {
 			this.showNavbar = value;
-			console.log(value)
+			// console.log(value)
 		})
 	}
 

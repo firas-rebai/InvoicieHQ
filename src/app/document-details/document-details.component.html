@@ -1,0 +1,165 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10">
+			<div class="row">
+				<div class="mat-elevation-z8">
+					<table mat-table [dataSource]="document.articleDocument">
+						<ng-container matColumnDef="designation">
+							<th mat-header-cell *matHeaderCellDef>
+								Désignation
+							</th>
+							<td mat-cell *matCellDef="let article">
+								<p style="max-width: 200px">
+									{{ article.article.designation }}
+								</p>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="quantite">
+							<th mat-header-cell *matHeaderCellDef>Quantité</th>
+							<td mat-cell *matCellDef="let article">
+								{{ article.quantite | number : "1.2-3" }}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="unite">
+							<th mat-header-cell *matHeaderCellDef>Unité</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									article.article.unite != null
+										? article.article.unite.unite
+										: "--"
+								}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="puht">
+							<th mat-header-cell *matHeaderCellDef>PUHT</th>
+							<td mat-cell *matCellDef="let article">
+								{{ article.puht | number : "1.2-3" }}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="tva">
+							<th mat-header-cell *matHeaderCellDef>TVA</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									article.tva != null
+										? article.tva.base
+										: "--"
+								}}
+								%
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="puttc">
+							<th mat-header-cell *matHeaderCellDef>PUTTC</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									(article.tva.base / 100 + 1) * article.puht
+										| number : "1.2-3"
+								}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="remise">
+							<th mat-header-cell *matHeaderCellDef>Remise</th>
+							<td mat-cell *matCellDef="let article">
+								{{ article.remise }} %
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="montant">
+							<th mat-header-cell *matHeaderCellDef>
+								Montant HT
+							</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									article.puht * article.quantite
+										| number : "1.2-3"
+								}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="montant_ttc">
+							<th mat-header-cell *matHeaderCellDef>
+								Montant TTC
+							</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									(article.tva.base / 100 + 1) *
+										article.puht *
+										article.quantite | number : "1.2-3"
+								}}
+							</td>
+						</ng-container>
+
+						<tr
+							mat-header-row
+							*matHeaderRowDef="displayedColumns"
+						></tr>
+						<tr
+							mat-row
+							*matRowDef="let row; columns: displayedColumns"
+						></tr>
+					</table>
+
+					<mat-paginator
+						[pageSizeOptions]="[5, 10, 20]"
+						showFirstLastButtons
+						aria-label="Select page of periodic elements"
+					>
+					</mat-paginator>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-8"></div>
+				<div class="col-md-4">
+					<mat-card class="calc-container">
+						<mat-card-content>
+							<p>
+								Montant HT : <span class="spacer"></span>
+								{{ montant_total | number : "1.2-3" }}
+							</p>
+							<p>
+								Montant TTC :
+								{{ montant_ttc | number : "1.2-3" }}
+							</p>
+							<p>
+								Montant remise :
+								{{ montant_remise | number : "1.2-3" }}
+							</p>
+							<p>
+								Timbre :
+								{{ settings.timbre | number : "1.2-3" }}
+							</p>
+							<p>
+								Net à payer : {{ net_payer | number : "1.2-3" }}
+							</p>
+						</mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="row" style="margin-bottom: 10px">
+				<button mat-raised-button color="primary" (click)="print()">
+					Imprimer
+				</button>
+			</div>
+			<div class="row">
+				<mat-form-field>
+					<mat-label>Type</mat-label>
+					<mat-select  (selectionChange)="changeType()" [(value)]="this.document.type">
+						<mat-option value="devis">Devis</mat-option>
+						<mat-option value="commande">Commande</mat-option>
+						<mat-option value="bl">BL</mat-option>
+						<mat-option value="bl_facture">BL Facturé</mat-option>
+						<mat-option value="facture">Facture</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</div>
+	</div>
+</div>

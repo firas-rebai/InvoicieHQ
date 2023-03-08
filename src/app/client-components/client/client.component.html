@@ -28,7 +28,7 @@
 
 					<ng-container matColumnDef="assujetti">
 						<th mat-header-cell *matHeaderCellDef> Assujetti</th>
-						<td mat-cell *matCellDef="let client"> {{client.assujetti != undefined ? client.assujetti.type + ' ' + client.assujetti.coefficient_tva : '--'}} </td>
+						<td mat-cell *matCellDef="let client"> {{client.assujetti != undefined ? client.assujetti.type + ' ' + client.assujetti.coefficient_tva + '%' : '--'}} </td>
 					</ng-container>
 
 					<ng-container matColumnDef="fax">

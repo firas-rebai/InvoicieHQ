@@ -1,3 +1,5 @@
+import { ParameterService } from './../../_services/parameter.service';
+import { ParamService } from './../../_services/param.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,6 +19,7 @@ import { AddClientComponent } from '../../client-components/add-client/add-clien
 import { TokenStorageService } from '../../_services/token-storage.service';
 import { DocumentService } from '../../_services/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Settings } from 'src/app/_models/Settings';
 
 @Component({
 	selector: 'app-add-document',
@@ -36,6 +39,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		'puttc',
 		'remise',
 		'montant',
+		'montant_ttc',
 		'action',
 	];
 	fournisseurs: Fournisseur[];
@@ -46,7 +50,8 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	montant_total: number = 0;
 	montant_remise: number = 0;
 	montant_ttc: number = 0;
-
+	net_payer: number = 0;
+	settings : Settings;
 	ngAfterViewInit() {
 		// this.articleDocument.paginator = this.paginator;
 	}
@@ -59,13 +64,14 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		private router: Router,
 		public dialog: MatDialog,
 		private tokenStorage: TokenStorageService,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private settingsService : ParameterService
 	) {}
 
 	submit() {
 		const form: FormData = new FormData();
 		//this.document.articleDocument = this.articleDocument;
-		this.document.user = this.tokenStorage.getUser();
+		// this.document.user = this.tokenStorage.getUser();
 		console.log(this.document);
 		this.documentService.addDocument(this.document).subscribe(
 			(result) => {
@@ -76,11 +82,63 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 					.subscribe(
 						(result_final) => {
 							console.log(result_final);
-							this.openSnackBar(
+							this.snackBar.open(
 								'Le document ' +
 									result_final.reference +
-									' est ajouter'
+									' est ajouter',
+								'',
+								{ duration: 5 * 1000 }
+
 							);
+							this.router.navigate(["/home"])
+						},
+						(error) => {
+							console.log('error');
+						}
+					);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
+
+	print() {
+		const form: FormData = new FormData();
+		console.log(this.document);
+		this.documentService.addDocument(this.document).subscribe(
+			(result) => {
+				console.log(result);
+				form.append('documentId', result.id.toString());
+				this.documentService
+					.saveArticles(this.articleDocument, result.id)
+					.subscribe(
+						(result_final) => {
+							this.documentService
+								.generatePDF(result.id)
+								.subscribe(
+									(response) => {
+										const file = new Blob([response], {
+											type: 'application/pdf',
+										});
+										const pdf = URL.createObjectURL(file);
+										// this.pdf = 'data:application/pdf;base64,' + file.text;
+										window.open(pdf);
+										this.router.navigate(["/home"])
+									},
+									(error) => {
+										console.log(error);
+									}
+								);
+							console.log(result_final);
+							this.snackBar.open(
+								'Le document ' +
+									result_final.reference +
+									' est ajouter',
+								'',
+								{ duration: 5 * 1000 }
+							);
+
 						},
 						(error) => {
 							console.log('error');
@@ -94,23 +152,19 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	calculate() {
+		this.montant_remise = 0
+		this.montant_total = 0
+		this.montant_ttc = 0
 		this.articleDocument.forEach((article) => {
-			this.montant_total = article.puht * article.quantite;
-			if (this.document.client != undefined)
-				this.montant_ttc =
-					article.puht *
-						article.quantite *
-						this.document.client.assujetti.coefficient_tva +
-					article.puht * article.quantite;
-			else this.montant_ttc = article.puht * article.quantite;
-			this.montant_remise =
-				article.puht * article.quantite * article.remise +
-				article.puht * article.quantite;
+			var ht = article.puht * article.quantite;
+			this.montant_total += ht;
+			this.montant_ttc += (parseFloat(article.tva.base) / 100) * article.puht * article.quantite;
+			this.montant_remise += (ht + (ht * (parseFloat(article.tva.base) / 100))) * (article.remise / 100);
+			this.net_payer = this.montant_total + this.montant_ttc - this.montant_remise + this.settings.timbre;
 		});
 	}
 
 	ngOnInit(): void {
-		// for (let i = 0; i < 5; i++) this.articleDocument.data.push(Object.create(null));
 		this.getData();
 	}
 
@@ -132,6 +186,14 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 				console.log(error.message);
 			}
 		);
+
+		this.settingsService.getSettings().subscribe(
+			(result) => {
+				this.settings = result;
+			}, (error) => {
+				console.log(error)
+			}
+		)
 	}
 
 	AddDialog() {
@@ -146,7 +208,6 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 						result.puht;
 				else result.puttc = result.puht;
 				this.articleDocument.push(result);
-
 				this.table.renderRows();
 				this.calculate();
 			}

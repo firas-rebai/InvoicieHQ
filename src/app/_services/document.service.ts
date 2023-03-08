@@ -35,6 +35,10 @@ export class DocumentService {
 		return this.http.put<Document>(this.apiUrl + "/document/update", document);
 	}
 
+	public updateDocumentType(id: number, type: string): Observable<Document> {
+		return this.http.put<Document>(this.apiUrl + "/document/update-type/" + id + "/" + type, document);
+	}
+
 	public deleteDocument(id: number): Observable<void> {
 		return this.http.delete<void>(this.apiUrl + "/document/delete/" + id);
 	}
