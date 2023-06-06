@@ -14,8 +14,13 @@ export class ListArticleComponent implements OnInit{
 
 	ngOnInit(): void {
 		this.articleService.getArticles().subscribe(
-			(result) => {
-				this.articles = result;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.articles = data;
 			}, (error) => {
 
 			}

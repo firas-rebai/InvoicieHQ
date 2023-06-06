@@ -1,6 +1,7 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-md-3">
+			<div>
 			<mat-form-field class="options">
 				<mat-label>Choisir une date</mat-label>
 				<input [(ngModel)]="document.date" matInput  [matDatepicker]="picker">
@@ -8,9 +9,9 @@
 				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
-
 		</div>
-		<div class="col-md-4">
+		</div>
+		<div class="col-md-5">
 			<div class="options">
 				<mat-radio-group [(ngModel)]="this.document.transaction"
 								 (change)="this.document.client = null; this.document.fournisseur = null">
@@ -30,7 +31,7 @@
 			</div>
 		</div>
 		<ng-container *ngIf="document.transaction == 'achat'">
-			<div class="col-md-5">
+			<div class="col-md-4">
 				<div class="options">
 					<mat-form-field>
 						<mat-label>Fournisseur</mat-label>
@@ -41,14 +42,14 @@
 							</ng-container>
 						</mat-select>
 					</mat-form-field>
-					<button color="primary" (click)="AddFournisseur()" mat-mini-fab>
+					<button style="margin-left: 20px;" color="primary" (click)="AddFournisseur()" mat-mini-fab>
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
 			</div>
 		</ng-container>
 		<ng-container *ngIf="document.transaction == 'vente'">
-			<div class="col-md-5">
+			<div class="col-md-4">
 				<div class="options">
 					<mat-form-field>
 						<mat-label>Client</mat-label>
@@ -59,7 +60,7 @@
 						</mat-select>
 
 					</mat-form-field>
-					<button color="primary" (click)="AddClient()" mat-mini-fab>
+					<button style="margin-left: 20px;" color="primary" (click)="AddClient()" mat-mini-fab>
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
@@ -153,7 +154,7 @@
 							<p>Montant HT : {{montant_total  | number : '1.2-3'}}</p>
 							<p>Montant TTC : {{montant_ttc | number : '1.2-3'}}</p>
 							<p>Montant remise : {{montant_remise | number : '1.2-3'}}</p>
-							<p>Timbre : {{settings.timbre | number : '1.2-3'}}</p>
+							<p>Timbre : {{settings.timbre | number : '1.2-3' }}</p>
 							<p>Net à payer : {{net_payer | number : '1.2-3'}}</p>
 						</mat-card-content>
 
@@ -166,7 +167,18 @@
 			<div class="row" style="margin-bottom: 10px; margin-right: 10px; margin-left: 10px;"><button mat-raised-button color="primary" (click)="AddDialog()">Ajouter un article</button></div>
 			<div class="row" style="margin-bottom: 10px; margin-right: 10px; margin-left: 10px;"><button mat-raised-button color="primary" [disabled]="articleDocument.length == 0 || document.transaction == null || document.date == null || (document.client == null && document.fournisseur == null) || document.type == null" (click)="submit()">Sauvegarder</button></div>
 			<div class="row" style="margin-bottom: 10px; margin-right: 10px; margin-left: 10px;"><button mat-raised-button color="primary" [disabled]="articleDocument.length == 0 || document.transaction == null || document.date == null || (document.client == null && document.fournisseur == null) || document.type == null" (click)="print()">Sauvegarder et Imprimer</button></div>
-
+			<div class="row">
+				<mat-form-field>
+					<mat-label>Frais d'installation</mat-label>
+					<input (keypress)="numberOnly($event)" matInput [(ngModel)]="document.installation" placeholder="0.00" type="text">
+				</mat-form-field>
+			</div>
+			<div class="row">
+				<mat-form-field>
+					<mat-label>Frais de transport</mat-label>
+					<input (keypress)="numberOnly($event)" matInput [(ngModel)]="document.transport" placeholder="0.00" type="text">
+				</mat-form-field>
+			</div>
 		</div>
 	</div>
 </div>

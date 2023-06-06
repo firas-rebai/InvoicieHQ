@@ -1,5 +1,6 @@
 {
-  "name": "invoice-hq",
+  "name": "dhd-frontend-angular",
+  "productName": "InvoiceHQ",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -17,15 +18,19 @@
     "@angular/common": "^15.0.0",
     "@angular/compiler": "^15.0.0",
     "@angular/core": "^15.0.0",
+    "@angular/fire": "^7.6.1",
     "@angular/forms": "^15.0.0",
     "@angular/material": "^15.0.0",
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
     "@popperjs/core": "^2.11.6",
-    "angular-material-fileupload": "^3.0.2",
     "bootstrap": "^5.2.3",
     "electron": "^23.1.2",
+    "firebase": "^9.22.1",
+    "firebase-tools": "^12.2.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.29",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -35,13 +40,13 @@
     "@angular/cli": "~15.0.1",
     "@angular/compiler-cli": "^15.0.0",
     "@types/jasmine": "~4.3.0",
+    "electron": "^23.1.2",
     "electron-packager": "^17.1.1",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-	"electron": "^23.1.2",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.8.2"
   }

@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Document} from "../_models/Document";
 import {ArticleDocument} from "../_models/ArticleDocument";
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -16,42 +17,44 @@ export class DocumentService {
 
 	apiUrl = GlobalConfig.apiUrl;
 
-	constructor(private http: HttpClient) {
+	constructor(private http: HttpClient, private store: AngularFirestore) {
 	}
 
-	public getDocumentsTrans(trans: string | null): Observable<Document[]> {
-		return this.http.get<Document[]>(this.apiUrl + "/document/all?trans=" + trans);
+	public getDocumentsTrans(trans: string | null) {
+		return this.store.collection("document", ref => ref.where('transaction', '==', trans)).snapshotChanges()
 	}
 
-	public getDocumentsType(type: string | null, trans: string | null): Observable<Document[]> {
-		return this.http.get<Document[]>(this.apiUrl + "/document?type=" + type + "&trans=" + trans);
+	public getDocumentsType(type: string | null, trans: string | null){
+		return this.store.collection('document', ref => ref.where('transaction', '==', trans).where('type', '==', type)).snapshotChanges()
 	}
 
-	public addDocument(document: Document): Observable<Document> {
-		return this.http.post<Document>(this.apiUrl + "/document/add", document);
+	public addDocument(document: Document) {
+		document.id = this.store.createId();
+		return this.store.collection("document").add(document);
 	}
 
-	public updateDocument(document: Document): Observable<Document> {
-		return this.http.put<Document>(this.apiUrl + "/document/update", document);
+	public updateDocument(document: Document) {
+		return this.store.doc("document/" + document.id).update(document)
 	}
 
-	public updateDocumentType(id: number, type: string): Observable<Document> {
+	public updateDocumentType(id: string, type: string) {
+
 		return this.http.put<Document>(this.apiUrl + "/document/update-type/" + id + "/" + type, document);
 	}
 
-	public deleteDocument(id: number): Observable<void> {
+	public deleteDocument(id: number) {
 		return this.http.delete<void>(this.apiUrl + "/document/delete/" + id);
 	}
 
-	public getDocumentId(id: number): Observable<Document> {
-		return this.http.get<Document>(this.apiUrl + "/document/" + id)
+	public getDocumentId(id: string) {
+		return this.store.doc('/document/' + id).snapshotChanges()
 	}
 
-	public saveArticles(articles: ArticleDocument[], id: number): Observable<any> {
+	public saveArticles(articles: ArticleDocument[], id: number) {
 		return this.http.post(this.apiUrl + '/document/add/article', {articles: articles, id: id}, httpOptions);
 	}
 
-	public generatePDF(id: number) : Observable<any> {
+	public generatePDF(id: string) : Observable<any> {
 		const httpOptions = {
 			responseType: 'arraybuffer' as 'json'
 		};

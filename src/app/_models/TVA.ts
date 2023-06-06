@@ -2,7 +2,7 @@ export class TVA {
 	constructor(base: string) {
 		this.base = base;
 	}
-  id : number;
+  id : string;
   base: string;
 
 }

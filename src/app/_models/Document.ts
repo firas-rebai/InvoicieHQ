@@ -4,7 +4,7 @@ import {ArticleDocument} from "./ArticleDocument";
 import {User} from "./User";
 
 export class Document {
-	id: number;
+	id: string;
 	client: Client | null;
 	fournisseur: Fournisseur | null;
 	date: Date;
@@ -18,4 +18,7 @@ export class Document {
 	net_payer: string;
 	missing_articles: boolean;
 	paid: boolean;
+	installation : number;
+	transport : number;
+	payment_method : string;
 }

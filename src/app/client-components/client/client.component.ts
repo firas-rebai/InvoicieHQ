@@ -31,8 +31,13 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
 	public getClients(): void {
 		this.clientService.getClients().subscribe(
-			(response: Client[]) => {
-				this.clients = new MatTableDataSource<Client>(response);
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.clients = new MatTableDataSource<Client>(data);
 				this.clients.paginator = this.paginator;
 			}, (error: HttpErrorResponse) => {
 				// alert(error.message)
@@ -58,13 +63,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.clientService.deleteClient(id).subscribe(
-					() => {
-						this.getClients();
-					}, (error) => {
-						console.log(error.message);
-					}
-				)
+				this.clientService.deleteClient(id);
 			}
 		});
 	}

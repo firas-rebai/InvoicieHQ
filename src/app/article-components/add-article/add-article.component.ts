@@ -68,7 +68,8 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 		if (addForm.invalid) return;
 		this.article = addForm.value;
 
-		this.articleService.addArticle(this.article).subscribe(
+		this.articleService.addArticle(this.article)
+		/* .subscribe(
 			(response: Article) => {
 				this.snackBar.open(response.designation + ' est ajouté', '', {
 					duration : 5 * 1000,
@@ -78,21 +79,31 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 			(error) => {
 				console.log('error : ' + error.message);
 			}
-		);
+		); */
 	}
 
 	public getData(): void {
 		this.paramService.getTVAs().subscribe(
-			(response: TVA[]) => {
-				this.tvas = response;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.tvas = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
 			}
 		);
 		this.paramService.getFamilles().subscribe(
-			(response: FamilleArticle[]) => {
-				this.familles = response;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.familles = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -100,7 +111,12 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 		);
 		this.paramService.getUnites().subscribe(
 			(response) => {
-				this.unites = response;
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.unites = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -108,7 +124,12 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 		);
 		this.fournisseurService.getFournisseurs().subscribe(
 			(response) => {
-				this.fournisseurs = response;
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.fournisseurs = data;
 				console.log(response);
 			},
 			(error: HttpErrorResponse) => {
@@ -127,14 +148,7 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 			result = result.split('_')[0];
 			// @ts-ignore
 			let unite: Unite = { id: null, unite: result };
-			this.paramService.addUnite(unite).subscribe(
-				(result) => {
-					this.getData();
-				},
-				(error: HttpErrorResponse) => {
-					// alert(error.message);
-				}
-			);
+			this.paramService.addUnite(unite);
 		});
 	}
 
@@ -147,14 +161,7 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 			result = result.trim();
 			// @ts-ignore
 			let famille: FamilleArticle = { id: null, famille: result };
-			this.paramService.addFamille(famille).subscribe(
-				(result) => {
-					this.getData();
-				},
-				(error: HttpErrorResponse) => {
-					// alert(error.message);
-				}
-			);
+			this.paramService.addFamille(famille);
 		});
 	}
 

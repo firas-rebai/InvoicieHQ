@@ -2,6 +2,6 @@ export class FamilleArticle {
 	constructor(famille: string) {
 		this.famille = famille;
 	}
-	id: number;
+	id: string;
 	famille: string;
 }

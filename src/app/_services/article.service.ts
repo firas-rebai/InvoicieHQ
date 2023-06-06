@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Client} from "../_models/Client";
 import {Article} from "../_models/Article";
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -12,22 +13,22 @@ export class ArticleService {
 
   apiUrl = GlobalConfig.apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private store: AngularFirestore) {
   }
 
-  public getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.apiUrl + "/article");
+  public getArticles(){
+    return this.store.collection("article").snapshotChanges()
   }
 
-  public addArticle(Article: Article): Observable<Article> {
-    return this.http.post<Article>(this.apiUrl + "/article/add", Article);
+  public addArticle(article: Article) {
+    return this.store.collection('article').add(article)
   }
 
-  public deleteArticle(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/article/delete/" + id);
+  public deleteArticle(id: number){
+    return this.store.doc("/article/" + id).delete();
   }
 
-  public getArticleId(id: number): Observable<Article> {
-    return this.http.get<Article>(this.apiUrl + "/article/" + id)
+  public getArticleId(id: number){
+    return this.store.doc("/article/" + id).snapshotChanges();
   }
 }

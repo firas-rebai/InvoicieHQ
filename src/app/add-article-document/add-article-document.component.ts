@@ -15,6 +15,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { FournisseurService } from '../_services/fournisseur.service';
 import { ListArticleComponent } from '../list-article/list-article.component';
 import { modelTest } from '../_models/modelTest';
+import { AddParamComponent } from '../add-param/add-param.component';
 
 @Component({
 	selector: 'app-add-article-document',
@@ -57,13 +58,19 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	public add(article: ArticleDocument): void {
+
 		this.article = article;
 	}
 
 	public getData(): void {
 		this.paramService.getTVAs().subscribe(
-			(response: TVA[]) => {
-				this.tvas = response;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.tvas = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -71,7 +78,12 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 		);
 		this.paramService.getUnites().subscribe(
 			(response) => {
-				this.unites = response;
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.unites = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error);
@@ -79,7 +91,12 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 		);
 		this.paramService.getFamilles().subscribe(
 			(response) => {
-				this.familles = response;
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.familles = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error);
@@ -87,12 +104,22 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 		);
 		this.fournisseurService.getFournisseurs().subscribe(
 			(response) => {
-				this.fournisseurs = response;
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.fournisseurs = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
 			}
 		);
+	}
+
+	debug() {
+		console.log(this.article);
+
 	}
 
 	ngOnInit(): void {
@@ -101,7 +128,7 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 				'',
 				new Unite(''),
 				0,
-				0,
+				new Date(),
 				new FamilleArticle(''),
 				0,
 				0,
@@ -137,4 +164,17 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 		return (charCode > 47 && charCode < 58) || charCode == 46
 
 	  }
+
+	  openAddTVA() {
+		const dialogRef = this.dialog.open(AddParamComponent, {
+			data: { message: 'tva' },
+		});
+		dialogRef.afterClosed().subscribe((result: string) => {
+			result = result.replaceAll('_', ' ');
+			result = result.trim();
+			// @ts-ignore
+			let tva: TVA = { id: null, base: result };
+			this.paramService.addTVA(tva);
+		});
+	}
 }

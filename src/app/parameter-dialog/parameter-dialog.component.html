@@ -1,7 +1,7 @@
 <div style="padding: 30px">
 	<input #image hidden (change)="onSelectFile($event)" type="file" />
-	<div *ngIf="ImageUrl != undefined || ImageUrl != null" class="image-container" >
-		<img [src]="ImageUrl"  height="200"  alt="test"/>
+	<div class="image-container" >
+		<img [src]="logo | async"  height="200"  alt="test"/>
 	</div>
 	<button mat-icon-button (click)="image.click()"><mat-icon>edit</mat-icon></button>
 
@@ -182,6 +182,17 @@
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
+			</div>
+			<div class="row">
+				<mat-form-field>
+					<mat-label>RIB</mat-label>
+					<input
+						matInput
+						placeholder="RIB"
+						[(ngModel)]="param.RIB"
+						type="text"
+					/>
+				</mat-form-field>
 			</div>
 		</div>
 	</div>

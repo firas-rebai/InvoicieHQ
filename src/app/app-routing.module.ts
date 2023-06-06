@@ -11,6 +11,7 @@ import {DocumentComponent} from "./document-components/document/document.compone
 import {ArticleComponent} from "./article-components/article/article.component";
 import {AddDocumentComponent} from "./document-components/add-document/add-document.component";
 import {AuthGuard} from "./_services/auth.guard";
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate : [AuthGuard] },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'param', component: ParamComponent, canActivate : [AuthGuard] },
   { path: 'add-document', component: AddDocumentComponent, canActivate : [AuthGuard] },
   { path: 'article', component: ArticleComponent, canActivate : [AuthGuard] },
+  { path: 'admin-panel', component: AdminPanelComponent, canActivate : [AuthGuard] },
   { path: '**', component: HomeComponent , canActivate : [AuthGuard] },
 ];
 

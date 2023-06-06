@@ -7,6 +7,7 @@ import {Unite} from "../_models/Unite";
 import {TVA} from "../_models/TVA";
 import {Assujetti} from "../_models/Assujetti";
 import {FamilleArticle} from "../_models/FamilleArticle";
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -14,72 +15,70 @@ import {FamilleArticle} from "../_models/FamilleArticle";
 export class ParamService {
   apiUrl = GlobalConfig.apiUrl;
 
-  constructor(private http: HttpClient) {
-  }
-
-  public getAssujettis(): Observable<Assujetti[]> {
-    return this.http.get<Assujetti[]>(this.apiUrl + "/assujetti");
-  }
-
-  public addAssujetti(assujetti: Assujetti): Observable<Assujetti> {
-    return this.http.post<Assujetti>(this.apiUrl + "/assujetti/add", assujetti);
-  }
-
-  public deleteAssujetti(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/assujetti/delete/" + id);
-  }
-
-  public getAssujettiId(id: number): Observable<Assujetti> {
-    return this.http.get<Assujetti>(this.apiUrl + "/assujetti/" + id)
+  constructor(private http: HttpClient, private afs: AngularFirestore) {
   }
 
 
-  public getTVAs(): Observable<TVA[]> {
-    return this.http.get<TVA[]>(this.apiUrl + "/tva");
+
+  public getAssujettis(){
+    return this.afs.collection('assujetti').snapshotChanges();
   }
 
-  public addTVA(tva: TVA): Observable<TVA> {
-    return this.http.post<TVA>(this.apiUrl + "/tva/add", tva);
+  public addAssujetti(assujetti: Assujetti){
+	assujetti.id = this.afs.createId()
+    return this.afs.collection("/assujetti").add(assujetti)
   }
 
-  public deleteTVA(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/tva/delete/" + id);
-  }
-
-  public getTVAId(id: number): Observable<TVA> {
-    return this.http.get<TVA>(this.apiUrl + "/tva/" + id)
+  public deleteAssujetti(id: string){
+    return this.afs.doc('/assujetti/' + id).delete()
   }
 
 
-  public getUnites(): Observable<Unite[]> {
-    return this.http.get<Unite[]>(this.apiUrl + "/unite");
+
+
+  public getTVAs(){
+    return this.afs.collection('tva').snapshotChanges();
   }
 
-  public addUnite(unite: Unite): Observable<Unite> {
-    return this.http.post<Unite>(this.apiUrl + "/unite/add", unite);
+  public addTVA(tva: TVA) {
+    tva.id = this.afs.createId()
+    return this.afs.collection("/tva").add(tva)
   }
 
-  public deleteUnite(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/unite/delete/" + id);
+  public deleteTVA(id: number) {
+    return this.afs.doc('/tva/' + id).delete()
   }
 
-  public getUniteId(id: number): Observable<Unite> {
-    return this.http.get<Unite>(this.apiUrl + "/unite/" + id)
+
+
+
+  public getUnites(){
+    return this.afs.collection('unite').snapshotChanges();
   }
 
-  public getFamilles(): Observable<FamilleArticle[]> {
-    return this.http.get<FamilleArticle[]>(this.apiUrl + "/famille");
+  public addUnite(unite: Unite){
+    unite.id = this.afs.createId()
+    return this.afs.collection("/unite").add(unite)
   }
 
-  public addFamille(famille: FamilleArticle): Observable<FamilleArticle> {
-    return this.http.post<FamilleArticle>(this.apiUrl + "/famille/add", famille);
+  public deleteUnite(id: number) {
+    return this.afs.doc('/unite/' + id).delete()
   }
 
-  public deleteFamille(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/famille/delete/" + id);
+
+
+  public getFamilles() {
+    return this.afs.collection("famille").snapshotChanges();
   }
 
-  public getFamilleId(id: number): Observable<FamilleArticle> {
-    return this.http.get<FamilleArticle>(this.apiUrl + "/famille/" + id)
+  public addFamille(famille: FamilleArticle){
+    famille.id = this.afs.createId()
+    return this.afs.collection("/famille").add(famille)
   }
+
+  public deleteFamille(id: number) {
+	return this.afs.doc('/famille/' + id).delete()
+  }
+
+
 }

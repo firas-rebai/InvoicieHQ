@@ -2,12 +2,13 @@
 	<mat-sidenav-container>
 		<mat-sidenav opened="true" mode="side">
 			<mat-list>
-				<button [ngClass]="content == 'profil'? 'active' : 'menu-button'" (click)="content = 'profil'" class="menu-button">
-					<mat-icon>account_circle</mat-icon>
-					<span>Profil</span></button>
+
 				<button [ngClass]="content == 'societe'? 'active' : 'menu-button'" (click)="content = 'societe'" class="menu-button">
 					<mat-icon>people</mat-icon>
 					<span>Societé</span></button>
+					<button [ngClass]="content == 'profil'? 'active' : 'menu-button'" (click)="content = 'profil'" class="menu-button">
+						<mat-icon>account_circle</mat-icon>
+						<span>Profil</span></button>
 				<button [ngClass]="content == 'reglages'? 'active' : 'menu-button'" (click)="content = 'reglages'" class="menu-button">
 					<mat-icon>edit_attributes</mat-icon>
 					<span>Reglages</span></button>

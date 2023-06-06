@@ -1,20 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../_services/auth.service';
-import {TokenStorageService} from '../_services/token-storage.service';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {DataSharingService} from "../_services/data-sharing.service";
-import {Router} from "@angular/router";
-
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { DataSharingService } from '../_services/data-sharing.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.css']
+	styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
 	form: any = {
 		username: null,
-		password: null
+		password: null,
 	};
 	isLoggedIn = false;
 	isLoginFailed = false;
@@ -22,8 +21,12 @@ export class LoginComponent implements OnInit {
 	roles: string[] = [];
 	hide: boolean = true;
 
-	constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private dataSharingService: DataSharingService, private router: Router) {
-	}
+	constructor(
+		private authService: AuthService,
+		private tokenStorage: TokenStorageService,
+		private dataSharingService: DataSharingService,
+		private router: Router
+	) {}
 
 	ngOnInit(): void {
 		if (this.tokenStorage.getToken()) {
@@ -32,11 +35,11 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
-
 	onSubmit(): void {
-		const {username, password} = this.form;
-		console.log(this.form)
-		this.authService.login(username, password).subscribe(
+		const { username, password } = this.form;
+		console.log(this.form);
+		this.authService.signin(username, password);
+		/* this.authService.login(username, password).subscribe(
 			data => {
 				this.tokenStorage.saveToken(data.accessToken);
 				this.tokenStorage.saveUser(data);
@@ -52,7 +55,7 @@ export class LoginComponent implements OnInit {
 				this.errorMessage = err.error.message;
 				this.isLoginFailed = true;
 			}
-		);
+		); */
 	}
 
 	reloadPage(): void {
@@ -60,12 +63,15 @@ export class LoginComponent implements OnInit {
 	}
 
 	register() {
-		this.authService.register('admin', 'firasrebai01@gmail.com', '123456789').subscribe(
-			(response) => {
-				console.log(response)
-			}, (error) => {
-				console.log(error)
-			}
-		)
+		this.authService
+			.register('admin', 'firasrebai01@gmail.com', '123456789')
+			.subscribe(
+				(response) => {
+					console.log(response);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 	}
 }

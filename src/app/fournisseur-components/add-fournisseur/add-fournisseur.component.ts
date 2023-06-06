@@ -52,20 +52,18 @@ export class AddFournisseurComponent {
 		this.fournisseur.tva = this.selectedTVA;
 		this.fournisseur.fodec = this.fodec;
 		this.fournisseur.ht_ttc = this.ht_ttc;
-		this.fournisseurService.addFournisseur(this.fournisseur).subscribe(
-			(result: Fournisseur) => {
-				this.dialogRef.close(result);
-			},
-			(error) => {
-				console.error(error.message);
-			}
-		);
+		this.fournisseurService.addFournisseur(this.fournisseur);
 	}
 
 	public getTVAs(): void {
 		this.paramService.getTVAs().subscribe(
-			(response: TVA[]) => {
-				this.tvas = response;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.tvas = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -86,14 +84,7 @@ export class AddFournisseurComponent {
 			result = result.trim();
 			// @ts-ignore
 			let tva: TVA = { id: null, base: result };
-			this.paramService.addTVA(tva).subscribe(
-				(result) => {
-					this.getTVAs();
-				},
-				(error: HttpErrorResponse) => {
-					// alert(error.message);
-				}
-			);
+			this.paramService.addTVA(tva);
 		});
 	}
 }

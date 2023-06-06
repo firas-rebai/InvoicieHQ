@@ -4,7 +4,7 @@ import {TVA} from "./TVA";
 export class Fournisseur {
 	constructor() {
 	}
-	id: bigint;
+	id: string;
 
 	fodec: boolean;
 

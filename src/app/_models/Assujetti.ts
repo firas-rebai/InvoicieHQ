@@ -1,5 +1,5 @@
 export class Assujetti {
-  id: bigint;
+  id: string;
   type: string;
   coefficient_tva: number;
 }

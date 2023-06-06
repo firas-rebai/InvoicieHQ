@@ -49,20 +49,18 @@ export class AddClientComponent implements OnInit {
 		this.client = addForm.value;
 		this.client.assujetti = this.selectedAssujetti;
 
-		this.clientService.addClient(this.client).subscribe(
-			(response: Client) => {
-				this.dialogRef.close(response);
-			},
-			(error) => {
-				console.log('error : ' + error.message);
-			}
-		);
+		this.clientService.addClient(this.client);
 	}
 
 	public getAssujettis(): void {
 		this.paramService.getAssujettis().subscribe(
-			(response: Assujetti[]) => {
-				this.assujettis = response;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.assujettis = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -72,8 +70,13 @@ export class AddClientComponent implements OnInit {
 
 	public getTVAs(): void {
 		this.paramService.getTVAs().subscribe(
-			(response: TVA[]) => {
-				this.tvas = response;
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.tvas = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -95,14 +98,7 @@ export class AddClientComponent implements OnInit {
 			let coef = result.split('_')[1];
 			// @ts-ignore
 			let assujetti: Assujetti = {id: null,type: type,coefficient_tva: coef,};
-			this.paramService.addAssujetti(assujetti).subscribe(
-				(result) => {
-					this.getAssujettis();
-				},
-				(error: HttpErrorResponse) => {
-					// alert(error.message);
-				}
-			);
+			this.paramService.addAssujetti(assujetti);
 		});
 	}
 
@@ -115,14 +111,7 @@ export class AddClientComponent implements OnInit {
 			result = result.trim();
 			// @ts-ignore
 			let tva: TVA = { id: null, base: result };
-			this.paramService.addTVA(tva).subscribe(
-				(result) => {
-					this.getTVAs();
-				},
-				(error: HttpErrorResponse) => {
-					// alert(error.message);
-				}
-			);
+			this.paramService.addTVA(tva);
 		});
 	}
 }

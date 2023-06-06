@@ -20,7 +20,7 @@ export class Settings {
 		this.logoType = logoType;
 	}
 
-	id: bigint;
+	id: string;
 
 	assujetti: Assujetti;
 
@@ -51,4 +51,6 @@ export class Settings {
 	fb_acc: string;
 
 	logoType : string;
+
+	RIB : string;
 }

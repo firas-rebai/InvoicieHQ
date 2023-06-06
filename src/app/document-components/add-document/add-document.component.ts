@@ -20,6 +20,7 @@ import { TokenStorageService } from '../../_services/token-storage.service';
 import { DocumentService } from '../../_services/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Settings } from 'src/app/_models/Settings';
+import { GeneratePdfService } from 'src/app/_services/generate-pdf.service';
 
 @Component({
 	selector: 'app-add-document',
@@ -51,7 +52,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	montant_remise: number = 0;
 	montant_ttc: number = 0;
 	net_payer: number = 0;
-	settings : Settings;
+	settings: any;
 	ngAfterViewInit() {
 		// this.articleDocument.paginator = this.paginator;
 	}
@@ -65,102 +66,50 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		public dialog: MatDialog,
 		private tokenStorage: TokenStorageService,
 		private snackBar: MatSnackBar,
-		private settingsService : ParameterService
+		private settingsService: ParameterService,
+		private pdfGenerator: GeneratePdfService
 	) {}
 
 	submit() {
-		const form: FormData = new FormData();
-		//this.document.articleDocument = this.articleDocument;
-		// this.document.user = this.tokenStorage.getUser();
-		console.log(this.document);
-		this.documentService.addDocument(this.document).subscribe(
-			(result) => {
-				console.log(result);
-				form.append('documentId', result.id.toString());
-				this.documentService
-					.saveArticles(this.articleDocument, result.id)
-					.subscribe(
-						(result_final) => {
-							console.log(result_final);
-							this.snackBar.open(
-								'Le document ' +
-									result_final.reference +
-									' est ajouter',
-								'',
-								{ duration: 5 * 1000 }
-
-							);
-							this.router.navigate(["/home"])
-						},
-						(error) => {
-							console.log('error');
-						}
-					);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+		this.document.articleDocument = this.articleDocument;
+		this.documentService
+			.addDocument(JSON.parse(JSON.stringify(this.document)))
+			.then((response) =>
+				this.snackBar.open('Le document ajouté avec success', '', {
+					duration: 5 * 1000,
+				})
+			);
 	}
 
 	print() {
-		const form: FormData = new FormData();
-		console.log(this.document);
-		this.documentService.addDocument(this.document).subscribe(
-			(result) => {
-				console.log(result);
-				form.append('documentId', result.id.toString());
-				this.documentService
-					.saveArticles(this.articleDocument, result.id)
-					.subscribe(
-						(result_final) => {
-							this.documentService
-								.generatePDF(result.id)
-								.subscribe(
-									(response) => {
-										const file = new Blob([response], {
-											type: 'application/pdf',
-										});
-										const pdf = URL.createObjectURL(file);
-										// this.pdf = 'data:application/pdf;base64,' + file.text;
-										window.open(pdf);
-										this.router.navigate(["/home"])
-									},
-									(error) => {
-										console.log(error);
-									}
-								);
-							console.log(result_final);
-							this.snackBar.open(
-								'Le document ' +
-									result_final.reference +
-									' est ajouter',
-								'',
-								{ duration: 5 * 1000 }
-							);
-
-						},
-						(error) => {
-							console.log('error');
-						}
-					);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+		this.document.articleDocument = this.articleDocument;
+		this.documentService.addDocument(this.document).then((response) => {
+			this.snackBar.open('Le document ajouté avec success', '', {
+				duration: 5 * 1000,
+			});
+			this.pdfGenerator.downloadInvoice(this.document);
+		});
 	}
 
 	calculate() {
-		this.montant_remise = 0
-		this.montant_total = 0
-		this.montant_ttc = 0
+		this.montant_remise = 0;
+		this.montant_total = 0;
+		this.montant_ttc = 0;
 		this.articleDocument.forEach((article) => {
 			var ht = article.puht * article.quantite;
 			this.montant_total += ht;
-			this.montant_ttc += (parseFloat(article.tva.base) / 100) * article.puht * article.quantite;
-			this.montant_remise += (ht + (ht * (parseFloat(article.tva.base) / 100))) * (article.remise / 100);
-			this.net_payer = this.montant_total + this.montant_ttc - this.montant_remise + this.settings.timbre;
+			this.montant_ttc +=
+				(parseFloat(article.tva.base) / 100) *
+				article.puht *
+				article.quantite;
+			this.montant_remise +=
+				(ht + ht * (parseFloat(article.tva.base) / 100)) *
+				(article.remise / 100);
+			this.net_payer =
+				this.montant_total +
+				this.montant_ttc -
+				this.montant_remise +
+				this.settings.timbre;
 		});
 	}
 
@@ -170,8 +119,13 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 
 	getData() {
 		this.clientService.getClients().subscribe(
-			(result: Client[]) => {
-				this.clients = result;
+			(response) => {
+				const data = response.map((e: any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				});
+				this.clients = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -179,21 +133,25 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		);
 
 		this.fournisseurService.getFournisseurs().subscribe(
-			(result) => {
-				this.fournisseurs = result;
+			(response) => {
+				const data = response.map((e: any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				});
+				this.fournisseurs = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
 			}
 		);
 
-		this.settingsService.getSettings().subscribe(
-			(result) => {
-				this.settings = result;
-			}, (error) => {
-				console.log(error)
-			}
-		)
+		this.settingsService
+			.getSettings()
+			.snapshotChanges()
+			.subscribe((response) => {
+				this.settings = response.payload.data();
+			});
 	}
 
 	AddDialog() {
@@ -240,5 +198,10 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			this.document.fournisseur = result;
 			this.getData();
 		});
+	}
+
+	numberOnly(event): boolean {
+		const charCode = event.which ? event.which : event.keyCode;
+		return (charCode > 47 && charCode < 58) || charCode == 46;
 	}
 }

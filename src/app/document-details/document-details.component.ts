@@ -1,3 +1,5 @@
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { GeneratePdfService } from './../_services/generate-pdf.service';
 import { ParameterService } from './../_services/parameter.service';
 import { DocumentService } from './../_services/document.service';
 import { Document } from './../_models/Document';
@@ -7,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { ArticleDocument } from '../_models/ArticleDocument';
 import { Settings } from '../_models/Settings';
+import { Timestamp } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
 	selector: 'app-document-details',
@@ -14,15 +18,14 @@ import { Settings } from '../_models/Settings';
 	styleUrls: ['./document-details.component.css'],
 })
 export class DocumentDetailsComponent implements OnInit {
-	document: Document;
+	document: any;
 	@ViewChild(MatTable) table: MatTable<ArticleDocument>;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	montant_total: number = 0;
 	montant_remise: number = 0;
 	montant_ttc: number = 0;
 	net_payer: number = 0;
-	settings : Settings;
-
+	settings : any;
 	displayedColumns: string[] = [
 		'designation',
 		'quantite',
@@ -38,18 +41,21 @@ export class DocumentDetailsComponent implements OnInit {
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private documentService: DocumentService,
-		private parameterService : ParameterService
+		private parameterService : ParameterService,
+		private pdfGeneratorService: GeneratePdfService,
+		private store : AngularFirestore
 	) {}
 
 	ngOnInit(): void {
 		const id = this.activatedRoute.snapshot.paramMap.get('id');
 		if (id != null) {
-			this.documentService.getDocumentId(parseInt(id)).subscribe(
-				(result) => {
-					this.document = result;
-					this.parameterService.getSettings().subscribe(
+			this.documentService.getDocumentId(id).subscribe(
+				(response) => {
+
+					this.document = response.payload.data();
+					this.parameterService.getSettings().snapshotChanges().subscribe(
 						(response) => {
-							this.settings = response;
+							this.settings = response.payload.data();
 							this.calculate();
 						}
 					)
@@ -80,6 +86,10 @@ export class DocumentDetailsComponent implements OnInit {
 	}
 
 	calculate() {
+		this.montant_remise = 0
+		this.montant_total = 0
+		this.montant_ttc = 0
+		this.net_payer = 0
 		this.document.articleDocument.forEach((article) => {
 			var ht = article.puht * article.quantite;
 			this.montant_total += ht;
@@ -90,16 +100,12 @@ export class DocumentDetailsComponent implements OnInit {
 	}
 
 	changeType() {
-		console.log(this.document)
-		this.documentService.updateDocumentType(this.document.id , this.document.type).subscribe(
-			(result) => {
-				this.document = result;
-			}, (error) => {
-				console.log(error)
-			}
-		)
+		this.store.doc("/document/" + this.document.id).update(this.document)
 	}
 
 
 
+	downloadPDF() {
+		return this.pdfGeneratorService.downloadInvoice(this.document);
+	}
 }

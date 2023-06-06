@@ -20,7 +20,7 @@ import {ConfirmModalComponent} from "../../confirm-modal/confirm-modal.component
 export class FournisseurComponent {
 	fournisseurs: MatTableDataSource<Fournisseur> = new MatTableDataSource<Fournisseur>();
 
-	displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'HT/TTC', 'action'];
+	displayedColumns: string[] = [ 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'HT/TTC', 'action'];
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -34,8 +34,13 @@ export class FournisseurComponent {
 
 	public getFournisseurs(): void {
 		this.fournisseurService.getFournisseurs().subscribe(
-			(response: Fournisseur[]) => {
-				this.fournisseurs = new MatTableDataSource<Fournisseur>(response);
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.fournisseurs = new MatTableDataSource<Fournisseur>(data);
 				this.fournisseurs.paginator = this.paginator;
 			}, (error: HttpErrorResponse) => {
 				// alert(error.message)
@@ -62,13 +67,7 @@ export class FournisseurComponent {
 
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.fournisseurService.deleteFournisseur(id).subscribe(
-					() => {
-						this.getFournisseurs();
-					}, (error) => {
-						console.log(error.message);
-					}
-				)
+				this.fournisseurService.deleteFournisseur(id);
 			}
 		});
 	}

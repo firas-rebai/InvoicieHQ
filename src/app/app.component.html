@@ -118,6 +118,11 @@
 					routerLink="/add-document" class="menu-button">
 				<mat-icon>note_add</mat-icon>
 				<span>Creer un document</span></button>
+			<button [disabled]="showAdminButton" matRipple routerLinkActive="active-link"
+					(click)="this.active_vente = 'menu-button';this.active_achat = 'menu-button';"
+					routerLink="/admin-panel" class="menu-button">
+				<mat-icon>note_add</mat-icon>
+				<span>Admin Panel</span></button>
 		</mat-list>
 	</mat-sidenav>
 	<mat-sidenav-content>

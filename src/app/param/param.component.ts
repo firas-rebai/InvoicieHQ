@@ -23,7 +23,7 @@ export class ParamComponent implements OnInit {
 	familles: MatTableDataSource<FamilleArticle>;
 	showFiller = false;
 
-	content: string = 'profil';
+	content: string = 'societe';
 
 
 	assujettiColumns: string[] = ['type', 'coef', 'action'];
@@ -44,8 +44,13 @@ export class ParamComponent implements OnInit {
 
 	public getTVAs(): void {
 		this.paramService.getTVAs().subscribe(
-			(response: TVA[]) => {
-				this.tvas = new MatTableDataSource<TVA>(response);
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.tvas = new MatTableDataSource<TVA>(data);
 			}, (error: HttpErrorResponse) => {
 				console.log(error.message)
 			}
@@ -54,8 +59,13 @@ export class ParamComponent implements OnInit {
 
 	public getUnites(): void {
 		this.paramService.getUnites().subscribe(
-			(response: Unite[]) => {
-				this.unites = new MatTableDataSource<Unite>(response);
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.unites = new MatTableDataSource<Unite>(data);
 			}, (error: HttpErrorResponse) => {
 				console.log(error.message)
 			}
@@ -63,39 +73,51 @@ export class ParamComponent implements OnInit {
 	}
 
 	public getAssujettis(): void {
-		this.paramService.getAssujettis().subscribe(
+		/* this.paramService.getAssujettis().subscribe(
 			(response: Assujetti[]) => {
 				this.assujettis = new MatTableDataSource<Assujetti>(response);
 			}, (error: HttpErrorResponse) => {
 				console.log(error.message)
 			}
-		)
+		) */
+		this.paramService.getAssujettis().subscribe(
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.assujettis = new MatTableDataSource<Assujetti>(data);
+			},
+			(error) => {
+				console.log(error.message);
+			}
+		);
 	}
 
 	public getFamilles(): void {
 		this.paramService.getFamilles().subscribe(
-			(response: FamilleArticle[]) => {
-				this.familles = new MatTableDataSource<FamilleArticle>(response);
+			(response) => {
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				this.familles = new MatTableDataSource<FamilleArticle>(data);
 			}, (error: HttpErrorResponse) => {
 				console.log(error.message)
 			}
 		)
 	}
 
-	deleteAssujetti(id: number, nom: string) {
+	deleteAssujetti(id: string, nom: string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Confirmer supprimer ' + nom}
 		});
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				this.paramService.deleteAssujetti(id).subscribe(
-					() => {
-						this.getAssujettis();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.deleteAssujetti(id)
+
 			}
 		});
 	}
@@ -106,14 +128,7 @@ export class ParamComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				this.paramService.deleteUnite(id).subscribe(
-					() => {
-						this.getUnites();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.deleteUnite(id)
 			}
 		});
 	}
@@ -124,14 +139,7 @@ export class ParamComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				this.paramService.deleteTVA(id).subscribe(
-					() => {
-						this.getTVAs();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.deleteTVA(id)
 			}
 		});
 	}
@@ -142,14 +150,7 @@ export class ParamComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				this.paramService.deleteFamille(id).subscribe(
-					() => {
-						this.getFamilles();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.deleteFamille(id)
 			}
 		});
 	}
@@ -165,14 +166,7 @@ export class ParamComponent implements OnInit {
 				result = result.trim()
 				// @ts-ignore
 				let tva: TVA = {"id": null , "base" : result};
-				this.paramService.addTVA(tva).subscribe(
-					(result) => {
-						this.getTVAs();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.addTVA(tva)
 			}
 			if (message == "assujetti") {
 
@@ -180,41 +174,20 @@ export class ParamComponent implements OnInit {
 				let coef = result.split("_")[1]
 				// @ts-ignore
 				let assujetti : Assujetti = {id : null,type : type , coefficient_tva : coef}
-				this.paramService.addAssujetti(assujetti).subscribe(
-					(result) => {
-						this.getAssujettis();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.addAssujetti(assujetti)
 			}
 			if (message == "famille") {
 				result = result.replace('_', ' ')
 				result = result.trim()
 				// @ts-ignore
 				let famille: FamilleArticle = {"id": null , "famille" : result};
-				this.paramService.addFamille(famille).subscribe(
-					(result) => {
-						this.getFamilles();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.addFamille(famille)
 			}
 			if (message == "unite") {
 				result = result.split("_")[0]
 				// @ts-ignore
 				let unite: Unite = {"id": null , "unite" : result};
-				this.paramService.addUnite(unite).subscribe(
-					(result) => {
-						this.getUnites();
-					},
-					(error: HttpErrorResponse) => {
-						// alert(error.message);
-					}
-				)
+				this.paramService.addUnite(unite)
 			}
 		});
 	}

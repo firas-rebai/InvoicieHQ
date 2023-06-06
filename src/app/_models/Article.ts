@@ -4,11 +4,11 @@ import {FamilleArticle} from "./FamilleArticle";
 import {Fournisseur} from "./Fournisseur";
 
 export class Article {
-  id : number;
+  id : string;
   designation : string;
   unite: Unite;
   stock_intial : number;
-  date_stock_initial : number;
+  date_stock_initial : Date;
   famille_article: FamilleArticle;
   pvht : number;
   paht : number;
@@ -16,7 +16,7 @@ export class Article {
   tva : TVA;
 
 
-	constructor( designation: string, unite: Unite, stock_intial: number, date_stock_initial: number, famille_article: FamilleArticle, pvht: number, paht: number,  fournisseur: Fournisseur, tva : TVA) {
+	constructor( designation: string, unite: Unite, stock_intial: number, date_stock_initial: Date, famille_article: FamilleArticle, pvht: number, paht: number,  fournisseur: Fournisseur, tva : TVA) {
 		this.designation = designation;
 		this.unite = unite;
 		this.stock_intial = stock_intial;

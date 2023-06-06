@@ -3,6 +3,7 @@ import {GlobalConfig} from "../global-config";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Client} from "../_models/Client";
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -10,23 +11,24 @@ import {Client} from "../_models/Client";
 export class ClientService {
   apiUrl = GlobalConfig.apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private store: AngularFirestore	) {
   }
 
-  public getClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.apiUrl + "/client");
+  public getClients(){
+    return this.store.collection("client").snapshotChanges()
   }
 
-  public addClient(client: Client): Observable<Client> {
-    return this.http.post<Client>(this.apiUrl + "/client/add", client);
+  public addClient(client: Client) {
+	client.id = this.store.createId()
+    return this.store.collection("client").add(client);
   }
 
-  public deleteClient(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/client/delete/" + id);
+  public deleteClient(id: number) {
+    return this.store.doc("/client/" + id).delete()
   }
 
-  public getClientId(id: number): Observable<Client> {
-    return this.http.get<Client>(this.apiUrl + "/client/" + id)
+  public getClientId(id: number) {
+    return this.store.doc("/client/" + id)
   }
 
 }

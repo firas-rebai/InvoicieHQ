@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
 import { DataSharingService } from '../../_services/data-sharing.service';
+import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
 	selector: 'app-document',
@@ -68,10 +69,18 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	getDocuments() {
 		this.documentService.getDocumentsTrans(this.trans).subscribe(
 			(response) => {
-				this.documents = new MatTableDataSource<Document>(response);
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					Object.keys(data).filter(key => data[key] instanceof Timestamp)
+                        .forEach(key => data[key] = data[key].toDate())
+					data.id = e.payload.doc.id;
+					return data;
+				})
+
+
+				this.documents = new MatTableDataSource<Document>(data);
 				this.documents.paginator = this.paginator;
-				this.documents.sort = this.sort;
-				// console.log(response)
+				// this.documents.sort = this.sort;
 				this.documents.data.forEach((doc) => {
 					let montant: number = 0;
 					var montant_ttc: number = 0;
@@ -141,7 +150,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		}
 		this.documentService.getDocumentsType(type, this.trans).subscribe(
 			(response) => {
-				this.documents = new MatTableDataSource<Document>(response);
+				const data = response.map((e:any) => {
+					const data = e.payload.doc.data();
+					Object.keys(data).filter(key => data[key] instanceof Timestamp)
+                        .forEach(key => data[key] = data[key].toDate())
+					data.id = e.payload.doc.id;
+					return data;
+				})
+				console.log(data);
+
+				this.documents = new MatTableDataSource<Document>(data);
 				this.documents.paginator = this.paginator;
 				this.documents.sort = this.sort;
 				this.documents.data.forEach((doc) => {
@@ -195,7 +213,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		this.router.navigate(['/document/details/', id])
 	}
 
-	openPDF(id: number) {
+	openPDF(id: string) {
 		this.documentService.generatePDF(id).subscribe(
 			(response) => {
 				const file = new Blob([response], { type: 'application/pdf' });
