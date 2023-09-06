@@ -2,7 +2,7 @@
 	Ajouter un article
 </h2>
 <mat-divider></mat-divider>
-<mat-dialog-content class="content">
+<mat-dialog-content *ngIf="article.article" class="content">
 
 	<button style="margin-right: 20px; margin-bottom: 20px;" (click)="openArticle()" mat-raised-button color="primary">
 		Choisir un article
@@ -11,57 +11,42 @@
 			color="primary">
 		Ajouter un article
 	</button>
-
 	<div class="row">
-		<mat-form-field>
-			<mat-label>Designation</mat-label>
-			<textarea matInput disabled [(ngModel)]="article.article.designation" placeholder="Designation"
-					  type="text"></textarea>
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<mat-form-field>
-			<mat-label>Quantité</mat-label>
-			<input (keypress)="numberOnly($event)" matInput [(ngModel)]="article.quantite" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<mat-form-field>
-			<mat-label>Unité</mat-label>
-			<input matInput disabled [value]="article.article.unite != null ? article.article.unite.unite : '--'" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-
-
-	<div class="row">
-		<mat-form-field>
-			<mat-label>PUHT</mat-label>
-			<input (keypress)="numberOnly($event)" matInput [(ngModel)]="article.puht" placeholder="0.00" type="text">
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<div class="col-sm-10">
-			<mat-form-field  style="width: 100%">
-			<mat-label>Code TVA</mat-label>
-			<mat-select [(ngModel)]="article.tva">
-				<ng-container *ngFor="let tva of tvas">
-					<mat-option [value]="tva">{{tva.base}}</mat-option>
-				</ng-container>
-			</mat-select>
-		</mat-form-field>
+		<div class="col">
+			<mat-form-field>
+				<mat-label>Designation</mat-label>
+				<input matInput disabled [(ngModel)]="article.article.designation" placeholder="Designation"
+						type="text">
+			</mat-form-field>
 		</div>
-		<div class="col-sm-2">
-			<button color="primary" (click)="openAddTVA()" mat-mini-fab>
-				<mat-icon>add</mat-icon>
-			</button>
+		<div class="col">
+			<mat-form-field>
+				<mat-label>Quantité</mat-label>
+				<input (keypress)="numberOnly($event)" matInput [(ngModel)]="article.quantite" placeholder="0.00" type="text">
+			</mat-form-field>
 		</div>
-	</div>
-	<div class="row">
-		<mat-form-field>
-			<mat-label>Remise</mat-label>
-			<input (keypress)="numberOnly($event)" matInput [(ngModel)]="article.remise" placeholder="0.00" type="text">
-			<span matTextSuffix>%</span>
-		</mat-form-field>
+		<div class="col">
+			<mat-form-field>
+				<mat-label>Unité</mat-label>
+				<input matInput disabled [value]="article.article.unite != null ? article.article.unite.unite : '--'" placeholder="0.00" type="text">
+			</mat-form-field>
+		</div>
+
+
+		<div class="col">
+			<mat-form-field>
+				<mat-label>PUHT</mat-label>
+				<input (keypress)="numberOnly($event)" matInput [(ngModel)]="article.puht" placeholder="0.00" type="text">
+			</mat-form-field>
+		</div>
+
+		<div class="col">
+			<mat-form-field>
+				<mat-label>Remise</mat-label>
+				<input (keypress)="numberOnly($event)" matInput [(ngModel)]="article.remise" placeholder="0.00" type="text">
+				<span matTextSuffix>%</span>
+			</mat-form-field>
+		</div>
 	</div>
 
 
@@ -71,7 +56,7 @@
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close>Annuler</button>
-	<button mat-raised-button [mat-dialog-close]="article" color="primary" (click)="add(article)" type="submit" [disabled]="article.puht == 0 || article.quantite == 0 || article.article.designation== '' || article.tva == undefined">
+	<button mat-raised-button [mat-dialog-close]="article" color="primary" (click)="add(article)" type="submit" [disabled]="article.puht == 0 || article.quantite == 0 || article.article.designation== ''">
 		Ajouter
 	</button>
 </mat-dialog-actions>

@@ -27,9 +27,9 @@ export class ParamComponent implements OnInit {
 
 
 	assujettiColumns: string[] = ['type', 'coef', 'action'];
-	TVAColumns: string[] = ['ID', 'base', 'action'];
-	uniteColumns: string[] = ['ID', 'unite', 'action'];
-	familleColumns: string[] = ['ID', 'famille', 'action'];
+	TVAColumns: string[] = ['base', 'action'];
+	uniteColumns: string[] = ['unite', 'action'];
+	familleColumns: string[] = ['famille', 'action'];
 
 	constructor(private paramService: ParamService, public dialog: MatDialog) {
 	}

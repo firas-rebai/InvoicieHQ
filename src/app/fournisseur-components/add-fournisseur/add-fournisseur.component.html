@@ -80,7 +80,7 @@
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close="false">Annuler</button>
-	<button mat-raised-button color="primary" (click)="add(fournisseurForm)" [disabled]="fournisseurForm.invalid"
+	<button mat-raised-button mat-close-dialog color="primary" (click)="add(fournisseurForm)" [disabled]="fournisseurForm.invalid"
 			type="submit">
 		Ajouter
 	</button>

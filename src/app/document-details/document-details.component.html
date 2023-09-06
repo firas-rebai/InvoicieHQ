@@ -3,7 +3,7 @@
 		<div class="col-md-10">
 			<div class="row">
 				<div class="mat-elevation-z8">
-					<table mat-table [dataSource]="document.articleDocument">
+					<table *ngIf="document" mat-table [dataSource]="document.articleDocument">
 						<ng-container matColumnDef="designation">
 							<th mat-header-cell *matHeaderCellDef>
 								Désignation
@@ -40,23 +40,11 @@
 							</td>
 						</ng-container>
 
-						<ng-container matColumnDef="tva">
-							<th mat-header-cell *matHeaderCellDef>TVA</th>
-							<td mat-cell *matCellDef="let article">
-								{{
-									article.tva != null
-										? article.tva.base
-										: "--"
-								}}
-								%
-							</td>
-						</ng-container>
-
 						<ng-container matColumnDef="puttc">
 							<th mat-header-cell *matHeaderCellDef>PUTTC</th>
 							<td mat-cell *matCellDef="let article">
 								{{
-									(article.tva.base / 100 + 1) * article.puht
+									(document.tva.base / 100 + 1) * article.puht
 										| number : "1.2-3"
 								}}
 							</td>
@@ -75,7 +63,7 @@
 							</th>
 							<td mat-cell *matCellDef="let article">
 								{{
-									article.puht * article.quantite
+									article.puht * article.quantite * (1-(article.remise / 100))
 										| number : "1.2-3"
 								}}
 							</td>
@@ -87,9 +75,7 @@
 							</th>
 							<td mat-cell *matCellDef="let article">
 								{{
-									(article.tva.base / 100 + 1) *
-										article.puht *
-										article.quantite | number : "1.2-3"
+									(document.tva.base / 100)  * (article.puht * article.quantite * (1 - (article.remise / 100)))  | number : "1.2-3"
 								}}
 							</td>
 						</ng-container>
@@ -114,8 +100,8 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-8"></div>
-				<div class="col-md-4">
+				<div class="col-md-8"><br><h1>TVA : {{ document.tva.base }} %</h1></div>
+				<div *ngIf="settings" class="col-md-4">
 					<mat-card class="calc-container">
 						<mat-card-content>
 							<p>
@@ -147,11 +133,20 @@
 				<button mat-raised-button color="primary" (click)="downloadPDF()">
 					Imprimer
 				</button>
+				<mat-error>
+					remise incluse
+				</mat-error>
+			</div>
+			<div class="row" style="margin-bottom: 10px">
+				<button mat-raised-button color="primary" (click)="downloadPDFnoRemise()">
+					Imprimer Avec Remise
+				</button>
+
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Type</mat-label>
-					<mat-select  (selectionChange)="changeType()" [(value)]="this.document.type">
+					<mat-select *ngIf="document"  (selectionChange)="changeType()" [(value)]="this.document.type">
 						<mat-option value="devis">Devis</mat-option>
 						<mat-option value="commande">Commande</mat-option>
 						<mat-option value="bl">BL</mat-option>

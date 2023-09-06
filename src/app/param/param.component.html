@@ -6,15 +6,16 @@
 				<button [ngClass]="content == 'societe'? 'active' : 'menu-button'" (click)="content = 'societe'" class="menu-button">
 					<mat-icon>people</mat-icon>
 					<span>Societé</span></button>
+					<button [ngClass]="content == 'perso'? 'active' : 'menu-button'" (click)="content = 'perso'" class="menu-button">
+						<mat-icon>people</mat-icon>
+						<span>Personnalisation</span></button>
 					<button [ngClass]="content == 'profil'? 'active' : 'menu-button'" (click)="content = 'profil'" class="menu-button">
 						<mat-icon>account_circle</mat-icon>
 						<span>Profil</span></button>
 				<button [ngClass]="content == 'reglages'? 'active' : 'menu-button'" (click)="content = 'reglages'" class="menu-button">
 					<mat-icon>edit_attributes</mat-icon>
 					<span>Reglages</span></button>
-				<button [ngClass]="content == 'perso'? 'active' : 'menu-button'" (click)="content = 'perso'" class="menu-button">
-					<mat-icon>people</mat-icon>
-					<span>Personnalisation</span></button>
+
 			</mat-list>
 		</mat-sidenav>
 		<mat-sidenav-content>
@@ -28,10 +29,6 @@
 
 										<table mat-table [dataSource]="unites">
 
-											<ng-container matColumnDef="ID">
-												<th mat-header-cell *matHeaderCellDef> ID</th>
-												<td mat-cell *matCellDef="let unite"> {{unite.id}} </td>
-											</ng-container>
 
 											<ng-container matColumnDef="unite">
 												<th mat-header-cell *matHeaderCellDef> Unite</th>
@@ -69,11 +66,6 @@
 								<div class="col-md-11">
 									<div class="table-container mat-elevation-z8">
 										<table mat-table [dataSource]="tvas" class="mat-elevation-z8">
-
-											<ng-container matColumnDef="ID">
-												<th mat-header-cell *matHeaderCellDef> ID</th>
-												<td mat-cell *matCellDef="let tva"> {{tva.id}} </td>
-											</ng-container>
 
 											<ng-container matColumnDef="base">
 												<th mat-header-cell *matHeaderCellDef> Base TVA</th>
@@ -158,11 +150,6 @@
 									<div class="table-container mat-elevation-z8">
 
 										<table mat-table [dataSource]="familles">
-
-											<ng-container matColumnDef="ID">
-												<th mat-header-cell *matHeaderCellDef> ID</th>
-												<td mat-cell *matCellDef="let famille"> {{famille.id}} </td>
-											</ng-container>
 
 											<ng-container matColumnDef="famille">
 												<th mat-header-cell *matHeaderCellDef> Famille d'article</th>

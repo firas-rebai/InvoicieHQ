@@ -1,4 +1,4 @@
-<div style="padding: 30px">
+<div *ngIf="param" style="padding: 30px">
 	<input #image hidden (change)="onSelectFile($event)" type="file" />
 	<div class="image-container" >
 		<img [src]="logo | async"  height="200"  alt="test"/>

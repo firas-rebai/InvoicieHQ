@@ -458,3 +458,13 @@ InvoiceHQ-win32-x64/resources/app/data/invoicehq.trace.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+InvoiceHQ-win32-x64/resources/app/firebase-config.json
+InvoiceHQ-win32-x64/resources/app/firebase.json
+InvoiceHQ-win32-x64/resources/app/src/app/_models/FileUpload.ts
+InvoiceHQ-win32-x64/resources/app/src/app/_services/generate-pdf.service.spec.ts
+InvoiceHQ-win32-x64/resources/app/src/app/_services/generate-pdf.service.ts
+InvoiceHQ-win32-x64/resources/app/src/app/admin-panel/admin-panel.component.css
+InvoiceHQ-win32-x64/resources/app/src/app/admin-panel/admin-panel.component.html
+InvoiceHQ-win32-x64/resources/app/src/app/admin-panel/admin-panel.component.spec.ts
+InvoiceHQ-win32-x64/resources/app/src/app/admin-panel/admin-panel.component.ts
+InvoiceHQ-win32-x64/resources/app/src/environments/environment.ts

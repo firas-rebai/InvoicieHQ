@@ -52,7 +52,9 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
-import { DecimalPipe } from '@angular/common'
+import { DecimalPipe } from '@angular/common';
+import { PrintDialogComponent } from './print-dialog/print-dialog.component'
+import {MatChipsModule} from '@angular/material/chips'
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +77,7 @@ import { DecimalPipe } from '@angular/common'
 	AddArticleDocumentComponent,
  DocumentDetailsComponent,
  AdminPanelComponent,
+ PrintDialogComponent,
 
   ],
 	imports: [
@@ -104,6 +107,7 @@ import { DecimalPipe } from '@angular/common'
 		MatToolbarModule,
 		MatSidenavModule,
 		MatTabsModule,
+		MatChipsModule,
 		MatRippleModule,
 		AngularFireModule.initializeApp(environment.firebase),
   provideFirebaseApp(() => initializeApp(environment.firebase)),

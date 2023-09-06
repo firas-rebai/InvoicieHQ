@@ -123,24 +123,10 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit(): void {
-		this.article = new ArticleDocument(
-			new Article(
-				'',
-				new Unite(''),
-				0,
-				new Date(),
-				new FamilleArticle(''),
-				0,
-				0,
-				new Fournisseur(),
-				new TVA('0')
-			),
-			0,
-			0,
-			0,
-			0,
-			0
-		);
+		this.article = new ArticleDocument()
+		this.article.article = new Article()
+		this.article.article.designation = ""
+
 	}
 
 	openArticle() {

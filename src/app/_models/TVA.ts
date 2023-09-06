@@ -1,8 +1,8 @@
 export class TVA {
-	constructor(base: string) {
+	constructor(base: number) {
 		this.base = base;
 	}
   id : string;
-  base: string;
+  base: number;
 
 }

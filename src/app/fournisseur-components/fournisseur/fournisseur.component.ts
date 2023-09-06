@@ -20,7 +20,7 @@ import {ConfirmModalComponent} from "../../confirm-modal/confirm-modal.component
 export class FournisseurComponent {
 	fournisseurs: MatTableDataSource<Fournisseur> = new MatTableDataSource<Fournisseur>();
 
-	displayedColumns: string[] = [ 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'HT/TTC', 'action'];
+	displayedColumns: string[] = [ 'raison', 'email', 'adresse', 'fax', 'telephone', 'mobile', 'fodec', 'action'];
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 

@@ -1,3 +1,4 @@
+import { ParameterService } from './../../_services/parameter.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from '../../_services/document.service';
@@ -9,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
 import { DataSharingService } from '../../_services/data-sharing.service';
 import { Timestamp } from '@angular/fire/firestore';
+import { GeneratePdfService } from 'src/app/_services/generate-pdf.service';
+import { PrintDialogComponent } from 'src/app/print-dialog/print-dialog.component';
 
 @Component({
 	selector: 'app-document',
@@ -24,13 +27,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		new MatTableDataSource<Document>();
 	displayedColumns: string[] = [];
 	// selectedRowIndex = -1;
-
+	settings;
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private documentService: DocumentService,
 		public dialog: MatDialog,
 		private dataSharingService: DataSharingService,
-		private router : Router
+		private router : Router,
+		private pdfGenerator : GeneratePdfService,
+		private parameterService : ParameterService,
+
 	) {
 		this.dataSharingService.trans.subscribe((value: string) => {
 			this.trans = value;
@@ -77,23 +83,35 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 					return data;
 				})
 
-
-				this.documents = new MatTableDataSource<Document>(data);
+				this.parameterService.getSettings().snapshotChanges().subscribe(
+					(response) => {
+						this.settings = response.payload.data();
+						this.documents = new MatTableDataSource<Document>(data);
 				this.documents.paginator = this.paginator;
 				// this.documents.sort = this.sort;
 				this.documents.data.forEach((doc) => {
 					let montant: number = 0;
 					var montant_ttc: number = 0;
 					var net_payer: number = 0;
+					var montant_remise: number = 0;
 					doc.articleDocument.forEach((article) => {
-						montant += article.puht * article.quantite * (article.remise / 100);
-						montant_ttc += montant * (Number(article.tva.base) / 100);
-						net_payer += montant + montant_ttc;
+						var ht = article.puht * article.quantite;
+						montant += ht * (1 - (article.remise / 100));
+						montant_ttc += (doc.tva.base / 100) * (ht * (1 - (article.remise / 100)));
+						montant_remise += ht * (article.remise / 100);
 					});
+
 					doc.montant_ht = montant.toString();
 					doc.montant_ttc = montant_ttc.toString();
-					doc.net_payer = net_payer.toString();
+					doc.net_payer = (montant + montant_ttc + parseFloat(this.settings.timbre) ).toString();
+
 				});
+					}
+				)
+
+
+
+
 				//console.log(response);
 			},
 			(error) => {
@@ -166,14 +184,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 					var montant: number = 0;
 					var montant_ttc: number = 0;
 					var net_payer: number = 0;
+					var montant_remise: number =0
 					doc.articleDocument.forEach((article) => {
-						montant += article.quantite * article.puht;
-						montant_ttc += montant * (Number(article.tva.base) / 100);
-						net_payer += montant + montant_ttc;
+						montant += article.quantite * article.puht - (article.quantite * article.puht * (article.remise / 100));
+						var remise = article.quantite * article.puht * (article.remise / 100)
+						montant_remise += remise ;
 					});
 					doc.montant_ht = montant.toString();
-					doc.montant_ttc = montant_ttc.toString();
-					doc.net_payer = net_payer.toString();
+					doc.montant_ttc = (montant * (Number(doc.tva.base) / 100)).toString() ;
+					doc.net_payer = (montant + (montant * (Number(doc.tva.base) / 100))).toString();
+					doc.montant_remise = montant_remise.toString();
 				});
 				console.log(response);
 			},
@@ -213,17 +233,14 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		this.router.navigate(['/document/details/', id])
 	}
 
-	openPDF(id: string) {
-		this.documentService.generatePDF(id).subscribe(
-			(response) => {
-				const file = new Blob([response], { type: 'application/pdf' });
-				const pdf = URL.createObjectURL(file);
-				// this.pdf = 'data:application/pdf;base64,' + file.text;
-				window.open(pdf, id.toString());
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
-	}
+	openPDF(document: Document) {
+
+			const dialogRef = this.dialog.open(PrintDialogComponent);
+
+
+			dialogRef.afterClosed().subscribe((result) => {
+				this.pdfGenerator.downloadInvoice(document, result);
+			});
+
+		}
 }

@@ -57,7 +57,7 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-	width: 250px;
+	width: 220px;
 /* 	background: rgb(103,58,183);
 	background: linear-gradient(180deg, rgba(103,58,183,1) 84%, rgba(0,212,255,0) 100%); */
 	border-right: black 1px solid;
@@ -88,6 +88,7 @@ mat-list {
 .active-link {
 	border-left: 5px solid #58018d;
 	background: rgb(157, 0, 255);
+	color: white;
 }
 
 .spacer {

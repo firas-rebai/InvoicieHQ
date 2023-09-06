@@ -18,7 +18,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
 	clients: MatTableDataSource<Client>;
 
-	displayedColumns: string[] = ['ID', 'raison', 'email', 'adresse', 'assujetti', 'fax', 'telephone', 'action'];
+	displayedColumns: string[] = [ 'raison', 'email', 'adresse', 'assujetti', 'fax', 'telephone', 'action'];
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 

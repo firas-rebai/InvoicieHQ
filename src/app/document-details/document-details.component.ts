@@ -1,15 +1,11 @@
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { GeneratePdfService } from './../_services/generate-pdf.service';
 import { ParameterService } from './../_services/parameter.service';
 import { DocumentService } from './../_services/document.service';
-import { Document } from './../_models/Document';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { ArticleDocument } from '../_models/ArticleDocument';
-import { Settings } from '../_models/Settings';
-import { Timestamp } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
@@ -26,12 +22,12 @@ export class DocumentDetailsComponent implements OnInit {
 	montant_ttc: number = 0;
 	net_payer: number = 0;
 	settings : any;
+	id;
 	displayedColumns: string[] = [
 		'designation',
 		'quantite',
 		'unite',
 		'puht',
-		'tva',
 		'puttc',
 		'remise',
 		'montant',
@@ -47,9 +43,10 @@ export class DocumentDetailsComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		const id = this.activatedRoute.snapshot.paramMap.get('id');
-		if (id != null) {
-			this.documentService.getDocumentId(id).subscribe(
+		this.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+		if (this.id != null) {
+			this.documentService.getDocumentId(this.id).subscribe(
 				(response) => {
 
 					this.document = response.payload.data();
@@ -92,20 +89,25 @@ export class DocumentDetailsComponent implements OnInit {
 		this.net_payer = 0
 		this.document.articleDocument.forEach((article) => {
 			var ht = article.puht * article.quantite;
-			this.montant_total += ht;
-			this.montant_ttc += (parseFloat(article.tva.base) / 100) * article.puht * article.quantite;
-			this.montant_remise += (ht + (ht * (parseFloat(article.tva.base) / 100))) * (article.remise / 100);
-			this.net_payer = this.montant_total + this.montant_ttc - this.montant_remise + this.settings.timbre;
+			this.montant_total += ht * (1 - (article.remise / 100));
+			this.montant_ttc += (parseFloat(this.document.tva.base) / 100) * (ht * (1 - (article.remise / 100)));
+			this.montant_remise += ht * (article.remise / 100);
+
 		});
+		this.net_payer = this.montant_total + this.montant_ttc  + parseFloat(this.settings.timbre);
 	}
 
 	changeType() {
-		this.store.doc("/document/" + this.document.id).update(this.document)
+		this.store.doc("/document/" + this.id).update(this.document)
 	}
 
 
 
 	downloadPDF() {
-		return this.pdfGeneratorService.downloadInvoice(this.document);
+		return this.pdfGeneratorService.downloadInvoice(this.document, true);
+	}
+
+	downloadPDFnoRemise() {
+		return this.pdfGeneratorService.downloadInvoice(this.document, false);
 	}
 }

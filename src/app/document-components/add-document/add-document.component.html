@@ -1,182 +1,327 @@
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3">
-			<div>
-			<mat-form-field class="options">
-				<mat-label>Choisir une date</mat-label>
-				<input [(ngModel)]="document.date" matInput  [matDatepicker]="picker">
-				<mat-hint>MM/JJ/YYYY</mat-hint>
-				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-				<mat-datepicker #picker></mat-datepicker>
-			</mat-form-field>
-		</div>
-		</div>
-		<div class="col-md-5">
-			<div class="options">
-				<mat-radio-group [(ngModel)]="this.document.transaction"
-								 (change)="this.document.client = null; this.document.fournisseur = null">
-					<mat-radio-button color="primary" value="vente">Vente</mat-radio-button>
-					<mat-radio-button color="primary" value="achat">Achat</mat-radio-button>
-				</mat-radio-group>
-				<mat-form-field style="margin-left: 30px">
-					<mat-label>Type document</mat-label>
-					<mat-select [(value)]="this.document.type">
-						<mat-option value="devis">Devis</mat-option>
-						<mat-option value="commande">Commande</mat-option>
-						<mat-option value="bl">BL</mat-option>
-						<mat-option value="bl_facture">BL Facturé</mat-option>
-						<mat-option value="facture">Facture</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-		</div>
-		<ng-container *ngIf="document.transaction == 'achat'">
-			<div class="col-md-4">
-				<div class="options">
-					<mat-form-field>
-						<mat-label>Fournisseur</mat-label>
-						<mat-select [(ngModel)]="this.document.fournisseur"
-									(selectionChange)="this.document.client = null">
-							<ng-container *ngFor="let fournisseur of fournisseurs">
-								<mat-option [value]="fournisseur">{{fournisseur.raison_social}}</mat-option>
-							</ng-container>
-						</mat-select>
-					</mat-form-field>
-					<button style="margin-left: 20px;" color="primary" (click)="AddFournisseur()" mat-mini-fab>
-						<mat-icon>add</mat-icon>
-					</button>
-				</div>
-			</div>
-		</ng-container>
-		<ng-container *ngIf="document.transaction == 'vente'">
-			<div class="col-md-4">
-				<div class="options">
-					<mat-form-field>
-						<mat-label>Client</mat-label>
-						<mat-select [(ngModel)]="this.document.client" (valueChange)="this.document.fournisseur = null">
-							<ng-container *ngFor="let client of clients">
-								<mat-option [value]="client">{{client.raison_social}}</mat-option>
-							</ng-container>
-						</mat-select>
+	<mat-form-field class="options">
+		<mat-label>Choisir une date</mat-label>
+		<input [(ngModel)]="document.date" matInput [matDatepicker]="picker" />
+		<mat-hint>MM/JJ/YYYY</mat-hint>
+		<mat-datepicker-toggle
+			matIconSuffix
+			[for]="picker"
+		></mat-datepicker-toggle>
+		<mat-datepicker #picker></mat-datepicker>
+	</mat-form-field>
+	<mat-form-field class="options">
+		<mat-label>Code TVA</mat-label>
+		<mat-select [(ngModel)]="document.tva">
+			<ng-container *ngFor="let tva of tvas">
+				<mat-option [value]="tva">{{ tva.base }}</mat-option>
+			</ng-container>
+		</mat-select>
+	</mat-form-field>
+	<button color="primary" (click)="openAddTVA()" mat-mini-fab>
+		<mat-icon>add</mat-icon>
+	</button>
+	<div class="options">
+	<mat-radio-group
+		[(ngModel)]="this.document.transaction"
+		(change)="this.document.client = null; this.document.fournisseur = null"
+	>
+		<mat-radio-button color="primary" value="vente">Vente</mat-radio-button>
+		<mat-radio-button color="primary" value="achat">Achat</mat-radio-button>
+	</mat-radio-group>
+	<mat-form-field style="margin-left: 30px">
+		<mat-label>Type document</mat-label>
+		<mat-select [(value)]="this.document.type">
+			<mat-option value="devis">Devis</mat-option>
+			<mat-option value="commande">Commande</mat-option>
+			<mat-option value="bl">BL</mat-option>
+			<mat-option value="bl_facture">BL Facturé</mat-option>
+			<mat-option value="facture">Facture</mat-option>
+		</mat-select>
+	</mat-form-field>
+</div>
+	<ng-container *ngIf="document.transaction == 'achat'" class="options">
+		<mat-form-field>
+			<mat-label>Fournisseur</mat-label>
+			<mat-select
+				[(ngModel)]="this.document.fournisseur"
+				(selectionChange)="this.document.client = null"
+			>
+				<ng-container *ngFor="let fournisseur of fournisseurs">
+					<mat-option [value]="fournisseur">{{
+						fournisseur.raison_social
+					}}</mat-option>
+				</ng-container>
+			</mat-select>
+		</mat-form-field>
+		<button
+			style="margin-left: 20px"
+			color="primary"
+			(click)="AddFournisseur()"
+			mat-mini-fab
+		>
+			<mat-icon>add</mat-icon>
+		</button>
+	</ng-container>
+	<ng-container *ngIf="document.transaction == 'vente'" class="options">
+		<mat-form-field>
+			<mat-label>Client</mat-label>
+			<mat-select
+				[(ngModel)]="this.document.client"
+				(valueChange)="this.document.fournisseur = null"
+			>
+				<ng-container *ngFor="let client of clients">
+					<mat-option [value]="client">{{
+						client.raison_social
+					}}</mat-option>
+				</ng-container>
+			</mat-select>
+		</mat-form-field>
+		<button
+			style="margin-left: 20px"
+			color="primary"
+			(click)="AddClient()"
+			mat-mini-fab
+		>
+			<mat-icon>add</mat-icon>
+		</button>
+	</ng-container>
 
-					</mat-form-field>
-					<button style="margin-left: 20px;" color="primary" (click)="AddClient()" mat-mini-fab>
-						<mat-icon>add</mat-icon>
-					</button>
-				</div>
-			</div>
-		</ng-container>
-
-		<br>
-	</div>
+	<br />
 	<div class="row">
 		<div class="col-md-10">
 			<div class="row">
 				<div class="mat-elevation-z8">
 					<table mat-table [dataSource]="articleDocument">
 						<ng-container matColumnDef="designation">
-							<th mat-header-cell *matHeaderCellDef> Désignation</th>
-							<td mat-cell *matCellDef="let article"><p
-								style="max-width: 200px"> {{article.article.designation}} </p></td>
+							<th mat-header-cell *matHeaderCellDef>
+								Désignation
+							</th>
+							<td mat-cell *matCellDef="let article">
+								<p style="max-width: 200px">
+									{{ article.article.designation }}
+								</p>
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="quantite">
-							<th mat-header-cell *matHeaderCellDef> Quantité</th>
-							<td mat-cell *matCellDef="let article"> {{article.quantite | number : '1.2-3'}} </td>
+							<th mat-header-cell *matHeaderCellDef>Quantité</th>
+							<td mat-cell *matCellDef="let article">
+								{{ article.quantite | number : "1.2-3" }}
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="unite">
-							<th mat-header-cell *matHeaderCellDef> Unité</th>
-							<td mat-cell
-								*matCellDef="let article"> {{article.article.unite != null ? article.article.unite.unite : "--"}} </td>
+							<th mat-header-cell *matHeaderCellDef>Unité</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									article.article.unite != null
+										? article.article.unite.unite
+										: "--"
+								}}
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="puht">
-							<th mat-header-cell *matHeaderCellDef> PUHT</th>
-							<td mat-cell *matCellDef="let article"> {{article.puht | number : '1.2-3'}} </td>
-						</ng-container>
-
-						<ng-container matColumnDef="tva">
-							<th mat-header-cell *matHeaderCellDef> TVA</th>
-							<td mat-cell
-								*matCellDef="let article"> {{article.tva != null ? article.tva.base : "--"}} %</td>
+							<th mat-header-cell *matHeaderCellDef>PUHT</th>
+							<td mat-cell *matCellDef="let article">
+								{{ article.puht | number : "1.2-3" }}
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="puttc">
-							<th mat-header-cell *matHeaderCellDef> PUTTC</th>
-							<td mat-cell *matCellDef="let article"> {{((article.tva.base / 100) + 1) * article.puht | number : '1.2-3'}} </td>
+							<th mat-header-cell *matHeaderCellDef>PUTTC</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									(document.tva.base / 100 + 1) * article.puht
+										| number : "1.2-3"
+								}}
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="remise">
-							<th mat-header-cell *matHeaderCellDef> Remise</th>
-							<td mat-cell *matCellDef="let article"> {{article.remise}} %</td>
+							<th mat-header-cell *matHeaderCellDef>Remise</th>
+							<td mat-cell *matCellDef="let article">
+								{{ article.remise }} %
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="montant">
-							<th mat-header-cell *matHeaderCellDef> Montant HT</th>
-							<td mat-cell *matCellDef="let article"> {{(article.puht * article.quantite)  | number : '1.2-3'}} </td>
+							<th mat-header-cell *matHeaderCellDef>
+								Montant HT
+							</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									article.puht * article.quantite
+										| number : "1.2-3"
+								}}
+							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="montant_ttc">
-							<th mat-header-cell *matHeaderCellDef> Montant TTC</th>
-							<td mat-cell *matCellDef="let article"> {{(article.tva.base / 100) * article.puht * article.quantite  | number : '1.2-3'}} </td>
+							<th mat-header-cell *matHeaderCellDef>
+								Montant TTC
+							</th>
+							<td mat-cell *matCellDef="let article">
+								{{
+									(document.tva.base / 100) *
+										article.puht *
+										article.quantite | number : "1.2-3"
+								}}
+							</td>
 						</ng-container>
-
 
 						<ng-container matColumnDef="action">
 							<th mat-header-cell *matHeaderCellDef></th>
-							<td mat-cell *matCellDef="let article; let index = index;">
-								<button (click)="RemoveArticle(index)" color="warn" mat-mini-fab>
+							<td
+								mat-cell
+								*matCellDef="let article; let index = index"
+							>
+								<button
+									(click)="RemoveArticle(index)"
+									color="warn"
+									mat-mini-fab
+								>
 									<mat-icon>delete</mat-icon>
 								</button>
 							</td>
 						</ng-container>
 
-
-						<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-						<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+						<tr
+							mat-header-row
+							*matHeaderRowDef="displayedColumns"
+						></tr>
+						<tr
+							mat-row
+							*matRowDef="let row; columns: displayedColumns"
+						></tr>
 					</table>
 
-					<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-								   showFirstLastButtons
-								   aria-label="Select page of periodic elements">
+					<mat-paginator
+						[pageSizeOptions]="[5, 10, 20]"
+						showFirstLastButtons
+						aria-label="Select page of periodic elements"
+					>
 					</mat-paginator>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-8"></div>
-				<div class="col-md-4">
+				<div *ngIf="settings" class="col-md-4">
 					<mat-card class="calc-container">
-
 						<mat-card-content>
-							<p>Montant HT : {{montant_total  | number : '1.2-3'}}</p>
-							<p>Montant TTC : {{montant_ttc | number : '1.2-3'}}</p>
-							<p>Montant remise : {{montant_remise | number : '1.2-3'}}</p>
-							<p>Timbre : {{settings.timbre | number : '1.2-3' }}</p>
-							<p>Net à payer : {{net_payer | number : '1.2-3'}}</p>
+							<p>
+								Montant HT :
+								{{ montant_total | number : "1.2-3" }}
+							</p>
+							<p>
+								Montant TTC :
+								{{ montant_ttc | number : "1.2-3" }}
+							</p>
+							<p>
+								Montant remise :
+								{{ montant_remise | number : "1.2-3" }}
+							</p>
+							<p>
+								Timbre :
+								{{ settings.timbre | number : "1.2-3" }}
+							</p>
+							<p>
+								Net à payer : {{ net_payer | number : "1.2-3" }}
+							</p>
 						</mat-card-content>
-
 					</mat-card>
-
 				</div>
 			</div>
 		</div>
 		<div class="col-md-2">
-			<div class="row" style="margin-bottom: 10px; margin-right: 10px; margin-left: 10px;"><button mat-raised-button color="primary" (click)="AddDialog()">Ajouter un article</button></div>
-			<div class="row" style="margin-bottom: 10px; margin-right: 10px; margin-left: 10px;"><button mat-raised-button color="primary" [disabled]="articleDocument.length == 0 || document.transaction == null || document.date == null || (document.client == null && document.fournisseur == null) || document.type == null" (click)="submit()">Sauvegarder</button></div>
-			<div class="row" style="margin-bottom: 10px; margin-right: 10px; margin-left: 10px;"><button mat-raised-button color="primary" [disabled]="articleDocument.length == 0 || document.transaction == null || document.date == null || (document.client == null && document.fournisseur == null) || document.type == null" (click)="print()">Sauvegarder et Imprimer</button></div>
+			<div
+				class="row"
+				style="
+					margin-bottom: 10px;
+					margin-right: 10px;
+					margin-left: 10px;
+				"
+			>
+				<button
+					mat-raised-button
+					color="primary"
+					(click)="AddDialog()"
+					[disabled]="document.tva == undefined"
+				>
+					Ajouter un article
+				</button>
+			</div>
+			<div
+				class="row"
+				style="
+					margin-bottom: 10px;
+					margin-right: 10px;
+					margin-left: 10px;
+				"
+			>
+				<button
+					mat-raised-button
+					color="primary"
+					[disabled]="
+						articleDocument.length == 0 ||
+						document.transaction == null ||
+						document.date == null ||
+						(document.client == null &&
+							document.fournisseur == null) ||
+						document.type == null
+					"
+					(click)="submit()"
+				>
+					Sauvegarder
+				</button>
+			</div>
+			<div
+				class="row"
+				style="
+					margin-bottom: 10px;
+					margin-right: 10px;
+					margin-left: 10px;
+				"
+			>
+				<button
+					mat-raised-button
+					color="primary"
+					[disabled]="
+						articleDocument.length == 0 ||
+						document.transaction == null ||
+						document.date == null ||
+						(document.client == null &&
+							document.fournisseur == null) ||
+						document.type == null
+					"
+					(click)="print()"
+				>
+					Sauvegarder et Imprimer
+				</button>
+			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Frais d'installation</mat-label>
-					<input (keypress)="numberOnly($event)" matInput [(ngModel)]="document.installation" placeholder="0.00" type="text">
+					<input
+						(keypress)="numberOnly($event)"
+						matInput
+						[(ngModel)]="document.installation"
+						placeholder="0.00"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Frais de transport</mat-label>
-					<input (keypress)="numberOnly($event)" matInput [(ngModel)]="document.transport" placeholder="0.00" type="text">
+					<input
+						(keypress)="numberOnly($event)"
+						matInput
+						[(ngModel)]="document.transport"
+						placeholder="0.00"
+						type="text"
+					/>
 				</mat-form-field>
 			</div>
 		</div>

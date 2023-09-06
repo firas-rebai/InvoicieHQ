@@ -3,7 +3,7 @@
     <div class="row">
       <mat-form-field appearance="fill">
 
-        <input matInput type="text" placeholder="Nom d'utilisateur"  [(ngModel)]="form.username" required>
+        <input matInput type="text" placeholder="E-mail"  [(ngModel)]="form.username" required>
       </mat-form-field>
     </div>
 
@@ -12,13 +12,13 @@
         <input matInput placeholder="Mot de passe" [(ngModel)]="form.password" [type]="hide ? 'password' : 'text'">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
         </button>
       </mat-form-field>
     </div>
     <div>
 		<button mat-raised-button color="primary" (click)="onSubmit()" class="button">Connecter</button>
-		<button mat-raised-button color="primary" (click)="register()"	 class="button">registre</button>
+<!-- 		<button mat-raised-button color="primary" (click)="register()"	 class="button">registre</button> -->
     </div>
   </div>
 </div>

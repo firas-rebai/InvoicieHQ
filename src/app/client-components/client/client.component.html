@@ -2,14 +2,9 @@
 
 	<h1 class="mat-typography">Clients</h1>
 	<div class="row">
-		<div class="col-md-10">
+		<div class="col-md-11">
 			<div class="mat-elevation-z8">
 				<table mat-table [dataSource]="clients">
-
-					<ng-container matColumnDef="ID">
-						<th mat-header-cell *matHeaderCellDef> ID</th>
-						<td mat-cell *matCellDef="let client"> {{client.id}} </td>
-					</ng-container>
 
 					<ng-container matColumnDef="raison">
 						<th mat-header-cell *matHeaderCellDef> Raison Social</th>

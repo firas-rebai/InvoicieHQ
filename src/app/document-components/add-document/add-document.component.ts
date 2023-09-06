@@ -21,6 +21,9 @@ import { DocumentService } from '../../_services/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Settings } from 'src/app/_models/Settings';
 import { GeneratePdfService } from 'src/app/_services/generate-pdf.service';
+import { TVA } from 'src/app/_models/TVA';
+import { AddParamComponent } from 'src/app/add-param/add-param.component';
+import { PrintDialogComponent } from 'src/app/print-dialog/print-dialog.component';
 
 @Component({
 	selector: 'app-add-document',
@@ -29,6 +32,7 @@ import { GeneratePdfService } from 'src/app/_services/generate-pdf.service';
 })
 export class AddDocumentComponent implements OnInit, AfterViewInit {
 	// articleDocument: MatTableDataSource<ArticleDocument> = new MatTableDataSource<ArticleDocument>();
+	tvas: TVA[];
 	articleDocument: ArticleDocument[] = [];
 	document: Document = new Document();
 	displayedColumns: string[] = [
@@ -36,7 +40,6 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		'quantite',
 		'unite',
 		'puht',
-		'tva',
 		'puttc',
 		'remise',
 		'montant',
@@ -67,18 +70,26 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		private tokenStorage: TokenStorageService,
 		private snackBar: MatSnackBar,
 		private settingsService: ParameterService,
-		private pdfGenerator: GeneratePdfService
+		private pdfGenerator: GeneratePdfService,
+		private paramService: ParamService
 	) {}
+
+	win() {
+		window.alert('hghgh');
+	}
 
 	submit() {
 		this.document.articleDocument = this.articleDocument;
 		this.documentService
 			.addDocument(JSON.parse(JSON.stringify(this.document)))
-			.then((response) =>
+			.then((response) => {
 				this.snackBar.open('Le document ajouté avec success', '', {
 					duration: 5 * 1000,
-				})
-			);
+				});
+				setTimeout(() => {
+					window.location.reload();
+				}, 5 * 1000);
+			});
 	}
 
 	print() {
@@ -87,7 +98,15 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			this.snackBar.open('Le document ajouté avec success', '', {
 				duration: 5 * 1000,
 			});
-			this.pdfGenerator.downloadInvoice(this.document);
+
+			const dialogRef = this.dialog.open(PrintDialogComponent);
+
+			dialogRef.afterClosed().subscribe((result: boolean) => {
+				this.pdfGenerator.downloadInvoice(this.document, result);
+				setTimeout(() => {
+					window.location.reload();
+				}, 1000);
+			});
 		});
 	}
 
@@ -99,11 +118,11 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			var ht = article.puht * article.quantite;
 			this.montant_total += ht;
 			this.montant_ttc +=
-				(parseFloat(article.tva.base) / 100) *
+				(this.document.tva.base / 100) *
 				article.puht *
 				article.quantite;
 			this.montant_remise +=
-				(ht + ht * (parseFloat(article.tva.base) / 100)) *
+				(ht + ht * (this.document.tva.base / 100)) *
 				(article.remise / 100);
 			this.net_payer =
 				this.montant_total +
@@ -126,6 +145,20 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 					return data;
 				});
 				this.clients = data;
+			},
+			(error: HttpErrorResponse) => {
+				console.log(error.message);
+			}
+		);
+
+		this.paramService.getTVAs().subscribe(
+			(response) => {
+				const data = response.map((e: any) => {
+					const data = e.payload.doc.data();
+					data.id = e.payload.doc.id;
+					return data;
+				});
+				this.tvas = data;
 			},
 			(error: HttpErrorResponse) => {
 				console.log(error.message);
@@ -158,13 +191,15 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		const dialogRef = this.dialog.open(AddArticleDocumentComponent);
 		dialogRef.afterClosed().subscribe((result: ArticleDocument) => {
 			if (result) {
+				console.log(result);
+				if (!result.remise) result.remise = 0;
 				// this.articleDocument.data.push(result);
 				result.montant_ht = result.puht * result.quantite;
-				if (result.article.tva != undefined)
+				if (result.article.tva != undefined) {
+					result.puttc = 0;
 					result.puttc =
-						result.puht * parseInt(result.article.tva.base) +
-						result.puht;
-				else result.puttc = result.puht;
+						result.puht * result.article.tva.base + result.puht;
+				} else result.puttc = result.puht;
 				this.articleDocument.push(result);
 				this.table.renderRows();
 				this.calculate();
@@ -203,5 +238,19 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	numberOnly(event): boolean {
 		const charCode = event.which ? event.which : event.keyCode;
 		return (charCode > 47 && charCode < 58) || charCode == 46;
+	}
+
+	openAddTVA() {
+		const dialogRef = this.dialog.open(AddParamComponent, {
+			data: { message: 'tva' },
+		});
+		dialogRef.afterClosed().subscribe((result: string) => {
+			result = result.replaceAll('_', ' ');
+			result = result.trim();
+			// @ts-ignore
+			let tva: TVA = { id: null, base: result };
+			this.paramService.addTVA(tva);
+			this.document.tva = tva;
+		});
 	}
 }

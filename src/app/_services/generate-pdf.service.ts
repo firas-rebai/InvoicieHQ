@@ -69,15 +69,20 @@ export class GeneratePdfService {
 		return flattenedObject;
 	}
 
-	downloadInvoice(document: Document) {
+	downloadInvoice(document: Document, remise : boolean) {
 		let total_ht = 0
 		let total_tva = 0
 		let net_payer = 0
+		let remise_ttc = 0
+		let montant_remise = 0
+		let body;
+		let columns;
 
 		document.articleDocument.forEach(article => {
-			let total = article.puht * article.quantite;
-			total_ht += total;
-			total_tva += total * (parseFloat(article.tva.base) / 100)
+			var ht = article.puht * article.quantite;
+			total_ht += ht ;
+			total_tva += (document.tva.base / 100) * (ht * (1 - (article.remise / 100)));
+			montant_remise += ht * (article.remise / 100);
 
 		})
 
@@ -87,11 +92,7 @@ export class GeneratePdfService {
 
 		let rest = 0
 
-		/* for (var i = 0; i < 10; i++) {
-			values.push(values[0]);
-		} */
 
-		values
 		const doc = new jsPDF();
 
 		// import the settings
@@ -103,23 +104,178 @@ export class GeneratePdfService {
 			.snapshotChanges()
 			.subscribe((response) => {
 				this.settings = response.payload.data() as Settings;
-				net_payer = total_ht +  total_tva + parseFloat(this.settings.timbre)
-				rest = net_payer - Math.floor(net_payer)
+				net_payer = total_ht +  total_tva + parseFloat(this.settings.timbre) - montant_remise;
+				rest = net_payer - Math.floor(net_payer);
 			});
 		let type = document.type;
+		if (type == 'bl') {
+			type = 'Bon Livraison'
+		} else if (type == 'bl_facture') {
+			type = 'Bon Livraison Facturé'
+		}
+
+		if(remise) {
+
+			columns = [
+				{
+					header: 'Designation',
+					dataKey: 'article.designation',
+				},
+				{ header: 'Quantité', dataKey: 'quantite' },
+				{ header: 'Unité', dataKey: 'article.unite.unite' },
+				{ header: 'PUHT', dataKey: 'puht' },
+				{ header: 'Montant HT', dataKey: 'montant_ht' },
+			]
+			body = [
+				[
+					{
+						content: 'Total HT:  ' + (this.decimalPipe.transform(total_ht, '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+				[
+					{
+						content: 'Total TVA:  ' + (this.decimalPipe.transform(total_tva, '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+				[
+					{
+						content: 'Timbre:  ' + (this.decimalPipe.transform(this.settings.timbre, '1.3-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+				[
+					{
+						content: 'Net à payer:  ' + (this.decimalPipe.transform(total_ht +  total_tva - montant_remise + parseFloat(this.settings.timbre), '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],[
+					{
+						content: 'Arreté la présente piece la somme de :',
+						styles: {
+							halign: 'left',
+							fontSize: 12,
+
+						},
+					},
+				],
+				[
+					{
+						content:
+							this.writtenNumberFrench(net_payer) + " Dinars et " + Math.round((net_payer - Math.floor(net_payer)) * 1000)  +" Millimes.",
+						styles: {
+							halign: 'left',
+						},
+					},
+				],
+			]
+		} else {
+			columns = [
+				{
+					header: 'Designation',
+					dataKey: 'article.designation',
+				},
+				{ header: 'Quantité', dataKey: 'quantite' },
+				{ header: 'Unité', dataKey: 'article.unite.unite' },
+				{ header: 'PUHT', dataKey: 'puht' },
+				{ header: 'Remise %', dataKey: 'remise' },
+				{ header: 'Montant HT', dataKey: 'montant_ht' },
+			]
+			body = [
+				[
+					{
+						content: 'Total HT:  ' + (this.decimalPipe.transform(total_ht, '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+				[
+					{
+						content: 'Total TVA:  ' + (this.decimalPipe.transform(total_tva, '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+
+				[
+					{
+						content: 'Total Remise:  ' + (this.decimalPipe.transform(montant_remise, '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+				[
+					{
+						content: 'Timbre:  ' + (this.decimalPipe.transform(this.settings.timbre, '1.3-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],
+				[
+					{
+						content: 'Net à payer:  ' + (this.decimalPipe.transform(total_ht +  total_tva + parseFloat(this.settings.timbre) - remise_ttc, '1.2-3') ?? '0'),
+						styles: {
+							halign: 'left',
+							cellPadding: {left: 120, bottom: 1}
+						},
+					}
+				],[
+					{
+						content: 'Arreté la présente piece la somme de :',
+						styles: {
+							halign: 'left',
+							fontSize: 12,
+
+						},
+					},
+				],
+				[
+					{
+						content:
+							this.writtenNumberFrench(net_payer) + " Dinars et " + Math.round((net_payer - Math.floor(net_payer)) * 1000)  +" Millimes.",
+						styles: {
+							halign: 'left',
+						},
+					},
+				],
+			]
+		}
+
+
 
 
 		let benifactorText = '';
 		if (document.transaction == "vente") {
 			benifactorText =
-			'Client :' +
+			'Client :' + '\n' +
 			'\nRaison Social : '  + document.client?.raison_social +
 			'\nAdresse : ' + document.client?.adresse +
 			'\nTelephone : ' + document.client?.telephone +
 			'\nEmail : ' + document.client?.email
 		}else {
 			benifactorText =
-			'Fournisseur :' +
+			'Fournisseur :' + '\n' +
 			'\nRaison Social : '  + document.fournisseur?.raison_social +
 			'\nAdresse : ' + document.fournisseur?.adresse +
 			'\nTelephone : ' + document.fournisseur?.telephone +
@@ -138,7 +294,8 @@ export class GeneratePdfService {
 								content: this.settings.raison_social,
 								styles: {
 									fontSize: 15,
-									cellPadding: {left: 70, top: 3}
+									cellPadding: {top: 30},
+									fontStyle :'bold'
 								},
 							},
 							{
@@ -146,6 +303,14 @@ export class GeneratePdfService {
 								styles: {
 									halign: 'right',
 									fontSize: 20,
+									fontStyle: 'bold'
+								},
+							},{
+								content:
+									'Reference: ' + document.id +
+									'\nDate: ' + formattedDate ,
+								styles: {
+									halign: 'right'
 								},
 							},
 						],
@@ -154,44 +319,32 @@ export class GeneratePdfService {
 
 				});
 
-				autoTable(doc, {
+				/* autoTable(doc, {
 					body: [
 						[
 							{
 								content:
 									'Reference: ' + document.id +
-									'\nDate: ' + formattedDate +
-									'\nInvoice number: ' + document.reference ,
+									'\nDate: ' + formattedDate ,
 								styles: {
 									halign: 'right',
+
 								},
 							},
 						],
 					],
 					theme: 'plain',
-				});
+				}); */
 
 				autoTable(doc, {
 					body: [
 						[
 							{
 								content:
-									this.settings.registre_commerce +
-									'\n' +
-									'\nAdresse : ' + this.settings.adresse +
-									'\nMobile : ' + this.settings.mobile +
-									'\nFax : ' + this.settings.fax +
-									'\nRIB : ',
-								styles: {
-									halign: 'left',
-								},
-							},
-							{
-								content:
 									benifactorText,
 								styles: {
 									halign: 'left',
-									cellPadding: {left: 100}
+									fontStyle : 'bolditalic'
 								},
 							},
 						],
@@ -218,25 +371,8 @@ export class GeneratePdfService {
 
 
 				autoTable(doc, {
-					/* head: [['Items', 'Category', 'Quantity', 'Price', 'Tax', 'Amount']], */
-					body: values,
-					/* [
-						['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
-						['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
-						['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
-						['Product or service name', 'Category', '2', '$450', '$50', '$1000']
-					  ] */ columns: [
-						{
-							header: 'Designation',
-							dataKey: 'article.designation',
-						},
-						{ header: 'Quantité', dataKey: 'quantite' },
-						{ header: 'Unité', dataKey: 'article.unite.unite' },
-						{ header: 'PUHT', dataKey: 'puht' },
-						{ header: 'TVA', dataKey: 'tva.base' },
-						{ header: 'Montant HT', dataKey: 'montant_ht' },
-					],
-					theme: 'striped',
+					body: values,columns: columns,
+					theme: 'grid',
 					headStyles: {
 						fillColor: '#343a40',
 					},
@@ -246,9 +382,9 @@ export class GeneratePdfService {
 
 				autoTable(doc, {
 					head: [
-						["Transport : " + document.transport, "Installation : " + document.installation, "Frais : 150.11"],
+						["Transport : " + (document.transport ?? "0.0") + " dt", "Installation : " + (document.installation ?? "0.0") + ' dt'],
 				],
-				startY: 230,
+				startY: 210,
 					theme: 'striped',
 					headStyles: {
 						fillColor: '#343a40',
@@ -256,59 +392,25 @@ export class GeneratePdfService {
 				})
 
 				autoTable(doc, {
+					body: body,
+					theme: 'plain',
+				});
+
+				autoTable(doc, {
 					body: [
 						[
 							{
-								content: 'Total HT:  ' + this.decimalPipe.transform(total_ht, '1.2-3') ?? '0',
-								styles: {
-									halign: 'left',
-									cellPadding: {left: 120, bottom: 1}
-								},
-							}
-						],
-						[
-							{
-								content: 'Total TVA:  ' + this.decimalPipe.transform(total_tva, '1.2-3') ?? '0',
-								styles: {
-									halign: 'left',
-									cellPadding: {left: 120, bottom: 1}
-								},
-							}
-						],
-						[
-							{
-								content: 'Timbre:  ' + this.decimalPipe.transform(this.settings.timbre, '1.3-3') ?? '0',
-								styles: {
-									halign: 'left',
-									cellPadding: {left: 120, bottom: 1}
-								},
-							}
-						],
-						[
-							{
-								content: 'Net à payer:  ' + this.decimalPipe.transform(net_payer, '1.2-3') ?? '0',
-								styles: {
-									halign: 'left',
-									cellPadding: {left: 120, bottom: 1}
-								},
-							}
-						],[
-							{
-								content: 'Terms & notes',
-								styles: {
-									halign: 'left',
-									fontSize: 12,
-								},
-							},
-						],
-						[
-							{
 								content:
-									this.writtenNumberFrench(net_payer) + " Dinars et " + rest +" Millimes.",
+									this.settings.registre_commerce +
+									'' +
+									' Adresse : ' + this.settings.adresse +
+									' Mobile : ' + this.settings.mobile +
+									' Fax : ' + this.settings.fax +
+									' RIB : ' + this.settings.RIB,
 								styles: {
-									halign: 'left',
+									halign: 'center',
 								},
-							},
+							}
 						],
 					],
 					theme: 'plain',

@@ -87,7 +87,7 @@
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close="false">Annuler</button>
-	<button mat-raised-button color="primary" (click)="add(clientForm)" [disabled]="clientForm.invalid" type="submit">
+	<button mat-raised-button color="primary" mat-dialog-close (click)="add(clientForm)" [disabled]="clientForm.invalid" type="submit">
 		Ajouter
 	</button>
 </mat-dialog-actions>
