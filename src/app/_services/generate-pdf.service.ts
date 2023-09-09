@@ -69,7 +69,7 @@ export class GeneratePdfService {
 		return flattenedObject;
 	}
 
-	downloadInvoice(document: Document, remise : boolean) {
+	downloadInvoice(d: Document, remise : boolean) {
 		let total_ht = 0
 		let total_tva = 0
 		let net_payer = 0
@@ -77,6 +77,10 @@ export class GeneratePdfService {
 		let montant_remise = 0
 		let body;
 		let columns;
+
+		let document = structuredClone(d);
+
+
 
 		document.articleDocument.forEach(article => {
 			var ht = article.puht * article.quantite;
@@ -86,32 +90,39 @@ export class GeneratePdfService {
 
 		})
 
-		const values = document.articleDocument.map((element) => {
-			return this.flattenObject(element);
-		});
+
+
 
 		let rest = 0
 
 
 		const doc = new jsPDF();
 
+
+		if (document.articleDocument.length < 11) {
+			let n = 10 - document.articleDocument.length
+			for (let i=0;i <= n; i++) {
+				document.articleDocument.push(new ArticleDocument())
+			}
+		}
+		const values = document.articleDocument.map((element) => {
+			return this.flattenObject(element);
+		});
 		// import the settings
 		const datepipe: DatePipe = new DatePipe('en-US')
 		let formattedDate = datepipe.transform(document.date, 'dd-MM-YYYY')
-		this.store
-			.collection('settings')
-			.doc('1')
-			.snapshotChanges()
-			.subscribe((response) => {
-				this.settings = response.payload.data() as Settings;
-				net_payer = total_ht +  total_tva + parseFloat(this.settings.timbre) - montant_remise;
-				rest = net_payer - Math.floor(net_payer);
-			});
+		this.store.collection('settings').doc('1').snapshotChanges().subscribe((response) => {
+
+		this.settings = response.payload.data() as Settings;
+		net_payer = total_ht +  total_tva + parseFloat(this.settings.timbre) - montant_remise;
+		rest = net_payer - Math.floor(net_payer);
+
+
 		let type = document.type;
 		if (type == 'bl') {
-			type = 'Bon Livraison'
+			type = 'Bon de Livraison'
 		} else if (type == 'bl_facture') {
-			type = 'Bon Livraison Facturé'
+			type = 'Bon de Livraison Facturé'
 		}
 
 		if(remise) {
@@ -281,6 +292,8 @@ export class GeneratePdfService {
 			'\nTelephone : ' + document.fournisseur?.telephone +
 			'\nEmail : ' + document.fournisseur?.email
 		}
+
+
 		// generate the pdf
 		this.storage
 			.ref('logo')
@@ -371,7 +384,8 @@ export class GeneratePdfService {
 
 
 				autoTable(doc, {
-					body: values,columns: columns,
+					body: values,
+					columns: columns,
 					theme: 'grid',
 					headStyles: {
 						fillColor: '#343a40',
@@ -384,7 +398,7 @@ export class GeneratePdfService {
 					head: [
 						["Transport : " + (document.transport ?? "0.0") + " dt", "Installation : " + (document.installation ?? "0.0") + ' dt'],
 				],
-				startY: 210,
+				   //startY: 210,
 					theme: 'striped',
 					headStyles: {
 						fillColor: '#343a40',
@@ -403,10 +417,10 @@ export class GeneratePdfService {
 								content:
 									this.settings.registre_commerce +
 									'' +
-									' Adresse : ' + this.settings.adresse +
-									' Mobile : ' + this.settings.mobile +
-									' Fax : ' + this.settings.fax +
-									' RIB : ' + this.settings.RIB,
+									' / Adresse : ' + this.settings.adresse +
+									' / Mobile : ' + this.settings.mobile +
+									' / Fax : ' + this.settings.fax +
+									' / RIB : ' + this.settings.RIB,
 								styles: {
 									halign: 'center',
 								},
@@ -418,5 +432,6 @@ export class GeneratePdfService {
 
 				window.open(URL.createObjectURL(doc.output("blob")));
 			});
+		});
 	}
 }
