@@ -53,4 +53,6 @@ export class Settings {
 	logoType : string;
 
 	RIB : string;
+
+	last_document_id: string;
 }

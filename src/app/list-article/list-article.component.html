@@ -1,4 +1,8 @@
 <mat-dialog-content >
+	<mat-form-field>
+		<mat-label>Filter</mat-label>
+		<input matInput (keyup)="applyFilter($event)" #input>
+	</mat-form-field>
 	<mat-selection-list #article [multiple]="false">
 		<mat-list-option *ngFor="let article of articles" [value]="article">
 			{{article.designation}}

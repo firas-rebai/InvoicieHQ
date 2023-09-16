@@ -320,7 +320,7 @@ export class GeneratePdfService {
 								},
 							},{
 								content:
-									'Reference: ' + document.id +
+									'Reference: ' + document.reference +
 									'\nDate: ' + formattedDate ,
 								styles: {
 									halign: 'right'

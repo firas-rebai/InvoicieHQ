@@ -175,7 +175,6 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 					data.id = e.payload.doc.id;
 					return data;
 				})
-				console.log(data);
 
 				this.documents = new MatTableDataSource<Document>(data);
 				this.documents.paginator = this.paginator;
@@ -205,7 +204,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 	AddDialog() {}
 
-	delete(id: number, reference: string) {
+	delete(id: string, reference: string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {
 				message:
@@ -217,14 +216,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				this.documentService.deleteDocument(id).subscribe(
-					() => {
-						this.getDocuments();
-					},
-					(error) => {
-						console.log(error.message);
-					}
-				);
+				this.documentService.deleteDocument(id)
 			}
 		});
 	}

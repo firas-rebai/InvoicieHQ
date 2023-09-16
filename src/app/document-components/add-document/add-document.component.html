@@ -1,5 +1,5 @@
 <div class="container-fluid">
-	<mat-form-field class="options">
+	<mat-form-field style="margin-right: 20px">
 		<mat-label>Choisir une date</mat-label>
 		<input [(ngModel)]="document.date" matInput [matDatepicker]="picker" />
 		<mat-hint>MM/JJ/YYYY</mat-hint>
@@ -9,18 +9,19 @@
 		></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
 	</mat-form-field>
-	<mat-form-field class="options">
+	<mat-form-field >
 		<mat-label>Code TVA</mat-label>
 		<mat-select [(ngModel)]="document.tva">
 			<ng-container *ngFor="let tva of tvas">
 				<mat-option [value]="tva">{{ tva.base }}</mat-option>
+
 			</ng-container>
+			<button color="primary" (click)="openAddTVA()" mat-button style="width: 100%;">
+				Ajouter
+			</button>
 		</mat-select>
 	</mat-form-field>
-	<button color="primary" (click)="openAddTVA()" mat-mini-fab>
-		<mat-icon>add</mat-icon>
-	</button>
-	<div class="options">
+	<!-- <button color="primary" (click)="openAddTVA()" mat-mini-fab style="margin-left: 20px"><mat-icon>add</mat-icon></button> -->
 	<mat-radio-group
 		[(ngModel)]="this.document.transaction"
 		(change)="this.document.client = null; this.document.fournisseur = null"
@@ -28,7 +29,7 @@
 		<mat-radio-button color="primary" value="vente">Vente</mat-radio-button>
 		<mat-radio-button color="primary" value="achat">Achat</mat-radio-button>
 	</mat-radio-group>
-	<mat-form-field style="margin-left: 30px">
+	<mat-form-field style="margin-left: 30px; margin-right: 20px">
 		<mat-label>Type document</mat-label>
 		<mat-select [(value)]="this.document.type">
 			<mat-option value="devis">Devis</mat-option>
@@ -36,10 +37,10 @@
 			<mat-option value="bl">BL</mat-option>
 			<mat-option value="bl_facture">BL Facturé</mat-option>
 			<mat-option value="facture">Facture</mat-option>
+
 		</mat-select>
 	</mat-form-field>
-</div>
-	<ng-container *ngIf="document.transaction == 'achat'" class="options">
+	<ng-container *ngIf="document.transaction == 'achat'">
 		<mat-form-field>
 			<mat-label>Fournisseur</mat-label>
 			<mat-select
@@ -62,7 +63,7 @@
 			<mat-icon>add</mat-icon>
 		</button>
 	</ng-container>
-	<ng-container *ngIf="document.transaction == 'vente'" class="options">
+	<ng-container *ngIf="document.transaction == 'vente'">
 		<mat-form-field>
 			<mat-label>Client</mat-label>
 			<mat-select

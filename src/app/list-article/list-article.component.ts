@@ -12,7 +12,8 @@ export class ListArticleComponent implements OnInit{
 	constructor(private articleService: ArticleService) {
 	}
 
-	ngOnInit(): void {
+
+	getArticles() {
 		this.articleService.getArticles().subscribe(
 			(response) => {
 				const data = response.map((e:any) => {
@@ -26,6 +27,25 @@ export class ListArticleComponent implements OnInit{
 			}
 		)
 	}
+
+	ngOnInit(): void {
+		this.getArticles()
+	}
+
+
+
+	applyFilter(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value;
+		//this.documents.filter = filterValue.trim().toLowerCase();
+		if (filterValue == '') this.getArticles()
+		this.articles = this.articles.filter(
+			(article) => {
+				return article.designation?.trim().toLowerCase().includes(filterValue.trim().toLowerCase()) ;
+			}
+		)
+	}
+
+
 
 
 }

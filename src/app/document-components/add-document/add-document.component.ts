@@ -55,7 +55,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	montant_remise: number = 0;
 	montant_ttc: number = 0;
 	net_payer: number = 0;
-	settings: any;
+	settings: Settings;
 	ngAfterViewInit() {
 		// this.articleDocument.paginator = this.paginator;
 	}
@@ -79,6 +79,10 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	submit() {
+		let id = this.settings.last_document_id + '/' + new Date().getFullYear();
+		this.settings.last_document_id = String(parseInt(this.settings.last_document_id) + 1).padStart(5, '0');
+		this.settingsService.updateSettings(this.settings);
+		this.document.reference = id;
 		this.document.articleDocument = this.articleDocument;
 		this.documentService
 			.addDocument(JSON.parse(JSON.stringify(this.document)))
@@ -87,12 +91,16 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 					duration: 5 * 1000,
 				});
 				setTimeout(() => {
-					window.location.reload();
+					//window.location.reload();
 				}, 5 * 1000);
 			});
 	}
 
 	print() {
+		let id = this.settings.last_document_id + '/' + new Date().getFullYear();
+		this.settings.last_document_id = String(parseInt(this.settings.last_document_id) + 1).padStart(5, '0');
+		this.settingsService.updateSettings(this.settings);
+		this.document.reference = id;
 		this.document.articleDocument = this.articleDocument;
 		this.documentService.addDocument(this.document).then((response) => {
 			this.snackBar.open('Le document ajouté avec success', '', {
@@ -104,7 +112,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			dialogRef.afterClosed().subscribe((result: boolean) => {
 				this.pdfGenerator.downloadInvoice(this.document, result);
 				setTimeout(() => {
-					window.location.reload();
+					//window.location.reload();
 				}, 1000);
 			});
 		});
@@ -183,7 +191,7 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			.getSettings()
 			.snapshotChanges()
 			.subscribe((response) => {
-				this.settings = response.payload.data();
+				this.settings = response.payload.data() as Settings;
 			});
 	}
 

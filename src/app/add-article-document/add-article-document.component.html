@@ -56,7 +56,7 @@
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close>Annuler</button>
-	<button mat-raised-button [mat-dialog-close]="article" color="primary" (click)="add(article)" type="submit" [disabled]="article.puht == 0 || article.quantite == 0 || article.article.designation== ''">
+	<button mat-raised-button [mat-dialog-close]="article" color="primary" (click)="add(article)" type="submit" [disabled]="article.puht == undefined || article.quantite == undefined || article.article.designation == ''">
 		Ajouter
 	</button>
 </mat-dialog-actions>

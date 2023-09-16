@@ -42,8 +42,8 @@ export class DocumentService {
 		return this.http.put<Document>(this.apiUrl + "/document/update-type/" + id + "/" + type, document);
 	}
 
-	public deleteDocument(id: number) {
-		return this.http.delete<void>(this.apiUrl + "/document/delete/" + id);
+	public deleteDocument(id: string) {
+		return this.store.collection("document").doc(id).delete()
 	}
 
 	public getDocumentId(id: string) {
