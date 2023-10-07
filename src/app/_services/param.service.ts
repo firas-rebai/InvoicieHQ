@@ -1,84 +1,81 @@
+import  PouchDB  from 'pouchdb';
 import { Injectable } from '@angular/core';
-import {GlobalConfig} from "../global-config";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Client} from "../_models/Client";
-import {Unite} from "../_models/Unite";
-import {TVA} from "../_models/TVA";
-import {Assujetti} from "../_models/Assujetti";
-import {FamilleArticle} from "../_models/FamilleArticle";
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Unite } from '../_models/Unite';
+import { TVA } from '../_models/TVA';
+import { Assujetti } from '../_models/Assujetti';
+import { FamilleArticle } from '../_models/FamilleArticle';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class ParamService {
-  apiUrl = GlobalConfig.apiUrl;
+	assujettiDB : any;
+	uniteDB : any;
+	tvaDB : any;
+	familleDB : any;
+	constructor() {
+		this.assujettiDB = new PouchDB("assujettis")
+		this.uniteDB = new PouchDB("unites")
+		this.tvaDB = new PouchDB("tvas")
+		this.familleDB = new PouchDB("familles")
+	}
 
-  constructor(private http: HttpClient, private afs: AngularFirestore) {
-  }
+	public getAssujettis() {
+		return this.assujettiDB.allDocs({include_docs: true})
+	}
 
+	public addAssujetti(assujetti: Assujetti) {
+		assujetti._id = Math.floor((Date.now() / 1000)).toString()
+		return this.assujettiDB.put(assujetti)
+	}
 
+	public deleteAssujetti(id: string) {
+		return this.assujettiDB.get(id).then( doc => {
+			return this.assujettiDB.remove(doc._id,doc._rev);
+		})
+	}
 
-  public getAssujettis(){
-    return this.afs.collection('assujetti').snapshotChanges();
-  }
+	public getTVAs() {
+		return this.tvaDB.allDocs({include_docs : true})
+	}
 
-  public addAssujetti(assujetti: Assujetti){
-	assujetti.id = this.afs.createId()
-    return this.afs.collection("/assujetti").add(assujetti)
-  }
+	public addTVA(tva: TVA) {
+		tva._id = Math.floor((Date.now() / 1000)).toString()
+		return this.tvaDB.put(tva)
+	}
 
-  public deleteAssujetti(id: string){
-    return this.afs.doc('/assujetti/' + id).delete()
-  }
+	public deleteTVA(id: string) {
+		return this.tvaDB.get(id).then( doc => {
+			return this.tvaDB.remove(doc._id,doc._rev);
+		})
+	}
 
+	public getUnites() {
+		return this.uniteDB.allDocs({include_docs : true})
+	}
 
+	public addUnite(unite: Unite) {
+		unite._id = Math.floor((Date.now() / 1000)).toString()
+		return this.uniteDB.put(unite)
+	}
 
+	public deleteUnite(id: string) {
+		return this.uniteDB.get(id).then( doc => {
+			return this.tvaDB.remove(doc._id,doc._rev);
+		})
+	}
 
-  public getTVAs(){
-    return this.afs.collection('tva').snapshotChanges();
-  }
+	public getFamilles() {
+		return this.familleDB.allDocs({include_docs : true})
+	}
 
-  public addTVA(tva: TVA) {
-    tva.id = this.afs.createId()
-    return this.afs.collection("/tva").add(tva)
-  }
+	public addFamille(famille: FamilleArticle) {
+		famille._id = Math.floor((Date.now() / 1000)).toString()
+		return this.familleDB.put(famille)
+	}
 
-  public deleteTVA(id: number) {
-    return this.afs.doc('/tva/' + id).delete()
-  }
-
-
-
-
-  public getUnites(){
-    return this.afs.collection('unite').snapshotChanges();
-  }
-
-  public addUnite(unite: Unite){
-    unite.id = this.afs.createId()
-    return this.afs.collection("/unite").add(unite)
-  }
-
-  public deleteUnite(id: number) {
-    return this.afs.doc('/unite/' + id).delete()
-  }
-
-
-
-  public getFamilles() {
-    return this.afs.collection("famille").snapshotChanges();
-  }
-
-  public addFamille(famille: FamilleArticle){
-    famille.id = this.afs.createId()
-    return this.afs.collection("/famille").add(famille)
-  }
-
-  public deleteFamille(id: number) {
-	return this.afs.doc('/famille/' + id).delete()
-  }
-
-
+	public deleteFamille(id: string) {
+		return this.familleDB.get(id).then( doc => {
+			return this.familleDB.remove(doc._id,doc._rev);
+		})	}
 }

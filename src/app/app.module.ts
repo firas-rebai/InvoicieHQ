@@ -45,12 +45,6 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatTabsModule} from "@angular/material/tabs";
 import { DocumentDetailsComponent } from './document-details/document-details.component';
-import { AngularFireModule } from '@angular/fire/compat'
-import { environment } from 'src/environments/environment';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { DecimalPipe } from '@angular/common';
 import { PrintDialogComponent } from './print-dialog/print-dialog.component'
@@ -109,11 +103,6 @@ import {MatChipsModule} from '@angular/material/chips'
 		MatTabsModule,
 		MatChipsModule,
 		MatRippleModule,
-		AngularFireModule.initializeApp(environment.firebase),
-  provideFirebaseApp(() => initializeApp(environment.firebase)),
-  provideAuth(() => getAuth()),
-  provideFirestore(() => getFirestore()),
-  provideStorage(() => getStorage())
 	],
   providers: [HttpClientModule, MatSnackBar, DecimalPipe],
   bootstrap: [AppComponent]

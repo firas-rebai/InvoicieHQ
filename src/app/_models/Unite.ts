@@ -4,6 +4,6 @@ export class Unite {
 		this.unite = unite;
 	}
 
-	id : string;
+	_id : string;
   unite : string;
 }

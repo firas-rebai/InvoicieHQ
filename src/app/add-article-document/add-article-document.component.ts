@@ -63,11 +63,11 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	public getData(): void {
-		this.paramService.getTVAs().subscribe(
+		this.paramService.getTVAs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.tvas = data;
@@ -76,11 +76,11 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 				console.log(error.message);
 			}
 		);
-		this.paramService.getUnites().subscribe(
+		this.paramService.getUnites().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.unites = data;
@@ -89,11 +89,11 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 				console.log(error);
 			}
 		);
-		this.paramService.getFamilles().subscribe(
+		this.paramService.getFamilles().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.familles = data;
@@ -102,11 +102,11 @@ export class AddArticleDocumentComponent implements OnInit, AfterViewInit {
 				console.log(error);
 			}
 		);
-		this.fournisseurService.getFournisseurs().subscribe(
+		this.fournisseurService.getFournisseurs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.fournisseurs = data;

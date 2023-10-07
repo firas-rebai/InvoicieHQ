@@ -1,33 +1,22 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DataSharingService } from './data-sharing.service';
 import { TokenStorageService } from './token-storage.service';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../_models/User';
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
-
-const httpOptions = {
-	headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthService {
 	constructor(
-		private http: HttpClient,
-		private firebaseAuth: AngularFireAuth,
 		private tokenStorage: TokenStorageService,
 		private dataSharingService: DataSharingService,
-		private store: AngularFirestore,
 		private router : Router
 	) {}
 
-	async signin(email: string, password: string) {
+/* 	async signin(email: string, password: string) {
 		await this.firebaseAuth
 			.signInWithEmailAndPassword(email, password)
 			.then((response) => {
@@ -72,5 +61,5 @@ export class AuthService {
 			},
 			httpOptions
 		);
-	}
+	} */
 }

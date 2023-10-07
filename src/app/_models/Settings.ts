@@ -20,7 +20,7 @@ export class Settings {
 		this.logoType = logoType;
 	}
 
-	id: string;
+	_id: string;
 
 	assujetti: Assujetti;
 

@@ -83,11 +83,11 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 	}
 
 	public getData(): void {
-		this.paramService.getTVAs().subscribe(
+		this.paramService.getTVAs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
 				})
 				this.tvas = data;
@@ -96,11 +96,11 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 				console.log(error.message);
 			}
 		);
-		this.paramService.getFamilles().subscribe(
+		this.paramService.getFamilles().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
 				})
 				this.familles = data;
@@ -109,11 +109,13 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 				console.log(error.message);
 			}
 		);
-		this.paramService.getUnites().subscribe(
+		this.paramService.getUnites().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				console.log(response);
+
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
 				})
 				this.unites = data;
@@ -122,11 +124,11 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 				console.log(error.message);
 			}
 		);
-		this.fournisseurService.getFournisseurs().subscribe(
+		this.fournisseurService.getFournisseurs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
 				})
 				this.fournisseurs = data;
@@ -149,6 +151,7 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 			// @ts-ignore
 			let unite: Unite = { id: null, unite: result };
 			this.paramService.addUnite(unite);
+			this.getData()
 		});
 	}
 
@@ -162,6 +165,7 @@ export class AddArticleComponent implements OnInit, AfterViewInit {
 			// @ts-ignore
 			let famille: FamilleArticle = { id: null, famille: result };
 			this.paramService.addFamille(famille);
+			this.getData()
 		});
 	}
 

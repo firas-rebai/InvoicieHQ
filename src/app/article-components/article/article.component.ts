@@ -31,13 +31,12 @@ export class ArticleComponent implements OnInit, AfterViewInit {
 	}
 
 	public getArticles(): void {
-		this.articleService.getArticles().subscribe(
+		this.articleService.getArticles().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					Object.keys(data).filter(key => data[key] instanceof Timestamp)
-                        .forEach(key => data[key] = data[key].toDate())
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					Object.keys(data).filter(key => data[key] instanceof Timestamp).forEach(key => data[key] = data[key].toDate())
+					data._id = e.doc._id;
 					return data;
 				})
 				this.articles = new MatTableDataSource<Article>(data);
@@ -60,14 +59,21 @@ export class ArticleComponent implements OnInit, AfterViewInit {
 			this.getArticles()
 		});
 	}
-	delete(id: number,reference : string) {
+	delete(id: string,reference : string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Êtes-vous sûr de vouloir supprimer l\'article ' + reference + ' ?'}
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.articleService.deleteArticle(id);
+				this.articleService.deleteArticle(id).then( result => {
+					this.getArticles()
+				}
+
+				);
+
+
+
 			}
 		});
 	}

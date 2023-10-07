@@ -33,11 +33,11 @@ export class FournisseurComponent {
 	}
 
 	public getFournisseurs(): void {
-		this.fournisseurService.getFournisseurs().subscribe(
+		this.fournisseurService.getFournisseurs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
 				})
 				this.fournisseurs = new MatTableDataSource<Fournisseur>(data);
@@ -60,7 +60,7 @@ export class FournisseurComponent {
 		});
 	}
 
-	delete(id: number,reference : string) {
+	delete(id: string,reference : string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Êtes-vous sûr de vouloir supprimer le fournisseur ' + reference + ' ?'}
 		});

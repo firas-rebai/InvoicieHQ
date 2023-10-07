@@ -65,7 +65,7 @@ export class AppComponent {
 
 	logout() {
 		this.tokenStorage.signOut();
-		this.dataSharingService.isUserLoggedIn.next(false);
+		//this.dataSharingService.isUserLoggedIn.next(false);
 		this.dataSharingService.userLoggedOut();
 		this.router.navigate(['/login']);
 	}

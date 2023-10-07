@@ -15,6 +15,9 @@ export class AuthGuard implements CanActivate {
 		state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 		// console.log(this.dataSharingService.isUserLoggedIn.value)
 		// console.log("url", state.url)
+
+		return true
+
 		if (state.url == '/login') {
 			if (this.dataSharingService.isUserLoggedIn.value) {
 				this.router.navigate(['/home']);

@@ -100,7 +100,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-8"><br><h1>TVA : {{ document.tva.base }} %</h1></div>
+				<div *ngIf="document" class="col-md-8"><br><h1>TVA : {{ document.tva.base }} %</h1></div>
 				<div *ngIf="settings" class="col-md-4">
 					<mat-card class="calc-container">
 						<mat-card-content>

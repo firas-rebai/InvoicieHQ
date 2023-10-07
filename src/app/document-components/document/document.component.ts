@@ -23,45 +23,17 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	trans: string;
 	typeShow: string;
 	transShow: string;
-	documents: MatTableDataSource<Document> =
-		new MatTableDataSource<Document>();
+	documents: MatTableDataSource<Document> = new MatTableDataSource<Document>();
 	displayedColumns: string[] = [];
 	// selectedRowIndex = -1;
 	settings;
-	constructor(
-		private activatedRoute: ActivatedRoute,
-		private documentService: DocumentService,
-		public dialog: MatDialog,
-		private dataSharingService: DataSharingService,
-		private router : Router,
-		private pdfGenerator : GeneratePdfService,
-		private parameterService : ParameterService,
-
-	) {
+	constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog, private dataSharingService: DataSharingService, private router: Router, private pdfGenerator: GeneratePdfService, private parameterService: ParameterService) {
 		this.dataSharingService.trans.subscribe((value: string) => {
 			this.trans = value;
 			this.transShow = value;
 			this.getDocuments();
-			if (this.trans == 'vente')
-				this.displayedColumns = [
-					'ID',
-					'client',
-					'date',
-					'montant',
-					'montant_ttc',
-					'net_payer',
-					'action',
-				];
-			if (this.trans == 'achat')
-				this.displayedColumns = [
-					'ID',
-					'fournisseur',
-					'date',
-					'montant',
-					'montant_ttc',
-					'net_payer',
-					'action',
-				];
+			if (this.trans == 'vente') this.displayedColumns = ['ID', 'client', 'date', 'montant', 'montant_ttc', 'net_payer', 'action'];
+			if (this.trans == 'achat') this.displayedColumns = ['ID', 'fournisseur', 'date', 'montant', 'montant_ttc', 'net_payer', 'action'];
 		});
 	}
 
@@ -73,44 +45,36 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	getDocuments() {
-		this.documentService.getDocumentsTrans(this.trans).subscribe(
+		this.documentService.getDocumentsTrans(this.trans).then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					Object.keys(data).filter(key => data[key] instanceof Timestamp)
-                        .forEach(key => data[key] = data[key].toDate())
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e: any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
-				})
-
-				this.parameterService.getSettings().snapshotChanges().subscribe(
-					(response) => {
-						this.settings = response.payload.data();
-						this.documents = new MatTableDataSource<Document>(data);
-				this.documents.paginator = this.paginator;
-				// this.documents.sort = this.sort;
-				this.documents.data.forEach((doc) => {
-					let montant: number = 0;
-					var montant_ttc: number = 0;
-					var net_payer: number = 0;
-					var montant_remise: number = 0;
-					doc.articleDocument.forEach((article) => {
-						var ht = article.puht * article.quantite;
-						montant += ht * (1 - (article.remise / 100));
-						montant_ttc += (doc.tva.base / 100) * (ht * (1 - (article.remise / 100)));
-						montant_remise += ht * (article.remise / 100);
-					});
-
-					doc.montant_ht = montant.toString();
-					doc.montant_ttc = montant_ttc.toString();
-					doc.net_payer = (montant + montant_ttc + parseFloat(this.settings.timbre) ).toString();
-
 				});
-					}
-				)
 
+				this.parameterService.getSettings().then((response) => {
+					this.settings = response;
+					this.documents = new MatTableDataSource<Document>(data);
+					this.documents.paginator = this.paginator;
+					// this.documents.sort = this.sort;
+					this.documents.data.forEach((doc) => {
+						let montant: number = 0;
+						var montant_ttc: number = 0;
+						var net_payer: number = 0;
+						var montant_remise: number = 0;
+						doc.articleDocument.forEach((article) => {
+							var ht = article.puht * article.quantite;
+							montant += ht * (1 - article.remise / 100);
+							montant_ttc += (doc.tva.base / 100) * (ht * (1 - article.remise / 100));
+							montant_remise += ht * (article.remise / 100);
+						});
 
-
+						doc.montant_ht = montant.toString();
+						doc.montant_ttc = montant_ttc.toString();
+						doc.net_payer = (montant + montant_ttc + parseFloat(this.settings.timbre)).toString();
+					});
+				});
 
 				//console.log(response);
 			},
@@ -124,37 +88,17 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		// @ts-ignore
 		this.trans = this.activatedRoute.snapshot.paramMap.get('trans');
 		this.transShow = this.trans;
-		if (this.trans == 'vente')
-			this.displayedColumns = [
-				'ID',
-				'client',
-				'date',
-				'montant',
-				'montant_ttc',
-				'net_payer',
-				'action',
-			];
-		if (this.trans == 'achat')
-			this.displayedColumns = [
-				'ID',
-				'fournisseur',
-				'date',
-				'montant',
-				'montant_ttc',
-				'net_payer',
-				'action',
-			];
+		if (this.trans == 'vente') this.displayedColumns = ['ID', 'client', 'date', 'montant', 'montant_ttc', 'net_payer', 'action'];
+		if (this.trans == 'achat') this.displayedColumns = ['ID', 'fournisseur', 'date', 'montant', 'montant_ttc', 'net_payer', 'action'];
 	}
 
 	applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
 		//this.documents.filter = filterValue.trim().toLowerCase();
-		if (filterValue == '') this.getDocuments()
-		this.documents.data = this.documents.data.filter(
-			(doc) => {
-				return doc.client?.raison_social.trim().toLowerCase().includes(filterValue.trim().toLowerCase()) || doc.fournisseur?.raison_social.trim().toLowerCase().includes(filterValue.trim().toLowerCase())
-			}
-		)
+		if (filterValue == '') this.getDocuments();
+		this.documents.data = this.documents.data.filter((doc) => {
+			return doc.client?.raison_social.trim().toLowerCase().includes(filterValue.trim().toLowerCase()) || doc.fournisseur?.raison_social.trim().toLowerCase().includes(filterValue.trim().toLowerCase());
+		});
 		if (this.documents.paginator) {
 			this.documents.paginator.firstPage();
 		}
@@ -166,15 +110,14 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 			this.getDocuments();
 			return;
 		}
-		this.documentService.getDocumentsType(type, this.trans).subscribe(
+		this.documentService.getDocumentsType(type, this.trans).then(
 			(response) => {
-				const data = response.map((e:any) => {
+				const data = response.map((e: any) => {
 					const data = e.payload.doc.data();
-					Object.keys(data).filter(key => data[key] instanceof Timestamp)
-                        .forEach(key => data[key] = data[key].toDate())
+					Object.keys(data).filter((key) => data[key] instanceof Timestamp).forEach((key) => (data[key] = data[key].toDate()));
 					data.id = e.payload.doc.id;
 					return data;
-				})
+				});
 
 				this.documents = new MatTableDataSource<Document>(data);
 				this.documents.paginator = this.paginator;
@@ -183,18 +126,17 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 					var montant: number = 0;
 					var montant_ttc: number = 0;
 					var net_payer: number = 0;
-					var montant_remise: number =0
+					var montant_remise: number = 0;
 					doc.articleDocument.forEach((article) => {
-						montant += article.quantite * article.puht - (article.quantite * article.puht * (article.remise / 100));
-						var remise = article.quantite * article.puht * (article.remise / 100)
-						montant_remise += remise ;
+						montant += article.quantite * article.puht - article.quantite * article.puht * (article.remise / 100);
+						var remise = article.quantite * article.puht * (article.remise / 100);
+						montant_remise += remise;
 					});
 					doc.montant_ht = montant.toString();
-					doc.montant_ttc = (montant * (Number(doc.tva.base) / 100)).toString() ;
-					doc.net_payer = (montant + (montant * (Number(doc.tva.base) / 100))).toString();
+					doc.montant_ttc = (montant * (Number(doc.tva.base) / 100)).toString();
+					doc.net_payer = (montant + montant * (Number(doc.tva.base) / 100)).toString();
 					doc.montant_remise = montant_remise.toString();
 				});
-				console.log(response);
 			},
 			(error) => {
 				console.log(error);
@@ -207,32 +149,26 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	delete(id: string, reference: string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {
-				message:
-					'Êtes-vous sûr de vouloir supprimer le document ' +
-					reference +
-					' ?',
+				message: 'Êtes-vous sûr de vouloir supprimer le document ' + reference + ' ?',
 			},
 		});
 
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				this.documentService.deleteDocument(id)
+				this.documentService.deleteDocument(id, this.trans);
 			}
 		});
 	}
 
-	navToDetail (id: number) {
-		this.router.navigate(['/document/details/', id])
+	navToDetail(id: number, trans: string) {
+		this.router.navigate(['/document/details/', trans, id]);
 	}
 
 	openPDF(document: Document) {
+		const dialogRef = this.dialog.open(PrintDialogComponent);
 
-			const dialogRef = this.dialog.open(PrintDialogComponent);
-
-
-			dialogRef.afterClosed().subscribe((result) => {
-				this.pdfGenerator.downloadInvoice(document, result);
-			});
-
-		}
+		dialogRef.afterClosed().subscribe((result) => {
+			this.pdfGenerator.downloadInvoice(document, result);
+		});
+	}
 }

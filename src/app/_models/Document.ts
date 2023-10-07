@@ -5,7 +5,7 @@ import {User} from "./User";
 import { TVA } from "./TVA";
 
 export class Document {
-	id: string;
+	_id: string;
 	client: Client | null;
 	fournisseur: Fournisseur | null;
 	date: Date;

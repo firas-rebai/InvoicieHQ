@@ -15,7 +15,7 @@
 					<mat-option value="bl">BL</mat-option>
 					<mat-option value="bl_facture">BL Facturé</mat-option>
 					<mat-option value="facture">Facture</mat-option>
-					
+
 				</mat-select>
 			</mat-form-field>
 			<div class="mat-elevation-z8">
@@ -74,7 +74,7 @@
 							<button (click)="delete(document.id,document.reference)" color="warn" mat-mini-fab>
 								<mat-icon>delete</mat-icon>
 							</button>
-							<button color="primary" mat-mini-fab (click)="navToDetail(document.id)">
+							<button color="primary" mat-mini-fab (click)="navToDetail(document._id, document.transaction)">
 								<mat-icon>edit</mat-icon>
 							</button>
 							<button (click)="openPDF(document)" color="primary" mat-mini-fab>

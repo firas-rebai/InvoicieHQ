@@ -43,11 +43,11 @@ export class ParamComponent implements OnInit {
 	}
 
 	public getTVAs(): void {
-		this.paramService.getTVAs().subscribe(
+		this.paramService.getTVAs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.tvas = new MatTableDataSource<TVA>(data);
@@ -58,11 +58,11 @@ export class ParamComponent implements OnInit {
 	}
 
 	public getUnites(): void {
-		this.paramService.getUnites().subscribe(
+		this.paramService.getUnites().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.unites = new MatTableDataSource<Unite>(data);
@@ -73,18 +73,11 @@ export class ParamComponent implements OnInit {
 	}
 
 	public getAssujettis(): void {
-		/* this.paramService.getAssujettis().subscribe(
-			(response: Assujetti[]) => {
-				this.assujettis = new MatTableDataSource<Assujetti>(response);
-			}, (error: HttpErrorResponse) => {
-				console.log(error.message)
-			}
-		) */
-		this.paramService.getAssujettis().subscribe(
+		this.paramService.getAssujettis().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.assujettis = new MatTableDataSource<Assujetti>(data);
@@ -96,11 +89,11 @@ export class ParamComponent implements OnInit {
 	}
 
 	public getFamilles(): void {
-		this.paramService.getFamilles().subscribe(
+		this.paramService.getFamilles().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.familles = new MatTableDataSource<FamilleArticle>(data);
@@ -122,7 +115,7 @@ export class ParamComponent implements OnInit {
 		});
 	}
 
-	deleteUnite(id: number, nom: string) {
+	deleteUnite(id: string, nom: string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Confirmer supprimer ' + nom}
 		});
@@ -133,7 +126,7 @@ export class ParamComponent implements OnInit {
 		});
 	}
 
-	deleteTVA(id: number, nom: string) {
+	deleteTVA(id: string, nom: string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Confirmer supprimer ' + nom}
 		});
@@ -144,7 +137,7 @@ export class ParamComponent implements OnInit {
 		});
 	}
 
-	deleteFamille(id: number, nom: string) {
+	deleteFamille(id: string, nom: string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Confirmer supprimer ' + nom}
 		});

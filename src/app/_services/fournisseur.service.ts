@@ -1,35 +1,32 @@
+import PouchDB from 'pouchdb';
 import { Injectable } from '@angular/core';
-import {GlobalConfig} from "../global-config";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Fournisseur} from "../_models/Fournisseur";
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Fournisseur } from '../_models/Fournisseur';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class FournisseurService {
+	db: any;
+	constructor() {
+		this.db = new PouchDB('fournisseurs');
+	}
 
-  apiUrl = GlobalConfig.apiUrl;
+	public getFournisseurs() {
+		return this.db.allDocs({ include_docs : true })
+	}
 
-  constructor(private store: AngularFirestore) {
-  }
+	public addFournisseur(fournisseur: Fournisseur) {
+		fournisseur._id = Math.floor((Date.now() / 1000)).toString()
+		return this.db.put(fournisseur)
+	}
 
-  public getFournisseurs() {
-    return this.store.collection("fournisseur").snapshotChanges()
-  }
+	public deleteFournisseur(id: string) {
+		return this.db.get(id).then( doc => {
+			return this.db.remove(doc._id,doc._rev);
+		})
+	}
 
-  public addFournisseur(fournisseur: Fournisseur) {
-	fournisseur.id = this.store.createId()
-    return this.store.collection("fournisseur").add(fournisseur)
-  }
-
-  public deleteFournisseur(id: number) {
-    return this.store.doc("fournisseur/" + id).delete()
-  }
-
-  public getFournisseurId(id: number) {
-    return this.store.doc("fournisseur/" + id)
-  }
-
+	public getFournisseurId(id: string) {
+		return this.db.get(id)
+	}
 }

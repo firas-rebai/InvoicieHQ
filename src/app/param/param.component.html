@@ -38,7 +38,7 @@
 											<ng-container matColumnDef="action">
 												<th mat-header-cell *matHeaderCellDef></th>
 												<td mat-cell *matCellDef="let unite">
-													<button color="warn" (click)="deleteUnite(unite.id,unite.unite)"
+													<button color="warn" (click)="deleteUnite(unite._id,unite.unite)"
 															mat-mini-fab>
 														<mat-icon>delete</mat-icon>
 													</button>
@@ -75,7 +75,7 @@
 											<ng-container matColumnDef="action">
 												<th mat-header-cell *matHeaderCellDef></th>
 												<td mat-cell *matCellDef="let tva">
-													<button color="warn" (click)="deleteTVA(tva.id,tva.base)"
+													<button color="warn" (click)="deleteTVA(tva._id,tva.base)"
 															mat-mini-fab>
 														<mat-icon>delete</mat-icon>
 													</button>
@@ -120,7 +120,7 @@
 												<th mat-header-cell *matHeaderCellDef></th>
 												<td mat-cell *matCellDef="let assujetti">
 													<button color="warn"
-															(click)="deleteAssujetti(assujetti.id, assujetti.type)"
+															(click)="deleteAssujetti(assujetti._id, assujetti.type)"
 															mat-mini-fab>
 														<mat-icon>delete</mat-icon>
 													</button>
@@ -160,7 +160,7 @@
 												<th mat-header-cell *matHeaderCellDef></th>
 												<td mat-cell *matCellDef="let famille">
 													<button color="warn"
-															(click)="deleteFamille(famille.id, famille.famille)"
+															(click)="deleteFamille(famille._id, famille.famille)"
 															mat-mini-fab>
 														<mat-icon>delete</mat-icon>
 													</button>

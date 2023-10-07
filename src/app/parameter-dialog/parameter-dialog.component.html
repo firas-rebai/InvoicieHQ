@@ -1,7 +1,7 @@
 <div *ngIf="param" style="padding: 30px">
 	<input #image hidden (change)="onSelectFile($event)" type="file" />
-	<div class="image-container" >
-		<img [src]="logo | async"  height="200"  alt="test"/>
+	<div class="image-container">
+		<img *ngIf="url" [src]="url" height="200" alt="test" />
 	</div>
 	<button mat-icon-button (click)="image.click()"><mat-icon>edit</mat-icon></button>
 
@@ -10,78 +10,43 @@
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Raison Social</mat-label>
-					<input
-						matInput
-						placeholder="Raison Social"
-						[(ngModel)]="param.raison_social"
-						type="text"
-					/>
+					<input matInput placeholder="Raison Social" [(ngModel)]="param.raison_social" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>E-mail</mat-label>
-					<input
-						matInput
-						placeholder="E-mail"
-						[(ngModel)]="param.email"
-						type="text"
-					/>
+					<input matInput placeholder="E-mail" [(ngModel)]="param.email" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Telephone</mat-label>
-					<input
-						matInput
-						placeholder="Telephone"
-						[(ngModel)]="param.telephone"
-						type="text"
-					/>
+					<input matInput placeholder="Telephone" [(ngModel)]="param.telephone" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Mobile</mat-label>
-					<input
-						matInput
-						placeholder="Mobile"
-						[(ngModel)]="param.mobile"
-						type="text"
-					/>
+					<input matInput placeholder="Mobile" [(ngModel)]="param.mobile" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Fax</mat-label>
-					<input
-						matInput
-						placeholder="Fax"
-						[(ngModel)]="param.fax"
-						type="text"
-					/>
+					<input matInput placeholder="Fax" [(ngModel)]="param.fax" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Adresse</mat-label>
-					<input
-						matInput
-						placeholder="Adresse"
-						[(ngModel)]="param.adresse"
-						type="text"
-					/>
+					<input matInput placeholder="Adresse" [(ngModel)]="param.adresse" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Compte Facebook</mat-label>
-					<input
-						matInput
-						placeholder="Lien"
-						[(ngModel)]="param.fb_acc"
-						type="text"
-					/>
+					<input matInput placeholder="Lien" [(ngModel)]="param.fb_acc" type="text" />
 				</mat-form-field>
 			</div>
 		</div>
@@ -89,49 +54,29 @@
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Retenue a la source</mat-label>
-					<input
-						matInput
-						placeholder="0.00"
-						[(ngModel)]="param.retenue_source"
-						type="text"
-					/>
+					<input matInput placeholder="0.00" [(ngModel)]="param.retenue_source" type="text" />
 					<span matTextSuffix>%</span>
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>FODEC</mat-label>
-					<input
-						matInput
-						placeholder="0.0%"
-						[(ngModel)]="param.fodec"
-						type="text"
-					/>
+					<input matInput placeholder="0.0%" [(ngModel)]="param.fodec" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Registre Commerce</mat-label>
-					<input
-						matInput
-						placeholder="Registre Commerce"
-						[(ngModel)]="param.registre_commerce"
-						type="text"
-					/>
+					<input matInput placeholder="Registre Commerce" [(ngModel)]="param.registre_commerce" type="text" />
 				</mat-form-field>
 			</div>
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Timbre</mat-label>
-					<input
-						matInput
-						placeholder="0.000"
-						[(ngModel)]="param.timbre"
-						type="text"
-					/>
+					<input matInput placeholder="0.000" [(ngModel)]="param.timbre" type="text" />
 				</mat-form-field>
 			</div>
-<!-- 			<div class="row">
+			<!-- 			<div class="row">
 				<div class="col-sm-10">
 					<mat-form-field style="width: 100%">
 						<mat-label>{{
@@ -187,24 +132,13 @@
 			<div class="row">
 				<mat-form-field>
 					<mat-label>RIB</mat-label>
-					<input
-						matInput
-						placeholder="RIB"
-						[(ngModel)]="param.RIB"
-						type="text"
-					/>
+					<input matInput placeholder="RIB" [(ngModel)]="param.RIB" type="text" />
 				</mat-form-field>
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<!-- <div class="row">
 		<span class="spacer"></span>
-		<button
-			mat-raised-button
-			color="primary"
-			(click)="update()"
-		>
-			Sauvegarder
-		</button>
-	</div>
+		<button mat-raised-button color="primary" (click)="update()">Sauvegarder</button>
+	</div> -->
 </div>

@@ -53,11 +53,11 @@ export class AddClientComponent implements OnInit {
 	}
 
 	public getAssujettis(): void {
-		this.paramService.getAssujettis().subscribe(
+		this.paramService.getAssujettis().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.assujettis = data;
@@ -69,11 +69,11 @@ export class AddClientComponent implements OnInit {
 	}
 
 	public getTVAs(): void {
-		this.paramService.getTVAs().subscribe(
+		this.paramService.getTVAs().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.tvas = data;

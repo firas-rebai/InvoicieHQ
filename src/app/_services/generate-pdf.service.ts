@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { ArticleDocument } from '../_models/ArticleDocument';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { DatePipe } from '@angular/common';
 import { Settings } from '../_models/Settings';
 import { DecimalPipe } from '@angular/common';
+import { ParameterService } from './parameter.service';
 
 
 
@@ -16,9 +15,8 @@ import { DecimalPipe } from '@angular/common';
 })
 export class GeneratePdfService {
 	constructor(
-		private store: AngularFirestore,
-		private storage: AngularFireStorage,
-		private decimalPipe: DecimalPipe
+		private decimalPipe: DecimalPipe,
+		private settingsService : ParameterService
 	) {}
 	settings: any;
 	total_ht: number;
@@ -111,9 +109,9 @@ export class GeneratePdfService {
 		// import the settings
 		const datepipe: DatePipe = new DatePipe('en-US')
 		let formattedDate = datepipe.transform(document.date, 'dd-MM-YYYY')
-		this.store.collection('settings').doc('1').snapshotChanges().subscribe((response) => {
+		this.settingsService.getSettings().then((response) => {
 
-		this.settings = response.payload.data() as Settings;
+		this.settings = response as Settings;
 		net_payer = total_ht +  total_tva + parseFloat(this.settings.timbre) - montant_remise;
 		rest = net_payer - Math.floor(net_payer);
 
@@ -295,11 +293,11 @@ export class GeneratePdfService {
 
 
 		// generate the pdf
-		this.storage
-			.ref('logo')
-			.getDownloadURL()
-			.subscribe((response) => {
-				doc.addImage(response, 'JPEG', 10, 10, 70, 30);
+		this.settingsService.get_logo().then((response) => {
+				let url = URL.createObjectURL(response) as any;
+				//url = this.sanitizer.bypassSecurityTrustUrl(url)
+
+				doc.addImage(url, 'JPEG', 10, 10, 70, 30);
 				autoTable(doc, {
 					body: [
 						[

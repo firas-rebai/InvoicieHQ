@@ -23,6 +23,7 @@ export class DocumentDetailsComponent implements OnInit {
 	net_payer: number = 0;
 	settings : any;
 	id;
+	trans;
 	displayedColumns: string[] = [
 		'designation',
 		'quantite',
@@ -44,15 +45,15 @@ export class DocumentDetailsComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.id = this.activatedRoute.snapshot.paramMap.get('id');
+		this.trans = this.activatedRoute.snapshot.paramMap.get('trans');
 
 		if (this.id != null) {
-			this.documentService.getDocumentId(this.id).subscribe(
+			this.documentService.getDocumentId(this.id,this.trans).then(
 				(response) => {
-
-					this.document = response.payload.data();
-					this.parameterService.getSettings().snapshotChanges().subscribe(
-						(response) => {
-							this.settings = response.payload.data();
+					this.document = response;
+					this.parameterService.getSettings().then(
+						(resp) => {
+							this.settings = resp;
 							this.calculate();
 						}
 					)
@@ -67,20 +68,6 @@ export class DocumentDetailsComponent implements OnInit {
 
 	}
 
-
-	print () {
-		this.documentService.generatePDF(this.document.id).subscribe(
-			(response) => {
-				const file = new Blob([response], { type: 'application/pdf' });
-				const pdf = URL.createObjectURL(file);
-				// this.pdf = 'data:application/pdf;base64,' + file.text;
-				window.open(pdf);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
-	}
 
 	calculate() {
 		this.montant_remise = 0

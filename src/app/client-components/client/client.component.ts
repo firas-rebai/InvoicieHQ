@@ -30,11 +30,11 @@ export class ClientComponent implements OnInit, AfterViewInit {
 	}
 
 	public getClients(): void {
-		this.clientService.getClients().subscribe(
+		this.clientService.getClients().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc;
+					data._id = e.doc._id;
 					return data;
 				})
 				this.clients = new MatTableDataSource<Client>(data);
@@ -56,14 +56,16 @@ export class ClientComponent implements OnInit, AfterViewInit {
 			this.getClients()
 		});
 	}
-	delete(id: number,reference : string) {
+	delete(id: string,reference : string) {
 		const dialogRef = this.dialog.open(ConfirmModalComponent, {
 			data: {message: 'Êtes-vous sûr de vouloir supprimer le client ' + reference + ' ?'}
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.clientService.deleteClient(id);
+				this.clientService.deleteClient(id).then(result => {
+					this.getClients()
+				});
 			}
 		});
 	}

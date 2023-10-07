@@ -14,11 +14,11 @@ export class ListArticleComponent implements OnInit{
 
 
 	getArticles() {
-		this.articleService.getArticles().subscribe(
+		this.articleService.getArticles().then(
 			(response) => {
-				const data = response.map((e:any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
 				})
 				this.articles = data;

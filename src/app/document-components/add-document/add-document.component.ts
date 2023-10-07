@@ -145,13 +145,13 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	getData() {
-		this.clientService.getClients().subscribe(
+		this.clientService.getClients().then(
 			(response) => {
-				const data = response.map((e: any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
-				});
+				})
 				this.clients = data;
 			},
 			(error: HttpErrorResponse) => {
@@ -159,13 +159,13 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			}
 		);
 
-		this.paramService.getTVAs().subscribe(
+		this.paramService.getTVAs().then(
 			(response) => {
-				const data = response.map((e: any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
-				});
+				})
 				this.tvas = data;
 			},
 			(error: HttpErrorResponse) => {
@@ -173,13 +173,13 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 			}
 		);
 
-		this.fournisseurService.getFournisseurs().subscribe(
+		this.fournisseurService.getFournisseurs().then(
 			(response) => {
-				const data = response.map((e: any) => {
-					const data = e.payload.doc.data();
-					data.id = e.payload.doc.id;
+				const data = response.rows.map((e:any) => {
+					const data = e.doc
+					data._id = e.doc._id;
 					return data;
-				});
+				})
 				this.fournisseurs = data;
 			},
 			(error: HttpErrorResponse) => {
@@ -188,10 +188,8 @@ export class AddDocumentComponent implements OnInit, AfterViewInit {
 		);
 
 		this.settingsService
-			.getSettings()
-			.snapshotChanges()
-			.subscribe((response) => {
-				this.settings = response.payload.data() as Settings;
+			.getSettings().then((response) => {
+				this.settings = response as Settings;
 			});
 	}
 

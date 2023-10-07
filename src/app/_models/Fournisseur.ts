@@ -4,7 +4,7 @@ import {TVA} from "./TVA";
 export class Fournisseur {
 	constructor() {
 	}
-	id: string;
+	_id: string;
 
 	fodec: boolean;
 

@@ -4,7 +4,7 @@ import {TVA} from "./TVA";
 export class Client {
 
 
-	id: string;
+	_id: string;
 
 	assujetti: Assujetti;
 

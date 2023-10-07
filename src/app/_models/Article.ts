@@ -4,7 +4,7 @@ import {FamilleArticle} from "./FamilleArticle";
 import {Fournisseur} from "./Fournisseur";
 
 export class Article {
-  id : string;
+  _id : string;
   designation : string;
   unite: Unite;
   stock_intial : number;
