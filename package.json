@@ -3,6 +3,11 @@
   "productName": "InvoiceHQ",
   "version": "1.0.0",
   "main": "main.js",
+  "repository": "https://github.com/firas-rebai/dhd-frontend",
+ "publish": {
+	"provider" : "github",
+	"releaseType" : "release"
+ },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,6 +15,16 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start:electron": "ng build --base-href ./ && electron ."
+  }, "build" : {
+	"appId" : "com.invoicehq",
+	"productName" : "InvoiceHQ",
+	"win" : {
+		"target" : "nsis"
+	},
+	"directories" : {
+		"output" : "dist"
+	}
+
   },
   "private": true,
   "dependencies": {
@@ -28,6 +43,8 @@
     "@types/pouchdb": "^6.4.0",
     "bootstrap": "^5.2.3",
     "electron": "^23.1.2",
+    "electron-builder": "^24.6.4",
+    "electron-updater": "^6.1.4",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.29",
     "pouchdb": "^8.0.1",
