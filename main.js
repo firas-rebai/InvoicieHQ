@@ -3,17 +3,23 @@ const path = require("path");
 const url = require("url");
 
 const { autoUpdater, AppUpdater } = require("electron-updater");
-const { log } = require("console");
 
+// logging electron
+/* log.transports.file.resolvePath = () => path.join("C:/Users/Firas Rebai/Documents", 'logs/main.log')
+log.info("hello")
+log.warn("some problem") */
 
 // flags
 autoUpdater.autoDownload = false
 autoUpdater.autoInstallOnAppQuit = true
 
+
+
 let win;
 function createWindow() {
   win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
 	webSecurity: false
+
    } });
   // load the dist folder from Angular
   win.loadURL(
@@ -24,7 +30,7 @@ function createWindow() {
     })
   );
   // The following is optional and will open the DevTools:
-   win.webContents.openDevTools()
+   //win.webContents.openDevTools()
    console.log('open');
   win.on("closed", () => {
     win = null;
